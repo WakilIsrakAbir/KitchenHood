@@ -234,7 +234,6 @@ async function checkout() {
       closeCart();
       closeModal();
       showToast('Order placed successfully! 🎉 Check your dashboard for details.', 'success');
-      setTimeout(() => window.location.href = '/user/dashboard.html', 2000);
     } catch (err) {
       showToast(err.message || 'Failed to place order', 'error');
       confirmBtn.disabled = false;
