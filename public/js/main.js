@@ -16,6 +16,19 @@ function showToast(message, type = 'info') {
   }, 3000);
 }
 
+function initTheme() {
+  if (localStorage.getItem('theme') === 'light') {
+    document.documentElement.classList.add('light-mode');
+  }
+}
+initTheme(); // Run immediately to prevent flash
+
+function toggleTheme() {
+  document.documentElement.classList.toggle('light-mode');
+  const isLight = document.documentElement.classList.contains('light-mode');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
 function handleHamburger() {
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
@@ -98,8 +111,8 @@ function initChatWidget() {
   let user = null;
   try { user = JSON.parse(localStorage.getItem('user')); } catch(e){}
   
-  if (!user || !user._id) {
-    return; // Do not initialize chat widget for non-logged in users
+  if (!user || !user._id || user.role === 'admin') {
+    return; // Do not initialize chat widget for non-logged in users or admins
   }
 
   const script = document.createElement('script');
@@ -114,19 +127,21 @@ function initChatWidget() {
     // Inject CSS
     const style = document.createElement('style');
     style.innerHTML = `
-      .chat-widget{position:fixed;bottom:1.5rem;right:1.5rem;z-index:50}
-      .chat-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#D4A853,#B8922F);color:#0A1628;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(212,168,83,0.3);cursor:pointer;transition:transform 0.3s}
+      .chat-widget{position:fixed;bottom:2rem;right:2rem;z-index:50}
+      .chat-btn{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#D4A853,#B8922F);color:#0A1628;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(212,168,83,0.3);cursor:pointer;transition:transform 0.3s}
+      .chat-btn svg{width:32px;height:32px}
       .chat-btn:hover{transform:scale(1.05)}
-      .chat-box{position:absolute;bottom:54px;right:0;width:280px;height:380px;background:#111D35;border:1px solid rgba(255,255,255,0.08);border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.5);display:none;flex-direction:column;overflow:hidden;z-index:51}
+      .chat-box{position:absolute;bottom:80px;right:0;width:400px;height:520px;max-width:calc(100vw - 4rem);max-height:calc(100vh - 8rem);background:#111D35;border:1px solid rgba(255,255,255,0.08);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.6);display:none;flex-direction:column;overflow:hidden;z-index:51}
       .chat-box.active{display:flex;animation:fadeIn 0.2s}
-      .chat-header{padding:12px 16px;background:#0A1628;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center}
-      .chat-messages{flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-      .msg{max-width:80%;padding:6px 10px;border-radius:8px;font-size:0.75rem;line-height:1.3}
+      .chat-header{padding:20px 24px;background:#0A1628;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center}
+      .chat-messages{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+      .msg{max-width:85%;padding:12px 18px;border-radius:12px;font-size:1rem;line-height:1.5}
       .msg-user{background:rgba(212,168,83,0.1);border:1px solid rgba(212,168,83,0.2);color:#F1F5F9;align-self:flex-end;border-bottom-right-radius:2px}
       .msg-admin{background:#0A1628;border:1px solid rgba(255,255,255,0.08);color:#F1F5F9;align-self:flex-start;border-bottom-left-radius:2px}
-      .chat-input{padding:10px;border-top:1px solid rgba(255,255,255,0.08);display:flex;gap:6px;background:#0A1628}
-      .chat-input input{flex:1;background:#111D35;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:6px 12px;color:white;font-size:0.75rem;outline:none}
-      .chat-input button{width:32px;height:32px;border-radius:50%;background:#D4A853;color:#0A1628;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+      .chat-input{padding:16px;border-top:1px solid rgba(255,255,255,0.08);display:flex;gap:12px;background:#0A1628}
+      .chat-input input{flex:1;background:#111D35;border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:12px 20px;color:white;font-size:1rem;outline:none}
+      .chat-input button{width:48px;height:48px;border-radius:50%;background:#D4A853;color:#0A1628;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+      .chat-input button svg{width:24px;height:24px}
       @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
     `;
     document.head.appendChild(style);
@@ -162,8 +177,45 @@ function initChatWidget() {
     const msgContainer = document.getElementById('globalChatMessages');
     const input = document.getElementById('globalChatInput');
 
+    const showUnreadBadge = () => {
+      let badge = document.getElementById('userMsgBadge');
+      if(!badge) {
+        badge = document.createElement('span');
+        badge.id = 'userMsgBadge';
+        badge.className = 'absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full';
+        badge.textContent = 'New';
+        document.getElementById('toggleChatBtn').appendChild(badge);
+      }
+      badge.classList.remove('hidden');
+      
+      const navBadge = document.getElementById('navUserMsgBadge');
+      if(navBadge) navBadge.classList.remove('hidden');
+    };
+
+    const hideUnreadBadge = () => {
+      const badge = document.getElementById('userMsgBadge');
+      if(badge) badge.classList.add('hidden');
+      
+      const navBadge = document.getElementById('navUserMsgBadge');
+      if(navBadge) navBadge.classList.add('hidden');
+    };
+
+    const markChatAsRead = () => {
+      const t = typeof getToken === 'function' ? getToken() : '';
+      if(t) {
+        fetch('/api/chat/read/' + convId, { method: 'PUT', headers: { 'Authorization': 'Bearer ' + t } });
+      }
+      hideUnreadBadge();
+    };
+
     const toggleChat = () => {
       chatBox.classList.toggle('active');
+      if(chatBox.classList.contains('active')) {
+        markChatAsRead();
+        setTimeout(() => {
+          msgContainer.scrollTop = msgContainer.scrollHeight;
+        }, 10);
+      }
     };
 
     document.getElementById('toggleChatBtn').addEventListener('click', toggleChat);
@@ -175,12 +227,21 @@ function initChatWidget() {
       div.className = `msg ${isUser ? 'msg-user' : 'msg-admin'}`;
       div.textContent = msg.message || msg.content || '';
       msgContainer.appendChild(div);
-      if(scrollToBottom) msgContainer.scrollTop = msgContainer.scrollHeight;
+      if(scrollToBottom) {
+        setTimeout(() => {
+          msgContainer.scrollTop = msgContainer.scrollHeight;
+        }, 10);
+      }
     };
 
     chatSocket.on('new-message', (msg) => {
       if (msg.conversationId === convId) {
         appendMsg(msg);
+        if(!chatBox.classList.contains('active') && msg.senderRole === 'admin') {
+          showUnreadBadge();
+        } else if(chatBox.classList.contains('active') && msg.senderRole === 'admin') {
+          markChatAsRead();
+        }
       }
     });
 
@@ -192,6 +253,13 @@ function initChatWidget() {
           msgContainer.innerHTML = ''; // Clear default welcome message
           history.forEach(msg => appendMsg(msg, false));
           msgContainer.scrollTop = msgContainer.scrollHeight;
+          
+          const unreadCount = history.filter(m => !m.isRead && m.senderRole === 'admin').length;
+          if(unreadCount > 0 && !chatBox.classList.contains('active')) {
+            showUnreadBadge();
+          } else if(chatBox.classList.contains('active') && unreadCount > 0) {
+            markChatAsRead();
+          }
         }
       })
       .catch(() => {});

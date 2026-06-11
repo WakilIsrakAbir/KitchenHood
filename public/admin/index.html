@@ -35,14 +35,20 @@
     }
     .top-header{position:fixed;top:0;left:0;width:100%;height:72px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(10, 22, 40, 0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
     
+    /* Custom Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 22, 40, 0.8); backdrop-filter: blur(5px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-box { background: var(--navy-light); border: 1px solid var(--border); border-radius: 1.5rem; padding: 2rem; width: 90%; max-width: 400px; transform: translateY(30px) scale(0.95); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; }
+    .modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
+    
     /* Stats */
     .stat-card{background:linear-gradient(135deg,var(--navy-light),rgba(17,29,53,0.5));border:1px solid var(--border);border-radius:1rem;padding:1.5rem;display:flex;align-items:center;gap:1rem}
     .stat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center}
     
     /* Tables */
     table{width:100%;text-align:left;border-collapse:collapse}
-    th{padding:1rem;font-size:0.8rem;text-transform:uppercase;color:#94A3B8;border-bottom:1px solid var(--border)}
-    td{padding:1rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.875rem}
+    th{padding:0.75rem 0.5rem;font-size:0.75rem;text-transform:uppercase;color:#94A3B8;border-bottom:1px solid var(--border);white-space:nowrap}
+    td{padding:0.75rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.8rem}
     tr:hover td{background:rgba(255,255,255,0.01)}
     
     /* Elements */
@@ -79,7 +85,7 @@
 
   <!-- Top Header -->
   <header class="top-header">
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
       <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
       <div class="flex items-center gap-2 text-sm font-bold text-slate-400">
         <span class="text-lg font-black text-white ml-2 hidden sm:block">Kitchen<span class="gold-text">Hood</span></span>
@@ -87,7 +93,14 @@
         <span class="text-white" id="headerBreadcrumb">Dashboard</span>
       </div>
     </div>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
+      <button onclick="switchView('messages', null)" class="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-colors border border-white/10" title="Messages">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+        <span id="msgBadge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">New</span>
+      </button>
+      <button onclick="toggleTheme()" class="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-amber-500 transition-colors border border-white/10" title="Toggle Light/Dark Theme">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
       <a href="/" class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
         <span class="hidden sm:inline">View Website</span>
@@ -101,8 +114,8 @@
 
   <!-- Sidebar -->
   <div id="sidebar" class="sidebar">
-    <div class="px-6 mb-8 hidden lg:flex items-center gap-3">
-      <div><span class="text-lg font-black text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-widest text-slate-500">Admin Control</span></div>
+    <div class="px-6 mb-8 hidden md:flex items-center gap-3">
+      <div><span class="text-lg font-black text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-widest text-slate-500">Admin Control</span></div>
     </div>
     
     <div class="px-6 mb-2">
@@ -110,20 +123,19 @@
     </div>
     <div class="flex-1 overflow-y-auto w-full">
       <div class="nav-item active" onclick="switchView('dashboard', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg> Dashboard</div>
-      <div class="nav-item" onclick="switchView('orders', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg> Orders & Sales</div>
-      <div class="nav-item" onclick="switchView('bookings', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> Service Bookings</div>
-      <div class="nav-item" onclick="switchView('users', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg> Customers</div>
-      <div class="nav-item" onclick="switchView('messages', this)">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg> 
-        Support Chat <span id="msgBadge" class="hidden ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">New</span>
+      <div class="nav-item" onclick="switchView('orders', this)">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg> 
+        Orders & Sales <span id="ordersBadge" class="hidden ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
       </div>
+      <div class="nav-item" onclick="switchView('bookings', this)">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> 
+        Service Bookings <span id="bookingsBadge" class="hidden ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
+      </div>
+      <div class="nav-item" onclick="switchView('users', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg> Customers</div>
       <div class="nav-item" onclick="switchView('products', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg> Products Catalog</div>
       <div class="nav-item" onclick="switchView('services', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg> Service Catalog</div>
     </div>
     
-    <div class="px-6 mt-4">
-      <div class="nav-item text-red-400 hover:text-red-300 hover:bg-red-500/10" onclick="logout()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Sign Out</div>
-    </div>
   </div>
 
   <!-- Main Content -->
@@ -137,7 +149,7 @@
           <p class="text-sm text-slate-400">Welcome back, here's what's happening today.</p>
         </div>
       </div>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="grid md:grid-cols-2 gap-4 mb-8">
         <div class="stat-card">
           <div class="stat-icon bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
           <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Revenue</p><p class="text-xl font-black" id="totalRevenue">৳0</p></div>
@@ -156,7 +168,7 @@
         </div>
       </div>
       
-      <div class="grid lg:grid-cols-2 gap-4">
+      <div class="grid md:grid-cols-2 gap-4">
         <div class="glass-card p-4">
           <h3 class="font-bold text-base mb-3 text-white">Recent Orders</h3>
           <div class="overflow-x-auto">
@@ -184,8 +196,8 @@
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
           <table id="allOrdersTable">
-            <thead><tr><th>Order ID</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
-            <tbody><tr><td colspan="6" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
+            <thead><tr><th>Order ID</th><th>Items Ordered</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody><tr><td colspan="7" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -219,15 +231,25 @@
     
     <!-- Products View -->
     <div id="view-products" class="view-section">
-      <h1 class="text-xl font-black mb-3">Products <span class="gold-text">Catalog</span></h1>
-      <div class="glass-card p-4">
-        <div class="text-sm text-slate-400 mb-3 flex items-center gap-2">
-          <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Product addition/editing requires API integration. Currently displaying database contents.
+      <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-2">
+        <h1 class="text-xl font-black mb-0">Products <span class="gold-text">Catalog</span></h1>
+        <div class="relative group w-full md:w-80">
+          <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-emerald-500/5 to-amber-500/10 rounded-xl blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
+          <div class="relative flex items-center bg-navy-light/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden focus-within:border-amber-500/50 focus-within:shadow-[0_0_15px_rgba(212,168,83,0.15)] transition-all">
+            <div class="flex items-center justify-center shrink-0" style="padding-left: 16px; padding-right: 8px;">
+              <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="text" id="adminProductsSearch" oninput="filterAdminTable('adminProductsTable', this.value)" autocomplete="off" spellcheck="false" placeholder="Search products..." class="w-full bg-transparent border-none py-2.5 px-1 text-white placeholder-slate-400 outline-none ring-0 focus:outline-none focus:ring-0 text-sm" style="box-shadow: none !important; border: none !important; background-color: transparent !important;">
+            <div class="hidden sm:flex items-center shrink-0" style="padding-left: 8px; padding-right: 8px;">
+              <button onclick="filterAdminTable('adminProductsTable', document.getElementById('adminProductsSearch').value)" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-navy font-bold text-xs shadow-md hover:shadow-amber-500/25 transition-all">Search</button>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="glass-card p-4">
         <div class="overflow-x-auto">
           <table id="adminProductsTable">
-            <thead><tr><th>Product Name</th><th>Category</th><th>Price</th><th>Stock</th></tr></thead>
+            <thead><tr><th>Product Name</th><th>Category</th><th>Price</th><th>Action</th></tr></thead>
             <tbody><tr><td colspan="4" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
         </div>
@@ -236,12 +258,26 @@
 
     <!-- Services View -->
     <div id="view-services" class="view-section">
-      <h1 class="text-xl font-black mb-3">Service <span class="gold-text">Catalog</span></h1>
+      <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-2">
+        <h1 class="text-xl font-black mb-0">Service <span class="gold-text">Catalog</span></h1>
+        <div class="relative group w-full md:w-80">
+          <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-emerald-500/5 to-amber-500/10 rounded-xl blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
+          <div class="relative flex items-center bg-navy-light/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden focus-within:border-amber-500/50 focus-within:shadow-[0_0_15px_rgba(212,168,83,0.15)] transition-all">
+            <div class="flex items-center justify-center shrink-0" style="padding-left: 16px; padding-right: 8px;">
+              <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="text" id="adminServicesSearch" oninput="filterAdminTable('adminServicesTable', this.value)" autocomplete="off" spellcheck="false" placeholder="Search services..." class="w-full bg-transparent border-none py-2.5 px-1 text-white placeholder-slate-400 outline-none ring-0 focus:outline-none focus:ring-0 text-sm" style="box-shadow: none !important; border: none !important; background-color: transparent !important;">
+            <div class="hidden sm:flex items-center shrink-0" style="padding-left: 8px; padding-right: 8px;">
+              <button onclick="filterAdminTable('adminServicesTable', document.getElementById('adminServicesSearch').value)" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-navy font-bold text-xs shadow-md hover:shadow-amber-500/25 transition-all">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
           <table id="adminServicesTable">
-            <thead><tr><th>Service Name</th><th>Category</th><th>Price</th><th>Time</th></tr></thead>
-            <tbody><tr><td colspan="4" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
+            <thead><tr><th>Service Name</th><th>Category</th><th>Price</th><th>Time</th><th>Action</th></tr></thead>
+            <tbody><tr><td colspan="5" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -276,6 +312,63 @@
 
   <div id="toast" class="toast"></div>
 
+  <!-- Custom Confirm Modal -->
+  <div id="customConfirmOverlay" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden">
+      <div id="modalGlow" class="absolute -top-20 -right-20 w-40 h-40 bg-red-500/20 blur-[50px] rounded-full pointer-events-none"></div>
+      
+      <div id="modalIconContainer" class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4 border border-red-500/20 text-red-500">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      </div>
+      <h3 id="customConfirmTitle" class="text-xl font-bold text-white mb-2">Are you sure?</h3>
+      <p id="customConfirmText" class="text-sm text-slate-400 mb-6">This action cannot be undone.</p>
+      <div class="flex gap-3 justify-center">
+        <button onclick="closeConfirm()" class="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
+        <button id="customConfirmOkBtn" class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-red-500 hover:bg-red-600 transition-all w-full shadow-[0_4px_15px_rgba(239,68,68,0.3)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.4)] hover:-translate-y-0.5">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div id="editProductModal" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden text-left">
+      <h3 class="text-xl font-bold text-white mb-4 text-center">Edit Product</h3>
+      <input type="hidden" id="editProductId">
+      <div class="space-y-4 mb-6">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Price (৳)</label>
+          <input type="number" id="editProductPrice" class="w-full text-white px-3 py-2 rounded-lg outline-none" style="background: var(--navy-light); border: 1px solid var(--border);">
+        </div>
+      </div>
+      <div class="flex gap-3 justify-end">
+        <button onclick="closeEditProductModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
+        <button onclick="saveProduct()" class="px-5 py-2 rounded-xl text-sm font-bold text-navy bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 transition-all shadow-[0_4px_15px_rgba(234,179,8,0.3)] w-full">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Service Modal -->
+  <div id="editServiceModal" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden text-left">
+      <h3 class="text-xl font-bold text-white mb-4 text-center">Edit Service</h3>
+      <input type="hidden" id="editServiceId">
+      <div class="space-y-4 mb-6">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Price (৳)</label>
+          <input type="number" id="editServicePrice" class="w-full text-white px-3 py-2 rounded-lg outline-none" style="background: var(--navy-light); border: 1px solid var(--border);">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Estimated Time</label>
+          <input type="text" id="editServiceTime" class="w-full text-white px-3 py-2 rounded-lg outline-none" style="background: var(--navy-light); border: 1px solid var(--border);" placeholder="e.g. 1-2 hours">
+        </div>
+      </div>
+      <div class="flex gap-3 justify-end">
+        <button onclick="closeEditServiceModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
+        <button onclick="saveService()" class="px-5 py-2 rounded-xl text-sm font-bold text-navy bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 transition-all shadow-[0_4px_15px_rgba(234,179,8,0.3)] w-full">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/protect.js"></script>
   <script src="/js/auth.js"></script>
@@ -283,24 +376,79 @@
     // Setup Protection
     requireRole('admin');
 
+    // Custom Modal Logic
+    let confirmCallback = null;
+
+    function showConfirm(title, text, confirmText, isDanger, onConfirm) {
+      document.getElementById('customConfirmTitle').textContent = title;
+      document.getElementById('customConfirmText').textContent = text;
+      
+      const okBtn = document.getElementById('customConfirmOkBtn');
+      okBtn.textContent = confirmText;
+      
+      const iconContainer = document.getElementById('modalIconContainer');
+      const glow = document.getElementById('modalGlow');
+      
+      if (isDanger) {
+        okBtn.className = 'px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-red-500 hover:bg-red-600 transition-all w-full shadow-[0_4px_15px_rgba(239,68,68,0.3)] hover:shadow-[0_6px_20px_rgba(239,68,68,0.4)] hover:-translate-y-0.5';
+        iconContainer.className = 'w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4 border border-red-500/20 text-red-500';
+        iconContainer.innerHTML = '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+        glow.className = 'absolute -top-20 -right-20 w-40 h-40 bg-red-500/20 blur-[50px] rounded-full pointer-events-none';
+      } else {
+        okBtn.className = 'px-5 py-2.5 rounded-xl text-sm font-bold text-navy bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 transition-all w-full shadow-[0_4px_15px_rgba(234,179,8,0.3)] hover:shadow-[0_6px_20px_rgba(234,179,8,0.4)] hover:-translate-y-0.5';
+        iconContainer.className = 'w-16 h-16 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4 border border-yellow-500/20 text-yellow-500';
+        iconContainer.innerHTML = '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>';
+        glow.className = 'absolute -top-20 -right-20 w-40 h-40 bg-yellow-500/20 blur-[50px] rounded-full pointer-events-none';
+      }
+
+      confirmCallback = onConfirm;
+      document.getElementById('customConfirmOverlay').classList.add('active');
+    }
+
+    function closeConfirm() {
+      document.getElementById('customConfirmOverlay').classList.remove('active');
+      confirmCallback = null;
+    }
+
+    document.getElementById('customConfirmOkBtn').addEventListener('click', () => {
+      if (confirmCallback) confirmCallback();
+      closeConfirm();
+    });
+
     // UI Helpers
     function toggleSidebar() {
       document.body.classList.toggle('sidebar-closed');
     }
 
     function switchView(viewId, element) {
+      window.location.hash = viewId;
       document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
       document.getElementById('view-' + viewId).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       if(element) element.classList.add('active');
+      
+      const titles = {
+        'dashboard': 'Dashboard',
+        'orders': 'Orders & Sales',
+        'bookings': 'Service Bookings',
+        'users': 'Customers',
+        'products': 'Products Catalog',
+        'services': 'Service Catalog',
+        'messages': 'Live Support'
+      };
+      const breadcrumb = document.getElementById('headerBreadcrumb');
+      if (breadcrumb) {
+        breadcrumb.textContent = titles[viewId] || 'Dashboard';
+      }
       
       // Auto-close sidebar only on true mobile screens
       if(window.innerWidth <= 500) {
         document.body.classList.add('sidebar-closed');
       }
       
-      if(viewId === 'messages' && document.getElementById('msgBadge')) {
-        document.getElementById('msgBadge').classList.add('hidden');
+      if(viewId === 'messages') {
+        // Badge is now handled globally, no need to hide it unconditionally
+        // loadChatUsers will be called implicitly if needed
       }
     }
 
@@ -311,7 +459,7 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    const formatDate = (ds) => new Date(ds).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'});
+    const formatDate = (ds) => new Date(ds).toLocaleDateString('en-US', {year:'2-digit',month:'short',day:'numeric'});
     
     const getStatusBadge = (status) => {
       const colors = {
@@ -338,17 +486,28 @@
           handleIncomingMessage(msg);
         }
         
-        // Show notification if it's from a user and we aren't looking at that chat
         if(msg.senderRole === 'user' && (!document.getElementById('view-messages').classList.contains('active') || activeChatUser !== msg.conversationId)) {
-          const badge = document.getElementById('msgBadge');
-          if(badge) badge.classList.remove('hidden');
           showToast(`New message from ${msg.senderName}`, 'info');
         }
       });
 
       chatSocket.on('conversation-update', () => {
-        if(document.getElementById('view-messages').classList.contains('active')) {
-          loadChatUsers(); // Refresh conversation list if chat tab is open
+        loadChatUsers(); // Always refresh to update global unread counts
+      });
+    }
+
+    // Table Filter Function
+    function filterAdminTable(tableId, query) {
+      const q = query.toLowerCase();
+      const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+      rows.forEach(row => {
+        // Skip rows that span multiple columns (like "Loading...")
+        if (row.cells.length === 1) return;
+        
+        if (row.innerText.toLowerCase().includes(q)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
         }
       });
     }
@@ -385,6 +544,22 @@
         document.getElementById('totalBookings').textContent = stats.totalBookings;
         document.getElementById('totalUsers').textContent = stats.totalUsers;
 
+        // Calculate pending badges
+        const pendingOrders = orders.filter(o => o.orderStatus === 'pending').length;
+        const pendingBookings = bookings.filter(b => b.status === 'pending').length;
+
+        const ordBadge = document.getElementById('ordersBadge');
+        if(ordBadge) {
+          if(pendingOrders > 0) { ordBadge.textContent = pendingOrders; ordBadge.classList.remove('hidden'); }
+          else ordBadge.classList.add('hidden');
+        }
+
+        const bkgBadge = document.getElementById('bookingsBadge');
+        if(bkgBadge) {
+          if(pendingBookings > 0) { bkgBadge.textContent = pendingBookings; bkgBadge.classList.remove('hidden'); }
+          else bkgBadge.classList.add('hidden');
+        }
+
         // Recent Orders Table
         const rOrdHtml = orders.slice(0,5).map(o => `
           <tr>
@@ -408,9 +583,16 @@
         document.getElementById('recentBookingsTable').querySelector('tbody').innerHTML = rBkgHtml || '<tr><td colspan="4">No bookings</td></tr>';
 
         // All Orders Table
-        const aOrdHtml = orders.map(o => `
+        // All Orders Table
+        const aOrdHtml = orders.map(o => {
+          const itemsList = o.items && o.items.length > 0 
+            ? o.items.map(i => `<div class="text-[11px] text-slate-300 leading-tight mb-1" title="${i.name || 'Product'}"><span class="text-amber-500 font-bold">${i.quantity}x</span> ${i.name || 'Product'}</div>`).join('') 
+            : '<div class="text-[11px] text-slate-500">No items</div>';
+          
+          return `
           <tr>
             <td class="font-mono text-xs text-slate-400">#${o._id.substring(o._id.length-6)}</td>
+            <td>${itemsList}</td>
             <td><div class="font-semibold text-white">${o.user ? o.user.name : 'Unknown'}</div><div class="text-[10px] text-slate-500">${o.shippingAddress?.phone || '-'}</div></td>
             <td>${formatDate(o.createdAt)}</td>
             <td class="gold-text font-bold">৳${(o.totalAmount || 0).toLocaleString()}</td>
@@ -421,7 +603,7 @@
             </td>
             <td><button class="btn-danger" onclick="deleteItem('order', '${o._id}')">Delete</button></td>
           </tr>
-        `).join('');
+        `}).join('');
         document.getElementById('allOrdersTable').querySelector('tbody').innerHTML = aOrdHtml;
 
         // All Bookings Table
@@ -459,14 +641,25 @@
         
         // Products Table
         const prodHtml = Array.isArray(products) ? products.map(p => `
-          <tr><td class="font-semibold text-white">${p.name}</td><td><span class="status-badge bg-white/5 text-slate-300">${p.category}</span></td><td class="gold-text font-bold">৳${p.price.toLocaleString()}</td><td>${p.stock}</td></tr>
+          <tr>
+            <td class="font-semibold text-white">${p.name}</td>
+            <td><span class="status-badge bg-white/5 text-slate-300">${p.category}</span></td>
+            <td class="gold-text font-bold">৳${p.price.toLocaleString()}</td>
+            <td><button class="btn-gold !py-1 !px-3 !text-xs" onclick="editProduct('${p._id}', ${p.price})">Edit</button></td>
+          </tr>
         `).join('') : '<tr><td colspan="4">No products found</td></tr>';
         document.getElementById('adminProductsTable').querySelector('tbody').innerHTML = prodHtml;
 
         // Services Table
         const servHtml = Array.isArray(services) ? services.map(s => `
-          <tr><td class="font-semibold text-white">${s.name}</td><td><span class="status-badge bg-white/5 text-slate-300">${s.category}</span></td><td class="gold-text font-bold">৳${s.price.toLocaleString()}</td><td>${s.estimatedTime || '-'}</td></tr>
-        `).join('') : '<tr><td colspan="4">No services found</td></tr>';
+          <tr>
+            <td class="font-semibold text-white">${s.name}</td>
+            <td><span class="status-badge bg-white/5 text-slate-300">${s.category}</span></td>
+            <td class="gold-text font-bold">৳${s.price.toLocaleString()}</td>
+            <td>${s.estimatedTime || '-'}</td>
+            <td><button class="btn-gold !py-1 !px-3 !text-xs" onclick="editService('${s._id}', ${s.price}, '${s.estimatedTime || ''}')">Edit</button></td>
+          </tr>
+        `).join('') : '<tr><td colspan="5">No services found</td></tr>';
         document.getElementById('adminServicesTable').querySelector('tbody').innerHTML = servHtml;
 
       } catch(e) { console.error(e); }
@@ -481,41 +674,148 @@
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
           body: JSON.stringify({ status: newStatus })
         });
-        if(res.ok) showToast('Status updated successfully');
-        else showToast('Failed to update status', 'error');
+        if(res.ok) {
+          showToast('Status updated successfully');
+          loadDashboardData();
+        } else {
+          showToast('Failed to update status', 'error');
+        }
       } catch(e) { showToast('Network error', 'error'); }
     }
 
     async function deleteItem(type, id) {
-      if(!confirm(`Are you sure you want to delete this ${type}?`)) return;
-      const endpoint = type === 'order' ? `/api/orders/${id}` : `/api/bookings/${id}`;
-      try {
-        const res = await fetch(endpoint, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() }});
-        if(res.ok) { showToast('Deleted successfully'); loadDashboardData(); }
-        else showToast('Delete failed', 'error');
-      } catch(e) { showToast('Network error', 'error'); }
+      showConfirm(
+        'Delete ' + (type.charAt(0).toUpperCase() + type.slice(1)) + '?',
+        `Are you sure you want to permanently delete this ${type}?`,
+        'Yes, Delete',
+        true,
+        async () => {
+          const endpoint = type === 'order' ? `/api/orders/${id}` : `/api/bookings/${id}`;
+          try {
+            const res = await fetch(endpoint, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() }});
+            if(res.ok) { showToast('Deleted successfully'); loadDashboardData(); }
+            else showToast('Delete failed', 'error');
+          } catch(e) { showToast('Network error', 'error'); }
+        }
+      );
     }
 
     async function deleteUser(id) {
-      if(!confirm('Delete this user account?')) return;
-      try {
-        const res = await fetch(`/api/auth/users/${id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() }});
-        if(res.ok) { showToast('User deleted successfully'); loadDashboardData(); }
-        else showToast('Failed to delete user', 'error');
-      } catch(e) { showToast('Network error', 'error'); }
+      showConfirm(
+        'Delete User Account?',
+        'This will permanently delete the user account and all associated data.',
+        'Yes, Delete User',
+        true,
+        async () => {
+          try {
+            const res = await fetch(`/api/auth/users/${id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() }});
+            if(res.ok) { showToast('User deleted successfully'); loadDashboardData(); }
+            else showToast('Failed to delete user', 'error');
+          } catch(e) { showToast('Network error', 'error'); }
+        }
+      );
     }
 
     async function promoteUser(id) {
-      if(!confirm('Promote this user to Admin?')) return;
+      showConfirm(
+        'Promote to Admin?',
+        'This user will have full administrative access to KitchenHood Pro.',
+        'Yes, Promote',
+        false,
+        async () => {
+          try {
+            const res = await fetch(`/api/auth/users/${id}/role`, { 
+              method: 'PUT', 
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+              body: JSON.stringify({ role: 'admin' })
+            });
+            if(res.ok) { showToast('User promoted to Admin'); loadDashboardData(); }
+            else showToast('Failed to promote user', 'error');
+          } catch(e) { showToast('Network error', 'error'); }
+        }
+      );
+    }
+
+    // Product Editing
+    function editProduct(id, currentPrice) {
+      document.getElementById('editProductId').value = id;
+      document.getElementById('editProductPrice').value = currentPrice;
+      document.getElementById('editProductModal').classList.add('active');
+    }
+
+    function closeEditProductModal() {
+      document.getElementById('editProductModal').classList.remove('active');
+    }
+
+    async function saveProduct() {
+      const id = document.getElementById('editProductId').value;
+      const price = parseFloat(document.getElementById('editProductPrice').value);
+      
+      if (isNaN(price) || price < 0) {
+        showToast('Please enter valid price', 'error');
+        return;
+      }
+      
       try {
-        const res = await fetch(`/api/auth/users/${id}/role`, { 
-          method: 'PUT', 
+        const res = await fetch(`/api/products/${id}`, {
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
-          body: JSON.stringify({ role: 'admin' })
+          body: JSON.stringify({ price })
         });
-        if(res.ok) { showToast('User promoted to Admin'); loadDashboardData(); }
-        else showToast('Failed to promote user', 'error');
-      } catch(e) { showToast('Network error', 'error'); }
+        
+        if (res.ok) {
+          showToast('Product updated successfully');
+          closeEditProductModal();
+          loadDashboardData();
+        } else {
+          const err = await res.json();
+          showToast(err.message || 'Failed to update product', 'error');
+        }
+      } catch(e) {
+        showToast('Network error', 'error');
+      }
+    }
+
+    // Service Editing
+    function editService(id, currentPrice, currentTime) {
+      document.getElementById('editServiceId').value = id;
+      document.getElementById('editServicePrice').value = currentPrice;
+      document.getElementById('editServiceTime').value = currentTime;
+      document.getElementById('editServiceModal').classList.add('active');
+    }
+
+    function closeEditServiceModal() {
+      document.getElementById('editServiceModal').classList.remove('active');
+    }
+
+    async function saveService() {
+      const id = document.getElementById('editServiceId').value;
+      const price = parseFloat(document.getElementById('editServicePrice').value);
+      const estimatedTime = document.getElementById('editServiceTime').value.trim();
+      
+      if (isNaN(price) || price < 0) {
+        showToast('Please enter valid price', 'error');
+        return;
+      }
+      
+      try {
+        const res = await fetch(`/api/services/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+          body: JSON.stringify({ price, estimatedTime })
+        });
+        
+        if (res.ok) {
+          showToast('Service updated successfully');
+          closeEditServiceModal();
+          loadDashboardData();
+        } else {
+          const err = await res.json();
+          showToast(err.message || 'Failed to update service', 'error');
+        }
+      } catch(e) {
+        showToast('Network error', 'error');
+      }
     }
 
     // Chat Implementation
@@ -527,6 +827,19 @@
         const res = await fetch('/api/chat/conversations', { headers: { 'Authorization': 'Bearer ' + getToken() } });
         if(!res.ok) return;
         chatConversations = await res.json();
+        
+        // Update global unread badge
+        const unreadCount = chatConversations.filter(c => c.unread > 0).length;
+        const badge = document.getElementById('msgBadge');
+        if(badge) {
+          if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.classList.remove('hidden');
+          } else {
+            badge.classList.add('hidden');
+          }
+        }
+
         renderChatList();
       } catch(e) { console.error('Chat load error:', e); }
     }
@@ -545,14 +858,18 @@
         const initials = name.substring(0,2).toUpperCase();
         const unreadBadge = c.unread > 0 ? `<div class="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">${c.unread}</div>` : '';
         
+        const nameClass = c.unread > 0 ? 'font-black text-white text-sm truncate' : 'font-bold text-slate-300 text-sm truncate';
+        const previewClass = c.unread > 0 ? 'text-xs text-white font-bold truncate pl-11' : 'text-xs text-slate-400 truncate pl-11';
+        const avatarClass = c.unread > 0 ? 'from-blue-500 to-blue-600' : 'from-slate-700 to-slate-800';
+        
         return `
           <div class="chat-user-item ${isActive}" onclick="openChat('${c._id}', '${name.replace(/'/g, "\\'")}')">
             <div class="flex items-center gap-3 mb-1">
-              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-xs font-bold text-white border border-white/10 shrink-0">${initials}</div>
-              <div class="font-bold text-white text-sm truncate">${name}</div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br ${avatarClass} flex items-center justify-center text-xs font-bold text-white border border-white/10 shrink-0">${initials}</div>
+              <div class="${nameClass}">${name}</div>
               ${unreadBadge}
             </div>
-            <div class="text-xs text-slate-400 truncate pl-11">${preview}</div>
+            <div class="${previewClass}">${preview}</div>
           </div>
         `;
       }).join('');
@@ -582,10 +899,29 @@
           const isAdmin = m.senderRole === 'admin';
           return `<div class="msg ${isAdmin ? 'msg-admin' : 'msg-user'}">${m.message}</div>`;
         }).join('');
-        msgContainer.scrollTop = msgContainer.scrollHeight;
-
+        
+        setTimeout(() => {
+          msgContainer.scrollTop = msgContainer.scrollHeight;
+        }, 10);
+        
         // Mark as read
         fetch('/api/chat/read/' + conversationId, { method: 'PUT', headers: { 'Authorization': 'Bearer ' + getToken() } });
+        
+        // Optimistically clear unread state in UI instantly
+        const conv = chatConversations.find(c => c._id === conversationId);
+        if(conv) conv.unread = 0;
+        
+        const unreadCount = chatConversations.filter(c => c.unread > 0).length;
+        const badge = document.getElementById('msgBadge');
+        if(badge) {
+          if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.classList.remove('hidden');
+          } else {
+            badge.classList.add('hidden');
+          }
+        }
+        renderChatList();
         
       } catch (e) {
         console.error('Failed to load messages');
@@ -597,16 +933,19 @@
     }
 
     // Called globally by socket
-    function handleIncomingMessage(msg) {
+    async function handleIncomingMessage(msg) {
       // If it's for the currently open chat, append it
       if(activeChatUser === msg.conversationId) {
         const msgContainer = document.getElementById('chatWindowMessages');
         const isAdmin = msg.senderRole === 'admin';
         msgContainer.innerHTML += `<div class="msg ${isAdmin ? 'msg-admin' : 'msg-user'}">${msg.message}</div>`;
-        msgContainer.scrollTop = msgContainer.scrollHeight;
+        
+        setTimeout(() => {
+          msgContainer.scrollTop = msgContainer.scrollHeight;
+        }, 10);
         
         // Mark as read immediately since we are viewing it
-        fetch('/api/chat/read/' + activeChatUser, { method: 'PUT', headers: { 'Authorization': 'Bearer ' + getToken() } });
+        await fetch('/api/chat/read/' + activeChatUser, { method: 'PUT', headers: { 'Authorization': 'Bearer ' + getToken() } });
       }
       
       // Reload conversation list to update previews and unread counts
@@ -636,7 +975,12 @@
       initAdminSocket();
       loadChatUsers();
       
-      // No longer need to display admin name since profile box is removed
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        const navItem = document.querySelector(`.nav-item[onclick*="'${hash}'"]`);
+        if (navItem) switchView(hash, navItem);
+        else switchView(hash, null);
+      }
     });
   </script>
 </body>

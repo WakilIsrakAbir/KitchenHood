@@ -43,8 +43,8 @@
     .status-badge{padding:4px 10px;border-radius:100px;font-size:0.75rem;font-weight:700;text-transform:uppercase}
     
     table{width:100%;text-align:left;border-collapse:collapse}
-    th{padding:1rem;font-size:0.8rem;text-transform:uppercase;color:#94A3B8;border-bottom:1px solid var(--border)}
-    td{padding:1rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.875rem}
+    th{padding:0.75rem 0.5rem;font-size:0.75rem;text-transform:uppercase;color:#94A3B8;border-bottom:1px solid var(--border);white-space:nowrap}
+    td{padding:0.75rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.8rem}
     tr:hover td{background:rgba(255,255,255,0.01)}
     
     .input-dark{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:#F1F5F9;font-size:0.875rem;outline:none}
@@ -59,7 +59,7 @@
 
   <!-- Top Header -->
   <header class="top-header">
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
       <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
       <div class="flex items-center gap-2 text-sm font-bold text-slate-400">
         <span class="text-lg font-black text-white ml-2 hidden sm:block">Kitchen<span class="gold-text">Hood</span></span>
@@ -67,7 +67,10 @@
         <span class="text-white" id="headerBreadcrumb">Overview</span>
       </div>
     </div>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
+      <button onclick="toggleTheme()" class="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-amber-500 transition-colors border border-white/10" title="Toggle Light/Dark Theme">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
       <a href="/" class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
         <span class="hidden sm:inline">View Website</span>
@@ -81,8 +84,8 @@
 
   <!-- Sidebar -->
   <div id="sidebar" class="sidebar">
-    <div class="px-6 mb-8 hidden lg:flex items-center gap-3">
-      <div><span class="text-lg font-black text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-widest text-slate-500">User Panel</span></div>
+    <div class="px-6 mb-8 hidden md:flex items-center gap-3">
+      <div><span class="text-lg font-black text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-widest text-slate-500">User Panel</span></div>
     </div>
     
     <div class="px-6 mb-2">
@@ -158,20 +161,53 @@
 
     <!-- Profile View -->
     <div id="view-profile" class="view-section">
-      <div class="max-w-2xl">
-        <div class="glass-card p-4 md:p-5">
-          <h3 class="font-bold text-base mb-3">Personal Information</h3>
-          <form id="profileForm" class="space-y-5">
+      <form id="profileForm" class="grid lg:grid-cols-2 gap-6 max-w-6xl">
+        <!-- Personal Information Card -->
+        <div class="glass-card p-4 md:p-5 h-fit">
+          <h3 class="font-bold text-base mb-4">Personal Information</h3>
+          <div class="space-y-5">
             <div class="grid md:grid-cols-2 gap-4">
               <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Full Name</label><input type="text" id="profName" class="input-dark"></div>
-              <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Phone</label><input type="text" id="profPhone" class="input-dark"></div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Phone (Read Only)</label><input type="text" id="profPhone" class="input-dark" readonly style="opacity:0.7;cursor:not-allowed"></div>
             </div>
             <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Email Address (Read Only)</label><input type="email" id="profEmail" class="input-dark" readonly style="opacity:0.7;cursor:not-allowed"></div>
             <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Default Address</label><textarea id="profAddress" class="input-dark" rows="3"></textarea></div>
-            <button type="submit" class="btn-gold !mt-6">Save Changes</button>
-          </form>
+          </div>
         </div>
-      </div>
+        
+        <!-- Change Password Card -->
+        <div class="glass-card p-4 md:p-5 h-fit flex flex-col">
+          <div>
+            <h3 class="font-bold text-base mb-1">Change Password</h3>
+            <p class="text-xs text-slate-400 mb-5">Leave blank if you do not want to change your password.</p>
+          </div>
+          
+          <div class="space-y-5 flex-1">
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">New Password</label>
+              <div class="relative">
+                <input type="password" id="profPassword" class="input-dark" placeholder="Minimum 6 characters">
+                <button type="button" onclick="togglePassword('profPassword', 'eyeIconProf1')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-white">
+                  <svg id="eyeIconProf1" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Confirm New Password</label>
+              <div class="relative">
+                <input type="password" id="profConfirmPassword" class="input-dark" placeholder="Repeat new password">
+                <button type="button" onclick="togglePassword('profConfirmPassword', 'eyeIconProf2')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-white">
+                  <svg id="eyeIconProf2" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="pt-6 mt-auto">
+            <button type="submit" class="btn-gold w-full justify-center !py-3">Save All Changes</button>
+          </div>
+        </div>
+      </form>
     </div>
 
   </div>
@@ -181,6 +217,7 @@
   <div id="toast" class="toast"></div>
 
   <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/main.js"></script>
   <script src="/js/protect.js"></script>
   <script src="/js/auth.js"></script>
   <script>
@@ -189,11 +226,11 @@
     
     // View Switcher
     function switchView(viewId, element) {
+      window.location.hash = viewId;
       document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      
       document.getElementById('view-' + viewId).classList.add('active');
-      if (element) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      if(element) {
         element.classList.add('active');
         document.getElementById('headerBreadcrumb').textContent = element.textContent.trim();
       }
@@ -227,7 +264,7 @@
       return `<span class="status-badge ${c}">${status}</span>`;
     };
 
-    const formatDate = (ds) => new Date(ds).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'});
+    const formatDate = (ds) => new Date(ds).toLocaleDateString('en-US', {year:'2-digit',month:'short',day:'numeric'});
 
     async function fetchDashboardData() {
       const token = getToken();
@@ -266,7 +303,7 @@
             <tr>
               <td class="font-bold text-white">${b.serviceName || 'Service'}</td>
               <td>${b.preferredDate ? formatDate(b.preferredDate) : 'TBD'}<br><span class="text-xs text-slate-400">${b.preferredTime || ''}</span></td>
-              <td class="text-xs text-slate-400 max-w-[200px] truncate">${b.customerAddress || '-'}</td>
+              <td class="text-xs text-slate-400 max-w-[200px] leading-tight">${b.customerAddress || '-'}</td>
               <td>${getStatusBadge(b.status || 'Pending')}</td>
             </tr>
           `).join('');
@@ -314,23 +351,58 @@
 
     document.getElementById('profileForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      const pwd = document.getElementById('profPassword').value;
+      const cpwd = document.getElementById('profConfirmPassword').value;
+      
+      if(pwd || cpwd) {
+        if(pwd !== cpwd) {
+          showToast('Passwords do not match!', 'error');
+          return;
+        }
+        if(pwd.length < 6) {
+          showToast('Password must be at least 6 characters', 'error');
+          return;
+        }
+      }
+
       const token = getToken();
       try {
+        const bodyData = {
+          name: document.getElementById('profName').value,
+          address: document.getElementById('profAddress').value
+        };
+        if(pwd) bodyData.password = pwd;
+
         const res = await fetch('/api/auth/profile', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-          body: JSON.stringify({
-            name: document.getElementById('profName').value,
-            phone: document.getElementById('profPhone').value,
-            address: document.getElementById('profAddress').value
-          })
+          body: JSON.stringify(bodyData)
         });
+        
         if(res.ok) {
           showToast('Profile updated successfully');
           document.getElementById('userNameDisplay').textContent = document.getElementById('profName').value.split(' ')[0];
-        } else showToast('Failed to update profile', 'error');
+          document.getElementById('profPassword').value = '';
+          document.getElementById('profConfirmPassword').value = '';
+        } else {
+          const err = await res.json();
+          showToast(err.message || 'Failed to update profile', 'error');
+        }
       } catch(e) { showToast('Error updating profile', 'error'); }
     });
+
+    function togglePassword(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.29 3.29m0 0a9.97 9.97 0 013.711-1.52m6.142-.51c1.37.331 2.65.986 3.75 1.9a9.97 9.97 0 011.562 3.03c-.23.63-.518 1.23-.855 1.79M15 12a3 3 0 00-3-3"></path>';
+      } else {
+        input.type = 'password';
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
+      }
+    }
 
     // Chat is now handled globally in main.js
 
@@ -338,6 +410,13 @@
     window.addEventListener('DOMContentLoaded', () => {
       loadProfile();
       fetchDashboardData();
+      
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        const navItem = document.querySelector(`.nav-item[onclick*="'${hash}'"]`);
+        if (navItem) switchView(hash, navItem);
+        else switchView(hash, null);
+      }
     });
   </script>
 </body>

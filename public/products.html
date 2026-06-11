@@ -33,22 +33,25 @@
 <body>
   <!-- Nav -->
   <nav class="fixed w-full z-50 premium-nav">
-    <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 relative">
-        <a href="/" class="flex items-center gap-3"><div><span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
-        <div class="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
-          <a href="/" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Home</a>
-          <a href="/services.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Services</a>
-          <a href="/products.html" class="text-sm font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Products</a>
-          <a href="/about.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">About</a>
-          <a href="/contact.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+        <a href="/" class="flex items-center gap-3"><div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
+        <div class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <a href="/" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+          <a href="/services.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Services</a>
+          <a href="/products.html" class="text-lg font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Products</a>
+          <a href="/about.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">About</a>
+          <a href="/contact.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
         </div>
-        <div class="flex items-center gap-4">
-                    <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <div class="flex items-center gap-6">
+                    <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          </button>
+          <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
           </button>
-          <div class="auth-btn-container hidden sm:block"><a href="/login.html" class="text-sm font-semibold text-slate-400 hover:text-white">Login</a></div>
+          <div class="auth-btn-container hidden sm:block"><a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white">Login</a></div>
         </div>
       </div>
     </div>
@@ -68,39 +71,58 @@
     </div>
   </div>
 
-  <main class="pt-20">
-    <!-- Hero Banner -->
-    <section class="py-16 md:py-24 relative overflow-hidden" style="background:linear-gradient(160deg,#0A1628,#0F2847,#0A1628)">
-      <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(212,168,83,0.06),transparent)"></div>
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24 text-center relative z-10">
-        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-          100% Genuine OEM Products
-        </span>
-        <h1 class="text-3xl md:text-4xl font-black tracking-tight mb-3">Premium <span class="gold-text">Spare Parts</span> & Accessories</h1>
-        <p class="text-base text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">Original manufacturer kitchen hood chimneys, filters, motors, and accessories. Fast delivery within Dhaka. Every product comes with authenticity guarantee.</p>
-        <div class="flex flex-wrap justify-center gap-3" id="categoryFilter">
-          <button class="category-pill active" data-cat="all">All Products</button>
-          <button class="category-pill" data-cat="chimney">Chimneys</button>
-          <button class="category-pill" data-cat="hood">Kitchen Hoods</button>
-          <button class="category-pill" data-cat="filter">Filters</button>
-          <button class="category-pill" data-cat="part">Spare Parts</button>
+  <main class="pt-16 md:pt-20">
+    <!-- Page Header & Products Grid -->
+    <section class="pt-8 md:pt-12 pb-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        
+        <!-- Simple Header -->
+        <div class="text-center mb-12">
+          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            100% Genuine OEM Products
+          </span>
+          <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-4">Premium <span class="gold-text">Spare Parts</span> & Accessories</h1>
+          <p class="text-base text-slate-400 max-w-4xl mx-auto leading-relaxed">Original manufacturer kitchen hood chimneys, filters, motors, and accessories. Fast delivery within Dhaka. Every product comes with authenticity guarantee.</p>
         </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Products Grid -->
-    <section class="py-16">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4" id="productsGrid"></div>
+        <!-- Category Filter -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-6 bg-navy-light/50 p-6 rounded-2xl border border-white/5">
+          <div class="text-center md:text-left">
+            <h2 class="text-xl font-black text-white mb-1">Explore Catalog</h2>
+            <p class="text-sm text-slate-400">Select a category to filter</p>
+          </div>
+          <div class="flex flex-wrap justify-center gap-2" id="categoryFilter">
+            <button class="category-pill active" data-cat="all">All Products</button>
+            <button class="category-pill" data-cat="chimney">Chimneys</button>
+            <button class="category-pill" data-cat="hood">Kitchen Hoods</button>
+            <button class="category-pill" data-cat="filter">Filters</button>
+            <button class="category-pill" data-cat="part">Spare Parts</button>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-4xl mx-auto relative group mb-10">
+          <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-emerald-500/5 to-amber-500/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
+          <div class="relative flex items-center bg-navy-light/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden focus-within:border-amber-500/50 focus-within:shadow-[0_0_20px_rgba(212,168,83,0.15)] transition-all">
+            <div class="flex items-center justify-center shrink-0" style="padding-left: 20px; padding-right: 12px;">
+              <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="text" id="productSearch" oninput="renderProducts()" autocomplete="off" spellcheck="false" placeholder="Search for premium products, parts, or accessories..." class="w-full bg-transparent border-none py-3.5 px-2 text-white placeholder-slate-400 outline-none ring-0 focus:outline-none focus:ring-0 text-base" style="box-shadow: none !important; border: none !important; background-color: transparent !important;">
+            <div class="hidden sm:flex items-center shrink-0" style="padding-left: 12px; padding-right: 12px;">
+              <button onclick="renderProducts()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy font-bold text-sm tracking-wide shadow-lg hover:shadow-amber-500/25 hover:-translate-y-0.5 transition-all">Search</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="productsGrid"></div>
       </div>
     </section>
   </main>
 
   <footer class="border-t border-white/5 py-10" style="background:linear-gradient(180deg,var(--navy-light),var(--navy))">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
       <p class="text-xs text-slate-500 mt-2">&copy; 2026 KitchenHood Pro. All rights reserved.</p>
     </div>
   </footer>
@@ -149,7 +171,12 @@
 
     function renderProducts() {
       const grid = document.getElementById('productsGrid');
-      const filtered = currentCat === 'all' ? allProducts : allProducts.filter(function(p) { return p.category === currentCat; });
+      const searchQuery = (document.getElementById('productSearch')?.value || '').toLowerCase();
+      const filtered = allProducts.filter(function(p) {
+        var matchesCat = currentCat === 'all' || p.category === currentCat;
+        var matchesSearch = p.name.toLowerCase().includes(searchQuery) || (p.description && p.description.toLowerCase().includes(searchQuery));
+        return matchesCat && matchesSearch;
+      });
       if (filtered.length === 0) {
         grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500">No products found in this category.</div>';
         return;
@@ -158,25 +185,25 @@
         var specsHtml = '';
         if (p.specs) {
           var keys = Object.keys(p.specs).slice(0, 4);
-          specsHtml = '<div class="flex flex-wrap gap-1 mb-2">' + keys.map(function(k) {
-            return '<span class="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">' + p.specs[k] + '</span>';
+          specsHtml = '<div class="flex flex-wrap gap-1 mb-3">' + keys.map(function(k) {
+            return '<span class="text-xs font-semibold px-2 py-1 rounded bg-white/5 border border-white/10 text-slate-300">' + p.specs[k] + '</span>';
           }).join('') + '</div>';
         }
         var imageHtml = p.image 
-          ? '<img src="' + p.image + '" class="w-full h-full object-contain p-2 rounded-xl" alt="' + p.name + '">'
-          : '<svg class="w-10 h-10 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>';
+          ? '<img src="' + p.image + '" class="w-full h-full object-contain p-4 rounded-xl" alt="' + p.name + '">'
+          : '<svg class="w-12 h-12 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>';
         
-        return '<div class="glass-card overflow-hidden flex flex-col">' +
-          '<div class="h-28 bg-gradient-to-br from-slate-800/50 to-slate-900/50 flex items-center justify-center relative overflow-hidden">' +
+        return '<div class="glass-card overflow-hidden flex flex-col h-full">' +
+          '<div class="h-40 md:h-48 bg-gradient-to-br from-slate-800/50 to-slate-900/50 flex items-center justify-center relative overflow-hidden">' +
             imageHtml +
           '</div>' +
-          '<div class="p-3 flex flex-col flex-1">' +
-            '<h3 class="text-xs font-bold text-white mb-1.5 leading-tight">' + p.name + '</h3>' +
-            '<p class="text-[11px] text-slate-400 leading-snug mb-2 line-clamp-2">' + p.description + '</p>' +
+          '<div class="p-5 md:p-6 flex flex-col flex-1">' +
+            '<h3 class="text-lg font-bold text-white mb-2 leading-tight">' + p.name + '</h3>' +
+            '<p class="text-sm text-slate-400 leading-snug mb-4 line-clamp-2">' + p.description + '</p>' +
             specsHtml +
-            '<div class="flex items-center justify-between mt-auto pt-3 border-t border-white/5">' +
-              '<span class="text-base font-black gold-text">৳' + p.price.toLocaleString() + '</span>' +
-              (p.stock > 0 ? '<button onclick=\'addToCart(' + JSON.stringify({_id:p._id,name:p.name,price:p.price}).replace(/'/g,"\\'") + ')\' class="btn-gold !text-[10px] !py-1.5 !px-3">Add</button>' : '<span class="text-[10px] text-red-400 font-bold">Unavailable</span>') +
+            '<div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">' +
+              '<span class="text-xl font-black gold-text">৳' + p.price.toLocaleString() + '</span>' +
+              (p.stock > 0 ? '<button onclick=\'addToCart(' + JSON.stringify({_id:p._id,name:p.name,price:p.price}).replace(/'/g,"\\'") + ')\' class="btn-gold text-sm !py-2 !px-5">Add to Cart</button>' : '<span class="text-xs text-red-400 font-bold">Unavailable</span>') +
             '</div>' +
           '</div>' +
         '</div>';

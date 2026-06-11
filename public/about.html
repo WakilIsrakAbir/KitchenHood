@@ -30,53 +30,92 @@
 </head>
 <body>
   <nav class="fixed w-full z-50 premium-nav">
-    <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 relative">
-        <a href="/" class="flex items-center gap-3"><div><span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
-        <div class="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
-          <a href="/" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Home</a>
-          <a href="/services.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Services</a>
-          <a href="/products.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Products</a>
-          <a href="/about.html" class="text-sm font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">About</a>
-          <a href="/contact.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+        <a href="/" class="flex items-center gap-3"><div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
+        <div class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <a href="/" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+          <a href="/services.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Services</a>
+          <a href="/products.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Products</a>
+          <a href="/about.html" class="text-lg font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">About</a>
+          <a href="/contact.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
         </div>
         
           
 
           
         <!-- Actions -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-6">
+          <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          </button>
           <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
           </button>
           <div class="auth-btn-container hidden sm:block">
-<a href="/login.html" class="text-sm font-semibold text-slate-400 hover:text-white">Login</a></div>
+<a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white">Login</a></div>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="pt-20">
-    <!-- Hero -->
-    <section class="py-12 md:py-16 relative" style="background:linear-gradient(160deg,#0A1628,#0F2847,#0A1628)">
-      <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 50% at 30% 40%,rgba(212,168,83,0.05),transparent)"></div>
-      <div class="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center">
-        <div class="max-w-3xl mx-auto space-y-5 md:space-y-6 mb-10 md:mb-12">
-          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 block">Our Story</span>
-          <h1 class="text-3xl md:text-4xl font-black tracking-tight mb-3">Setting the Standard in <br class="hidden md:block" /><span class="gold-text">Appliance Care</span></h1>
-          <p class="text-slate-400 leading-relaxed text-sm md:text-base">KitchenHood Pro was founded in 2016 with a clear mission: to provide transparent, reliable, and expert technical support for kitchen ventilation systems across Bangladesh. Today, with over 15,000 successful service completions and a 98% customer satisfaction rate, we are recognized as the most trusted name in kitchen hood services in Dhaka.</p>
-      </div>
-    </section>
+  <main class="pt-20" style="padding-top: 100px;">
+    <!-- Page Header & Core Values -->
+    <section class="pt-8 md:pt-12 pb-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        
+        <!-- Professional Header Section -->
+        <div class="flex flex-col md:flex-row items-center justify-between gap-10 lg:gap-16 mb-20">
+          <!-- Text Content -->
+          <div class="relative z-10 w-full" style="flex: 1 1 55%; max-width: 600px;">
+            <span class="text-xs font-bold uppercase tracking-[0.2em] text-amber-500 flex items-center gap-3 mb-6">
+              <span class="w-8 h-[2px] bg-amber-500"></span> Our Story
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-[1.1]">
+              Mastering <br />
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600">Kitchen Ventilation</span>
+            </h1>
+            <div class="space-y-4 text-slate-400 leading-relaxed mb-10">
+              <p>KitchenHood was founded with a definitive vision: to transform the way households and commercial spaces maintain their kitchen environments. We provide unparalleled technical support, installation, and maintenance services for all types of kitchen hoods and chimneys.</p>
+              <p>With a team of highly certified technicians and a track record of over 15,000 successful services, we stand as the undisputed benchmark for reliability, transparency, and excellence in kitchen ventilation care across Bangladesh.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 md:gap-6">
+              <div class="glass-card p-4 md:p-5 border-l-2 border-l-amber-500 bg-white/5 hover:bg-white/10 transition-colors">
+                <div class="text-2xl md:text-4xl font-black text-white mb-1">15k+</div>
+                <div class="text-[10px] md:text-xs text-amber-500 uppercase tracking-wider font-bold">Services Done</div>
+              </div>
+              <div class="glass-card p-4 md:p-5 border-l-2 border-l-amber-500 bg-white/5 hover:bg-white/10 transition-colors">
+                <div class="text-2xl md:text-4xl font-black text-white mb-1">98%</div>
+                <div class="text-[10px] md:text-xs text-amber-500 uppercase tracking-wider font-bold">Client Satisfaction</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Image Section -->
+          <div class="relative group w-full mt-10 md:mt-0" style="flex: 1 1 40%; max-width: 480px;">
+            <div class="absolute -inset-4 bg-gradient-to-tr from-yellow-500/20 via-transparent to-amber-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-700 opacity-70"></div>
+            <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <img src="/images/premium-hood.png" alt="Premium Kitchen Hood" class="w-full h-[300px] md:h-[400px] lg:h-[450px] object-cover transform group-hover:scale-105 transition-transform duration-[1.5s] ease-out">
+              
+              <!-- Floating Badge -->
+              <div class="absolute bottom-6 left-6 right-6 glass-card p-4 border border-white/20 backdrop-blur-xl flex items-center gap-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-navy shrink-0 shadow-lg shadow-yellow-500/30">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                </div>
+                <div>
+                  <div class="text-white font-bold text-sm tracking-wide">Certified Excellence</div>
+                  <div class="text-slate-300 text-xs mt-0.5 font-medium">Premium quality guaranteed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <div class="section-sep max-w-6xl mx-auto"></div>
-
-    <!-- Core Values -->
-    <section class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
         <div class="text-center mb-14">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">What Drives Us</span>
-          <h2 class="text-2xl md:text-3xl font-black tracking-tight">Our Core <span class="gold-text">Principles</span></h2>
+          <h2 class="text-3xl md:text-5xl font-black tracking-tight">Our Core <span class="gold-text">Principles</span></h2>
         </div>
         <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div class="glass-card p-5 text-center">
@@ -103,14 +142,14 @@
       </div>
     </section>
 
-    <div class="section-sep max-w-6xl mx-auto"></div>
+    <div class="section-sep max-w-7xl mx-auto"></div>
 
     <!-- Team -->
     <section class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="text-center mb-14">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Leadership</span>
-          <h2 class="text-2xl md:text-3xl font-black tracking-tight">Meet The <span class="gold-text">Lead Experts</span></h2>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">Meet The <span class="gold-text">Lead Experts</span></h2>
           <p class="text-slate-400 mt-3 max-w-xl mx-auto">Our senior technicians hold factory certifications and have decades of combined experience servicing Italian, German, and local kitchen hood brands.</p>
         </div>
         <div class="grid sm:grid-cols-3 gap-4">
@@ -142,14 +181,14 @@
       </div>
     </section>
 
-    <div class="section-sep max-w-6xl mx-auto"></div>
+    <div class="section-sep max-w-7xl mx-auto"></div>
 
     <!-- Company Timeline -->
     <section class="py-20">
       <div class="max-w-3xl mx-auto px-4">
         <div class="text-center mb-14">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Our Journey</span>
-          <h2 class="text-2xl md:text-3xl font-black tracking-tight">Company <span class="gold-text">Timeline</span></h2>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">Company <span class="gold-text">Timeline</span></h2>
         </div>
         <div class="relative">
           <div class="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-yellow-500/50 via-yellow-500/20 to-transparent"></div>
@@ -201,8 +240,8 @@
   </div>
 
   <footer class="border-t border-white/5 py-10" style="background:linear-gradient(180deg,var(--navy-light),var(--navy))">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
       <p class="text-xs text-slate-500 mt-2">&copy; 2026 KitchenHood Pro. All rights reserved.</p>
     </div>
   </footer>

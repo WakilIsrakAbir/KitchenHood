@@ -94,6 +94,19 @@ router.put('/:id/status', protect, adminOnly, async (req, res) => {
   }
 });
 
+// Delete order (Admin only)
+router.delete('/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const order = await Order.findByIdAndDelete(req.params.id);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+    res.json({ success: true, message: 'Order deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error deleting order' });
+  }
+});
+
 // Cancel order (User — can only cancel their own pending orders)
 router.put('/:id/cancel', protect, async (req, res) => {
   try {

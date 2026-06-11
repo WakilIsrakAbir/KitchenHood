@@ -88,6 +88,19 @@ router.put('/:id/status', protect, adminOnly, async (req, res) => {
   }
 });
 
+// Delete booking (Admin only)
+router.delete('/:id', protect, adminOnly, async (req, res) => {
+  try {
+    const booking = await Booking.findByIdAndDelete(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ success: false, message: 'Booking not found' });
+    }
+    res.json({ success: true, message: 'Booking deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error deleting booking' });
+  }
+});
+
 // Cancel booking (User — can only cancel their own pending bookings)
 router.put('/:id/cancel', protect, async (req, res) => {
   try {

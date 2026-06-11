@@ -14,7 +14,7 @@ router.get('/conversations', protect, adminOnly, async (req, res) => {
           senderName: { $first: '$senderName' },
           senderRole: { $first: '$senderRole' },
           updatedAt: { $last: '$createdAt' },
-          unread: { $sum: { $cond: [{ $eq: ['$isRead', false] }, 1, 0] } }
+          unread: { $sum: { $cond: [{ $and: [{ $eq: ['$isRead', false] }, { $eq: ['$senderRole', 'user'] }] }, 1, 0] } }
       }},
       { $sort: { updatedAt: -1 } }
     ]);
@@ -75,10 +75,13 @@ router.post('/guest', async (req, res) => {
   }
 });
 
-router.put('/read/:conversationId', protect, adminOnly, async (req, res) => {
+router.put('/read/:conversationId', protect, async (req, res) => {
   try {
+    const isUser = req.user.role === 'user';
+    const senderRoleToMark = isUser ? 'admin' : 'user';
+
     await Message.updateMany(
-      { conversationId: req.params.conversationId, isRead: false },
+      { conversationId: req.params.conversationId, senderRole: senderRoleToMark, isRead: false },
       { isRead: true }
     );
     res.json({ message: 'Messages marked as read' });

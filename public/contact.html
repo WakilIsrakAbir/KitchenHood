@@ -25,8 +25,9 @@
     .faq-item{border:1px solid var(--border);border-radius:12px;background:var(--glass);overflow:hidden;transition:border-color 0.3s}
     .faq-item:hover,.faq-item.active{border-color:rgba(212,168,83,0.2)}
     .faq-header{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:0.9rem}
-    .faq-body{max-height:0;overflow:hidden;transition:max-height 0.3s;padding:0 20px}
-    .faq-item.active .faq-body{max-height:200px;padding:0 20px 16px}
+    .faq-body{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease}
+    .faq-item.active .faq-body{grid-template-rows:1fr;opacity:1}
+    .faq-body-inner{overflow:hidden;padding:0 20px 16px}
     .faq-item.active .faq-arrow{transform:rotate(180deg)}
     ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:#162544;border-radius:10px}
   
@@ -39,47 +40,47 @@
 </head>
 <body>
   <nav class="fixed w-full z-50 premium-nav">
-    <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 relative">
-        <a href="/" class="flex items-center gap-3"><div><span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
-        <div class="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
-          <a href="/" class="text-sm font-medium text-slate-400 hover:text-white">Home</a>
-          <a href="/services.html" class="text-sm font-medium text-slate-400 hover:text-white">Services</a>
-          <a href="/products.html" class="text-sm font-medium text-slate-400 hover:text-white">Products</a>
-          <a href="/about.html" class="text-sm font-medium text-slate-400 hover:text-white">About</a>
-          <a href="/contact.html" class="text-sm font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Contact</a>
+        <a href="/" class="flex items-center gap-3"><div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
+        <div class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <a href="/" class="text-lg font-medium text-slate-400 hover:text-white">Home</a>
+          <a href="/services.html" class="text-lg font-medium text-slate-400 hover:text-white">Services</a>
+          <a href="/products.html" class="text-lg font-medium text-slate-400 hover:text-white">Products</a>
+          <a href="/about.html" class="text-lg font-medium text-slate-400 hover:text-white">About</a>
+          <a href="/contact.html" class="text-lg font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Contact</a>
         </div>
         
           
 
           
         <!-- Actions -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-6">
+          <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          </button>
           <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
           </button>
           <div class="auth-btn-container hidden sm:block">
-<a href="/login.html" class="text-sm font-semibold text-slate-400 hover:text-white">Login</a></div>
+<a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white">Login</a></div>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="pt-20">
-    <section class="py-12 md:py-16 relative" style="background:linear-gradient(160deg,#0A1628,#0F2847,#0A1628)">
-      <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(212,168,83,0.08),transparent)"></div>
-      <div class="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center">
-        <div class="max-w-3xl mx-auto space-y-5 md:space-y-6 mb-10 md:mb-12">
-          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 block">Get In Touch</span>
-          <h1 class="text-3xl md:text-4xl font-black tracking-tight">Contact <span class="gold-text">Support</span></h1>
-          <p class="text-slate-400 leading-relaxed text-sm md:text-base">Submit your inquiry below or call our hotline directly for emergency repairs. We respond within 2 hours during business hours.</p>
+  <main class="pt-16 md:pt-20">
+    <!-- Page Header & Contact Form -->
+    <section class="pt-8 md:pt-12 pb-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        
+        <!-- Simple Header -->
+        <div class="text-center mb-12">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 block mb-3">Get In Touch</span>
+          <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-4">Contact <span class="gold-text">Support</span></h1>
+          <p class="text-base text-slate-400 max-w-4xl mx-auto leading-relaxed">Submit your inquiry below or call our hotline directly for emergency repairs. We respond within 2 hours during business hours.</p>
         </div>
-      </div>
-    </section>
-
-    <section class="py-16">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
         <div class="grid md:grid-cols-5 gap-8">
           <!-- Form -->
           <div class="md:col-span-3 glass-card p-5 md:p-8">
@@ -139,16 +140,16 @@
 
     <!-- FAQ -->
     <section class="py-16">
-      <div class="max-w-3xl mx-auto px-4">
+      <div class="max-w-5xl mx-auto px-4">
         <div class="text-center mb-10">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Common Questions</span>
-          <h2 class="text-xl md:text-xl font-black tracking-tight">Frequently Asked <span class="gold-text">Questions</span></h2>
+          <h2 class="text-xl md:text-2xl font-black tracking-tight">Frequently Asked <span class="gold-text">Questions</span></h2>
         </div>
         <div class="space-y-3" id="faqList">
-          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">How often should I clean my kitchen hood?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body text-sm text-slate-400 leading-relaxed">For residential use, we recommend deep cleaning every 6-8 months. For heavy cooking (frying, grilling), every 3-4 months. Commercial kitchens should be cleaned monthly to comply with fire safety regulations.</div></div>
-          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">Do you provide warranty on repairs?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body text-sm text-slate-400 leading-relaxed">Yes! All our repair services come with a comprehensive 6-month warranty. If the same issue recurs within the warranty period, we fix it completely free of charge. New installations carry a 1-year warranty.</div></div>
-          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">Which brands do you service?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body text-sm text-slate-400 leading-relaxed">We service all major kitchen hood brands including Elica, Faber, Kutchina, Bosch, Siemens, Miyako, Walton, Prestige, and more. Our technicians are factory trained on Italian and German models.</div></div>
-          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">What payment methods do you accept?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body text-sm text-slate-400 leading-relaxed">We accept Cash on Delivery, bKash, Nagad, Rocket, and bank transfer. For products ordered online, payment is collected upon delivery. Service charges are paid after completion and your satisfaction.</div></div>
+          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">How often should I clean my kitchen hood?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body"><div class="faq-body-inner text-sm text-slate-400 leading-relaxed">For residential use, we recommend deep cleaning every 6-8 months. For heavy cooking (frying, grilling), every 3-4 months. Commercial kitchens should be cleaned monthly to comply with fire safety regulations.</div></div></div>
+          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">Do you provide warranty on repairs?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body"><div class="faq-body-inner text-sm text-slate-400 leading-relaxed">Yes! All our repair services come with a comprehensive 6-month warranty. If the same issue recurs within the warranty period, we fix it completely free of charge. New installations carry a 1-year warranty.</div></div></div>
+          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">Which brands do you service?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body"><div class="faq-body-inner text-sm text-slate-400 leading-relaxed">We service all major kitchen hood brands including Elica, Faber, Kutchina, Bosch, Siemens, Miyako, Walton, Prestige, and more. Our technicians are factory trained on Italian and German models.</div></div></div>
+          <div class="faq-item"><div class="faq-header text-white" onclick="toggleFaq(this)">What payment methods do you accept?<svg class="w-4 h-4 faq-arrow transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div><div class="faq-body"><div class="faq-body-inner text-sm text-slate-400 leading-relaxed">We accept Cash on Delivery, bKash, Nagad, Rocket, and bank transfer. For products ordered online, payment is collected upon delivery. Service charges are paid after completion and your satisfaction.</div></div></div>
         </div>
       </div>
     </section>
@@ -175,7 +176,7 @@
   </div>
 
   <footer class="border-t border-white/5 py-10" style="background:linear-gradient(180deg,var(--navy-light),var(--navy))">
-    <div class="max-w-6xl mx-auto px-4 text-center"><span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><p class="text-xs text-slate-500 mt-2">&copy; 2026 KitchenHood Pro. All rights reserved.</p></div>
+    <div class="max-w-7xl mx-auto px-4 text-center"><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><p class="text-xs text-slate-500 mt-2">&copy; 2026 KitchenHood Pro. All rights reserved.</p></div>
   </footer>
 
   <script src="/js/auth.js"></script>

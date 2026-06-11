@@ -46,63 +46,120 @@
 <body>
   <!-- Nav -->
   <nav class="fixed w-full z-50 premium-nav">
-    <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 relative">
         <a href="/" class="flex items-center gap-3 group">
-          <div><span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div>
+          <div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div>
         </a>
-        <div class="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
-          <a href="/" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Home</a>
-          <a href="/services.html" class="text-sm font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Services</a>
-          <a href="/products.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Products</a>
-          <a href="/about.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">About</a>
-          <a href="/contact.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+        <div class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <a href="/" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+          <a href="/services.html" class="text-lg font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Services</a>
+          <a href="/products.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Products</a>
+          <a href="/about.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">About</a>
+          <a href="/contact.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-6">
           
           
 
           
         <!-- Actions -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-6">
+          <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          </button>
           <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
           </button>
           <div class="auth-btn-container hidden sm:block">
-<a href="/login.html" class="text-sm font-semibold text-slate-400 hover:text-white transition-colors">Login</a></div>
+<a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white transition-colors">Login</a></div>
+        </div>
         </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="pt-20">
-    <!-- Hero Banner -->
-    <section class="py-16 md:py-24 relative overflow-hidden" style="background:linear-gradient(160deg,#0A1628,#0F2847,#0A1628)">
-      <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(37,99,235,0.08),transparent)"></div>
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24 text-center relative z-10">
-        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-xs font-bold uppercase tracking-wider mb-3">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-          Certified & Insured Professionals
-        </span>
-        <h1 class="text-3xl md:text-4xl font-black tracking-tight mb-3">Our Professional <span class="gold-text">Services</span></h1>
-        <p class="text-base text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">Expert kitchen hood cleaning, repair, installation, and maintenance services with genuine parts and a 6-month service warranty. Serving all major brands across Dhaka.</p>
-        <!-- Category Filter -->
-        <div class="flex flex-wrap justify-center gap-3" id="categoryFilter">
-          <button class="category-pill active" data-cat="all">All Services</button>
-          <button class="category-pill" data-cat="cleaning">Cleaning</button>
-          <button class="category-pill" data-cat="repair">Repair</button>
-          <button class="category-pill" data-cat="installation">Installation</button>
-          <button class="category-pill" data-cat="maintenance">Maintenance</button>
-        </div>
-      </div>
-    </section>
+  <main class="pt-16 md:pt-20">
+    <!-- Page Header & Services Grid -->
+    <section class="pt-8 md:pt-12 pb-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        
+        <!-- Simple Header -->
+        <div class="text-center mb-12">
+          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-xs font-bold uppercase tracking-wider mb-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            Certified & Insured Professionals
+          </span>
+          <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-4">Our Professional <span class="gold-text">Services</span></h1>
+          <p class="text-base text-slate-400 max-w-4xl mx-auto leading-relaxed mb-8">Expert kitchen hood cleaning, repair, installation, and maintenance services with genuine parts and a 6-month service warranty. Serving all major brands across Dhaka.</p>
+          
+          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+            <div class="glass-card px-5 py-3 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 border border-blue-500/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              </div>
+              <div class="text-left">
+                <h4 class="font-bold text-white text-sm">Fast Response</h4>
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Under 2 hours</p>
+              </div>
+            </div>
+            
+            <div class="glass-card px-5 py-3 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-emerald-500/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <div class="text-left">
+                <h4 class="font-bold text-white text-sm">Guaranteed</h4>
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">6-Month Warranty</p>
+              </div>
+            </div>
 
-    <!-- Services Grid -->
-    <section class="py-16">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="servicesGrid">
+            <div class="glass-card px-5 py-3 flex items-center gap-3">
+              <div class="text-center px-2">
+                <div class="text-xl font-black text-yellow-400">15K+</div>
+                <div class="text-[9px] text-slate-400 uppercase tracking-wider font-bold">Services Done</div>
+              </div>
+              <div class="w-px h-8 bg-white/10 mx-2"></div>
+              <div class="text-center px-2">
+                <div class="text-xl font-black text-emerald-400">98%</div>
+                <div class="text-[9px] text-slate-400 uppercase tracking-wider font-bold">Satisfaction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Category Filter -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-6 bg-navy-light/50 p-6 rounded-2xl border border-white/5">
+          <div class="text-center md:text-left">
+            <h2 class="text-xl font-black text-white mb-1">Explore Services</h2>
+            <p class="text-sm text-slate-400">Select a category to filter</p>
+          </div>
+          <div class="flex flex-wrap justify-center gap-2" id="categoryFilter">
+            <button class="category-pill active" data-cat="all">All Services</button>
+            <button class="category-pill" data-cat="cleaning">Cleaning</button>
+            <button class="category-pill" data-cat="repair">Repair</button>
+            <button class="category-pill" data-cat="installation">Installation</button>
+            <button class="category-pill" data-cat="maintenance">Maintenance</button>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-4xl mx-auto relative group mb-10">
+          <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-emerald-500/5 to-amber-500/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
+          <div class="relative flex items-center bg-navy-light/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden focus-within:border-amber-500/50 focus-within:shadow-[0_0_20px_rgba(212,168,83,0.15)] transition-all">
+            <div class="flex items-center justify-center shrink-0" style="padding-left: 20px; padding-right: 12px;">
+              <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="text" id="serviceSearch" oninput="renderServices()" autocomplete="off" spellcheck="false" placeholder="Search for professional services or maintenance..." class="w-full bg-transparent border-none py-3.5 px-2 text-white placeholder-slate-400 outline-none ring-0 focus:outline-none focus:ring-0 text-base" style="box-shadow: none !important; border: none !important; background-color: transparent !important;">
+            <div class="hidden sm:flex items-center shrink-0" style="padding-left: 12px; padding-right: 12px;">
+              <button onclick="renderServices()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-navy font-bold text-sm tracking-wide shadow-lg hover:shadow-amber-500/25 hover:-translate-y-0.5 transition-all">Search</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="servicesGrid">
           <!-- Cards injected by JS -->
         </div>
       </div>
@@ -110,11 +167,11 @@
 
     <!-- Why Choose Us -->
     <section class="py-20">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="section-sep mb-20"></div>
         <div class="text-center mb-12">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Why KitchenHood Pro</span>
-          <h2 class="text-2xl md:text-3xl font-black tracking-tight mb-3">The <span class="gold-text">Smart Choice</span> for Your Kitchen</h2>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">The <span class="gold-text">Smart Choice</span> for Your Kitchen</h2>
         </div>
         <div class="grid md:grid-cols-3 gap-4">
           <div class="glass-card p-5 text-center">
@@ -199,8 +256,8 @@
   </div>
 
   <footer class="border-t border-white/5 py-10" style="background:linear-gradient(180deg,var(--navy-light),var(--navy))">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
       <p class="text-xs text-slate-500 mt-2">&copy; 2026 KitchenHood Pro. All rights reserved.</p>
     </div>
   </footer>
@@ -248,7 +305,12 @@
 
     function renderServices() {
       const grid = document.getElementById('servicesGrid');
-      const filtered = currentCategory === 'all' ? allServices : allServices.filter(s => s.category === currentCategory);
+      const searchQuery = (document.getElementById('serviceSearch')?.value || '').toLowerCase();
+      const filtered = allServices.filter(s => {
+        const matchesCat = currentCategory === 'all' || s.category === currentCategory;
+        const matchesSearch = s.name.toLowerCase().includes(searchQuery) || (s.description && s.description.toLowerCase().includes(searchQuery));
+        return matchesCat && matchesSearch;
+      });
       if (filtered.length === 0) {
         grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500">No services found in this category.</div>';
         return;
@@ -256,17 +318,17 @@
       grid.innerHTML = filtered.map(s => {
         const catColors = { cleaning: 'blue', repair: 'red', installation: 'emerald', maintenance: 'amber' };
         const color = catColors[s.category] || 'blue';
-        return '<div class="glass-card p-4 flex flex-col">' +
-          '<div class="flex items-start justify-between mb-2">' +
-            '<div class="service-icon !w-8 !h-8"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg></div>' +
-            '<span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-' + color + '-500/10 text-' + color + '-400 border border-' + color + '-500/20">' + s.category + '</span>' +
+        return '<div class="glass-card p-5 md:p-6 flex flex-col h-full">' +
+          '<div class="flex items-start justify-between mb-4">' +
+            '<div class="service-icon !w-10 !h-10"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg></div>' +
+            '<span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-' + color + '-500/10 text-' + color + '-400 border border-' + color + '-500/20">' + s.category + '</span>' +
           '</div>' +
-          '<h3 class="text-[13px] font-bold text-white mb-1.5 leading-tight">' + s.name + '</h3>' +
-          '<p class="text-[11px] text-slate-400 leading-snug mb-2.5 flex-1 line-clamp-3">' + s.description + '</p>' +
-          (s.features ? '<div class="space-y-1 mb-2.5">' + s.features.slice(0, 3).map(function(f) { return '<div class="flex items-center gap-1.5 text-[10px] text-slate-300"><div class="feature-check !w-3 !h-3"><svg class="w-2 h-2 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>' + f + '</div>'; }).join('') + '</div>' : '') +
-          '<div class="flex items-center justify-between mt-auto pt-3 border-t border-white/5">' +
-            '<div><span class="text-base font-black gold-text">৳' + s.price.toLocaleString() + '</span><span class="text-[9px] text-slate-500 ml-1.5">' + (s.estimatedTime || '') + '</span></div>' +
-            '<button onclick="openBooking(\'' + s._id + '\', \'' + s.name.replace(/\'/g, "\\'") + '\')" class="btn-gold !py-1.5 !px-3 !text-[10px]">Book Now</button>' +
+          '<h3 class="text-lg font-bold text-white mb-2 leading-tight">' + s.name + '</h3>' +
+          '<p class="text-sm text-slate-400 leading-relaxed mb-4 flex-1 line-clamp-3">' + s.description + '</p>' +
+          (s.features ? '<div class="space-y-2 mb-5">' + s.features.slice(0, 3).map(function(f) { return '<div class="flex items-center gap-2 text-xs text-slate-300"><div class="feature-check !w-4 !h-4"><svg class="w-2.5 h-2.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>' + f + '</div>'; }).join('') + '</div>' : '') +
+          '<div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">' +
+            '<div><span class="text-xl font-black gold-text">৳' + s.price.toLocaleString() + '</span><span class="text-xs text-slate-500 ml-2">' + (s.estimatedTime || '') + '</span></div>' +
+            '<button onclick="openBooking(\'' + s._id + '\', \'' + s.name.replace(/\'/g, "\\'") + '\')" class="btn-gold !py-2 !px-4 text-xs font-semibold">Book Now</button>' +
           '</div>' +
         '</div>';
       }).join('');

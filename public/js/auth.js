@@ -119,7 +119,7 @@ function updateAuthUI() {
         button[onclick*="addToCart"],
         button[onclick*="openBooking"],
         .btn-gold[onclick*="addToCart"],
-        #chatWidget,
+        .chat-widget,
         .cart-badge,
         .cart-drawer,
         .cart-overlay { display: none !important; pointer-events: none !important; }
