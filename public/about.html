@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KitchenHood Pro | About Us - Bangladesh's Leading Hood Specialists</title>
+  <meta name="description" content="Learn about KitchenHood Pro - 10+ years of experience, 20+ certified experts, and 15,000+ services completed across Bangladesh.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/tailwind.css">
+  <style>
+    :root{--navy:#0A1628;--navy-light:#111D35;--gold:#D4A853;--gold-light:#E8C97A;--gold-dark:#B8922F;--border:rgba(255,255,255,0.08);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06)}
+    *{-webkit-font-smoothing:antialiased}body{font-family:'Inter',sans-serif;background:var(--navy);color:#F1F5F9;overflow-x:hidden}h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif}
+    .premium-nav{background:rgba(10,22,40,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    .gold-text{background:linear-gradient(135deg,var(--gold),var(--gold-light)) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
+    .glass-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:1rem;backdrop-filter:blur(10px);transition:all 0.4s}
+    .glass-card:hover{border-color:rgba(212,168,83,0.2);transform:translateY(-4px);box-shadow:0 20px 60px -15px rgba(0,0,0,0.5)}
+    .stat-number{font-family:'Outfit',sans-serif;font-weight:900;font-size:2.25rem;line-height:1;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .section-sep{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    .timeline-dot{width:16px;height:16px;border-radius:50%;background:var(--gold);border:3px solid var(--navy);position:relative;z-index:2;box-shadow:0 0 0 4px rgba(212,168,83,0.2)}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:#162544;border-radius:10px}
+  
+    /* Cart Drawer */
+    .cart-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; background: rgba(0,0,0,0.6); }
+    .cart-overlay.active { opacity: 1; pointer-events: auto; }
+    .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); background: var(--navy-light); border-left: 1px solid var(--border); }
+    .cart-drawer.active { transform: translateX(0); }
+</style>
+</head>
+<body>
+  <nav class="fixed w-full z-50 premium-nav">
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+      <div class="flex items-center justify-between h-20 relative">
+        <a href="/" class="flex items-center gap-3"><div><span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
+        <div class="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
+          <a href="/" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+          <a href="/services.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Services</a>
+          <a href="/products.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Products</a>
+          <a href="/about.html" class="text-sm font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">About</a>
+          <a href="/contact.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+        </div>
+        
+          
+
+          
+        <!-- Actions -->
+        <div class="flex items-center gap-4">
+          <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
+          </button>
+          <div class="auth-btn-container hidden sm:block">
+<a href="/login.html" class="text-sm font-semibold text-slate-400 hover:text-white">Login</a></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-20">
+    <!-- Hero -->
+    <section class="py-12 md:py-16 relative" style="background:linear-gradient(160deg,#0A1628,#0F2847,#0A1628)">
+      <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 50% at 30% 40%,rgba(212,168,83,0.05),transparent)"></div>
+      <div class="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center">
+        <div class="max-w-3xl mx-auto space-y-5 md:space-y-6 mb-10 md:mb-12">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 block">Our Story</span>
+          <h1 class="text-3xl md:text-4xl font-black tracking-tight mb-3">Setting the Standard in <br class="hidden md:block" /><span class="gold-text">Appliance Care</span></h1>
+          <p class="text-slate-400 leading-relaxed text-sm md:text-base">KitchenHood Pro was founded in 2016 with a clear mission: to provide transparent, reliable, and expert technical support for kitchen ventilation systems across Bangladesh. Today, with over 15,000 successful service completions and a 98% customer satisfaction rate, we are recognized as the most trusted name in kitchen hood services in Dhaka.</p>
+      </div>
+    </section>
+
+    <div class="section-sep max-w-6xl mx-auto"></div>
+
+    <!-- Core Values -->
+    <section class="py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div class="text-center mb-14">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">What Drives Us</span>
+          <h2 class="text-2xl md:text-3xl font-black tracking-tight">Our Core <span class="gold-text">Principles</span></h2>
+        </div>
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="glass-card p-5 text-center">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-3 text-emerald-400"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+            <h3 class="font-bold text-white mb-2">Authentic Parts Only</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">We strictly prohibit aftermarket components. Every part we install is sourced directly from authorized distributors, with full traceability and warranty coverage.</p>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="w-10 h-10 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-3 text-blue-400"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+            <h3 class="font-bold text-white mb-2">Punctual Scheduling</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">Our technicians arrive precisely within the committed service window. We respect your time and maintain a 95% on-time arrival rate across all bookings.</p>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="w-10 h-10 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center mx-auto mb-3 text-yellow-400"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg></div>
+            <h3 class="font-bold text-white mb-2">Transparent Pricing</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">No hidden charges, no surprise fees. We provide detailed cost breakdowns before starting any work. You only pay for what was agreed upon upfront.</p>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mx-auto mb-3 text-purple-400"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg></div>
+            <h3 class="font-bold text-white mb-2">Zero Mess Guarantee</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">We use professional drop cloths, carry cleaning supplies, and leave your kitchen spotless after every service. If we mess it, we clean it — guaranteed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep max-w-6xl mx-auto"></div>
+
+    <!-- Team -->
+    <section class="py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div class="text-center mb-14">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Leadership</span>
+          <h2 class="text-2xl md:text-3xl font-black tracking-tight">Meet The <span class="gold-text">Lead Experts</span></h2>
+          <p class="text-slate-400 mt-3 max-w-xl mx-auto">Our senior technicians hold factory certifications and have decades of combined experience servicing Italian, German, and local kitchen hood brands.</p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div class="glass-card p-5 text-center group">
+            <div class="w-28 h-28 rounded-full mx-auto mb-3 overflow-hidden border-2 border-yellow-500/30 group-hover:border-yellow-500 transition-colors">
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&q=80" alt="Team" class="w-full h-full object-cover">
+            </div>
+            <h4 class="text-sm font-bold text-white">Md. Hasanur Rahman</h4>
+            <p class="text-xs text-yellow-400 font-bold mb-3 uppercase tracking-wider">Chief Technical Officer</p>
+            <p class="text-sm text-slate-400 leading-relaxed">12+ years specializing in Italian motor rewinding, PCB repair, and sensor calibration. Factory trained by Elica and Faber in Mumbai, India.</p>
+          </div>
+          <div class="glass-card p-5 text-center group">
+            <div class="w-28 h-28 rounded-full mx-auto mb-3 overflow-hidden border-2 border-yellow-500/30 group-hover:border-yellow-500 transition-colors">
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=256&q=80" alt="Team" class="w-full h-full object-cover">
+            </div>
+            <h4 class="text-sm font-bold text-white">Tariqul Islam</h4>
+            <p class="text-xs text-yellow-400 font-bold mb-3 uppercase tracking-wider">Lead Chemical Specialist</p>
+            <p class="text-sm text-slate-400 leading-relaxed">Expert in industrial solvents and deep cleaning processes for commercial kitchens. Developed our proprietary eco-friendly degreasing formula.</p>
+          </div>
+          <div class="glass-card p-5 text-center group">
+            <div class="w-28 h-28 rounded-full mx-auto mb-3 overflow-hidden border-2 border-yellow-500/30 group-hover:border-yellow-500 transition-colors">
+              <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=256&q=80" alt="Team" class="w-full h-full object-cover">
+            </div>
+            <h4 class="text-sm font-bold text-white">Kamrul Hasan</h4>
+            <p class="text-xs text-yellow-400 font-bold mb-3 uppercase tracking-wider">Quality Control Manager</p>
+            <p class="text-sm text-slate-400 leading-relaxed">Ensures every service meets our strict safety and cleanliness standards. Performs random quality audits and manages our customer feedback loop.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-sep max-w-6xl mx-auto"></div>
+
+    <!-- Company Timeline -->
+    <section class="py-20">
+      <div class="max-w-3xl mx-auto px-4">
+        <div class="text-center mb-14">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Our Journey</span>
+          <h2 class="text-2xl md:text-3xl font-black tracking-tight">Company <span class="gold-text">Timeline</span></h2>
+        </div>
+        <div class="relative">
+          <div class="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-yellow-500/50 via-yellow-500/20 to-transparent"></div>
+          <div class="space-y-10">
+            <div class="flex gap-4 items-start">
+              <div class="timeline-dot flex-shrink-0 mt-1"></div>
+              <div><div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">2016</div><h4 class="font-bold text-white mb-1">Company Founded</h4><p class="text-sm text-slate-400">Started with 2 technicians and a single van, serving Dhanmondi and Gulshan areas only.</p></div>
+            </div>
+            <div class="flex gap-4 items-start">
+              <div class="timeline-dot flex-shrink-0 mt-1"></div>
+              <div><div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">2018</div><h4 class="font-bold text-white mb-1">1,000th Service Completed</h4><p class="text-sm text-slate-400">Expanded to full Dhaka coverage. Added motor repair and spare parts supply to our service catalog.</p></div>
+            </div>
+            <div class="flex gap-4 items-start">
+              <div class="timeline-dot flex-shrink-0 mt-1"></div>
+              <div><div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">2020</div><h4 class="font-bold text-white mb-1">Online Booking Launched</h4><p class="text-sm text-slate-400">Launched digital booking platform. Team grew to 10 certified technicians with specialized training.</p></div>
+            </div>
+            <div class="flex gap-4 items-start">
+              <div class="timeline-dot flex-shrink-0 mt-1"></div>
+              <div><div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">2023</div><h4 class="font-bold text-white mb-1">15,000 Services Milestone</h4><p class="text-sm text-slate-400">Achieved 98% customer satisfaction. Expanded to commercial kitchen contracts with restaurants and hotels.</p></div>
+            </div>
+            <div class="flex gap-4 items-start">
+              <div class="timeline-dot flex-shrink-0 mt-1"></div>
+              <div><div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">2026</div><h4 class="font-bold text-white mb-1">E-Commerce & AMC Launch</h4><p class="text-sm text-slate-400">Launched online spare parts store and Annual Maintenance Contracts. 20+ technicians serving all of Dhaka and surrounding districts.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  
+  <!-- Cart Drawer -->
+  <div id="cartOverlay" class="cart-overlay fixed inset-0 z-[100]" onclick="closeCart()"></div>
+  <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-96 max-w-full z-[101] flex flex-col shadow-2xl">
+    <div class="p-4 border-b border-white/5 flex items-center justify-between">
+      <h3 class="text-sm font-bold text-white flex items-center gap-2"><svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>Cart (<span id="cartCount">0</span>)</h3>
+      <button onclick="closeCart()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4" id="cartItems">
+      <div class="text-center text-slate-500 text-sm mt-10">Your cart is empty</div>
+    </div>
+    <div class="p-4 border-t border-white/5 bg-black/20">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-sm text-slate-400">Subtotal</span>
+        <span class="font-bold text-white text-lg">৳<span id="cartTotal">0</span></span>
+      </div>
+      <button class="btn-gold w-full justify-center">Checkout Now</button>
+    </div>
+  </div>
+
+  <footer class="border-t border-white/5 py-10" style="background:linear-gradient(180deg,var(--navy-light),var(--navy))">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
+      <p class="text-xs text-slate-500 mt-2">&copy; 2026 KitchenHood Pro. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="/js/auth.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+</body>
+</html>

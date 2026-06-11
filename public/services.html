@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KitchenHood Pro | Professional Cleaning, Repair & Maintenance Services</title>
+  <meta name="description" content="Book professional kitchen hood services - deep cleaning, motor repair, installation & annual maintenance. Certified technicians, 6-month warranty.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/tailwind.css">
+  <style>
+    :root{--navy:#0A1628;--navy-light:#111D35;--navy-mid:#162544;--gold:#D4A853;--gold-light:#E8C97A;--gold-dark:#B8922F;--accent:#2563EB;--accent-light:#3B82F6;--text-primary:#F1F5F9;--text-secondary:#94A3B8;--text-muted:#64748B;--border:rgba(255,255,255,0.08);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06)}
+    *{-webkit-font-smoothing:antialiased}body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text-primary);overflow-x:hidden}h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif}
+    .premium-nav{background:rgba(10,22,40,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    .gold-text{background:linear-gradient(135deg,var(--gold),var(--gold-light)) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
+    .glass-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:1rem;backdrop-filter:blur(10px);transition:all 0.4s cubic-bezier(0.4,0,0.2,1)}
+    .glass-card:hover{border-color:rgba(212,168,83,0.2);transform:translateY(-4px);box-shadow:0 20px 60px -15px rgba(0,0,0,0.5)}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);font-weight:700;padding:12px 28px;border-radius:12px;font-size:0.875rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 15px rgba(212,168,83,0.3)}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(212,168,83,0.4)}
+    .btn-outline-light{border:1.5px solid rgba(255,255,255,0.2);color:var(--text-primary);font-weight:600;padding:12px 28px;border-radius:12px;font-size:0.875rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px;background:transparent}
+    .btn-outline-light:hover{border-color:var(--gold);color:var(--gold)}
+    .service-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(37,99,235,0.15),rgba(37,99,235,0.05));border:1px solid rgba(37,99,235,0.2);color:var(--accent-light);transition:all 0.3s}
+    .glass-card:hover .service-icon{background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-color:var(--gold);color:var(--navy)}
+    .feature-check{width:18px;height:18px;border-radius:50%;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+    .modal-overlay.active{display:flex}
+    .modal-box{background:var(--navy-light);border:1px solid var(--border);border-radius:1.5rem;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px rgba(0,0,0,0.5)}
+    .input-dark{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text-primary);font-size:0.875rem;transition:border-color 0.2s;outline:none}
+    .input-dark:focus{border-color:var(--gold)}
+    .input-dark::placeholder{color:var(--text-muted)}
+    .toast{position:fixed;bottom:2rem;right:2rem;padding:14px 24px;border-radius:12px;font-weight:600;font-size:0.875rem;z-index:10000;transform:translateY(100px);opacity:0;transition:all 0.4s;backdrop-filter:blur(10px)}
+    .toast.show{transform:translateY(0);opacity:1}.toast.success{background:rgba(16,185,129,0.9);color:white}.toast.error{background:rgba(239,68,68,0.9);color:white}.toast.info{background:rgba(37,99,235,0.9);color:white}
+    .section-sep{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:var(--navy-mid);border-radius:10px}
+    .category-pill{padding:8px 20px;border-radius:100px;font-size:0.8rem;font-weight:600;border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:all 0.3s;background:transparent}
+    .category-pill:hover,.category-pill.active{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);border-color:var(--gold);box-shadow:0 4px 15px rgba(212,168,83,0.3)}
+  
+    /* Cart Drawer */
+    .cart-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; background: rgba(0,0,0,0.6); }
+    .cart-overlay.active { opacity: 1; pointer-events: auto; }
+    .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); background: var(--navy-light); border-left: 1px solid var(--border); }
+    .cart-drawer.active { transform: translateX(0); }
+</style>
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="fixed w-full z-50 premium-nav">
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+      <div class="flex items-center justify-between h-20 relative">
+        <a href="/" class="flex items-center gap-3 group">
+          <div><span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.6rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div>
+        </a>
+        <div class="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
+          <a href="/" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+          <a href="/services.html" class="text-sm font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Services</a>
+          <a href="/products.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Products</a>
+          <a href="/about.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">About</a>
+          <a href="/contact.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+        </div>
+        <div class="flex items-center gap-4">
+          
+          
+
+          
+        <!-- Actions -->
+        <div class="flex items-center gap-4">
+          <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
+          </button>
+          <div class="auth-btn-container hidden sm:block">
+<a href="/login.html" class="text-sm font-semibold text-slate-400 hover:text-white transition-colors">Login</a></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-20">
+    <!-- Hero Banner -->
+    <section class="py-16 md:py-24 relative overflow-hidden" style="background:linear-gradient(160deg,#0A1628,#0F2847,#0A1628)">
+      <div class="absolute inset-0" style="background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(37,99,235,0.08),transparent)"></div>
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24 text-center relative z-10">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-xs font-bold uppercase tracking-wider mb-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          Certified & Insured Professionals
+        </span>
+        <h1 class="text-3xl md:text-4xl font-black tracking-tight mb-3">Our Professional <span class="gold-text">Services</span></h1>
+        <p class="text-base text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">Expert kitchen hood cleaning, repair, installation, and maintenance services with genuine parts and a 6-month service warranty. Serving all major brands across Dhaka.</p>
+        <!-- Category Filter -->
+        <div class="flex flex-wrap justify-center gap-3" id="categoryFilter">
+          <button class="category-pill active" data-cat="all">All Services</button>
+          <button class="category-pill" data-cat="cleaning">Cleaning</button>
+          <button class="category-pill" data-cat="repair">Repair</button>
+          <button class="category-pill" data-cat="installation">Installation</button>
+          <button class="category-pill" data-cat="maintenance">Maintenance</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="py-16">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="servicesGrid">
+          <!-- Cards injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 md:px-16 lg:px-24">
+        <div class="section-sep mb-20"></div>
+        <div class="text-center mb-12">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Why KitchenHood Pro</span>
+          <h2 class="text-2xl md:text-3xl font-black tracking-tight mb-3">The <span class="gold-text">Smart Choice</span> for Your Kitchen</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="glass-card p-5 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-3 text-emerald-400"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
+            <h3 class="text-sm font-bold text-white mb-2">6-Month Warranty</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">Every service comes with a comprehensive 6-month warranty. If any issue recurs, we fix it completely free of charge — no questions asked.</p>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-3 text-blue-400"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+            <h3 class="text-sm font-bold text-white mb-2">Same-Day Service</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">Emergency repair? We offer same-day dispatch within Dhaka city. Book before 12 PM and our technician will be at your door the same afternoon.</p>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center mx-auto mb-3 text-yellow-400"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg></div>
+            <h3 class="text-sm font-bold text-white mb-2">Genuine OEM Parts</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">We strictly use original manufacturer parts — never aftermarket. This ensures safety compliance, optimal performance, and maximum appliance lifespan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-box">
+      <div class="p-5 border-b border-white/5 flex justify-between items-center">
+        <h3 class="text-sm font-bold text-white" id="modalTitle">Book Service</h3>
+        <button onclick="closeBookingModal()" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+      <form id="bookingForm" class="p-5 space-y-4">
+        <input type="hidden" id="bookServiceId">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Service Selected</label>
+          <div id="bookServiceName" class="text-white font-bold"></div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Preferred Date</label>
+          <input type="date" id="bookDate" required class="input-dark">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Preferred Time</label>
+          <select id="bookTime" required class="input-dark">
+            <option value="">Select a time slot</option>
+            <option value="9:00 AM - 11:00 AM">9:00 AM - 11:00 AM</option>
+            <option value="11:00 AM - 1:00 PM">11:00 AM - 1:00 PM</option>
+            <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
+            <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Full Address</label>
+          <textarea id="bookAddress" required rows="2" class="input-dark resize-none" placeholder="House/Flat, Road, Area, City"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
+          <input type="tel" id="bookPhone" required class="input-dark" placeholder="01XXXXXXXXX">
+        </div>
+        <button type="submit" class="btn-gold w-full justify-center !py-3 mt-2">Confirm Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  
+  <!-- Cart Drawer -->
+  <div id="cartOverlay" class="cart-overlay fixed inset-0 z-[100]" onclick="closeCart()"></div>
+  <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-96 max-w-full z-[101] flex flex-col shadow-2xl">
+    <div class="p-4 border-b border-white/5 flex items-center justify-between">
+      <h3 class="text-sm font-bold text-white flex items-center gap-2"><svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>Cart (<span id="cartCount">0</span>)</h3>
+      <button onclick="closeCart()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4" id="cartItems">
+      <div class="text-center text-slate-500 text-sm mt-10">Your cart is empty</div>
+    </div>
+    <div class="p-4 border-t border-white/5 bg-black/20">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-sm text-slate-400">Subtotal</span>
+        <span class="font-bold text-white text-lg">৳<span id="cartTotal">0</span></span>
+      </div>
+      <button class="btn-gold w-full justify-center">Checkout Now</button>
+    </div>
+  </div>
+
+  <footer class="border-t border-white/5 py-10" style="background:linear-gradient(180deg,var(--navy-light),var(--navy))">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
+      <p class="text-xs text-slate-500 mt-2">&copy; 2026 KitchenHood Pro. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+  <script>
+    var fallbackServices = [
+      { _id: 's1', name: 'Kitchen Hood Deep Cleaning', description: 'Complete deep cleaning using industrial-grade eco-friendly solutions to remove 100% of accumulated grease and restore full suction power.', price: 1500, category: 'cleaning', estimatedTime: '2-3 hours', features: ['Filter soaking & degreasing', 'Fan blade cleaning', 'Exterior polishing', 'Grease trap cleaning', 'Eco-friendly chemicals', 'Before/after photos'] },
+      { _id: 's2', name: 'Kitchen Hood Motor Repair', description: 'Expert diagnosis and repair for all motor issues, including rewinding and bearing replacement for optimal performance.', price: 2000, category: 'repair', estimatedTime: '1-2 hours', features: ['Full diagnostic check', 'Motor rewinding', 'Bearing replacement', 'Capacitor upgrade', 'Wiring inspection', '6-month warranty'] },
+      { _id: 's3', name: 'New Hood Installation', description: 'Professional hood installation with wall mounting, core cutting, duct routing, and comprehensive testing.', price: 3000, category: 'installation', estimatedTime: '3-4 hours', features: ['Wall mounting', 'Core cutting', 'Duct installation', 'Electrical connection', 'Testing & demo', '1 year warranty'] },
+      { _id: 's4', name: 'Filter Replacement Service', description: 'Replace clogged or damaged filters with brand-new high-quality baffle, mesh, or carbon replacements.', price: 800, category: 'maintenance', estimatedTime: '30 minutes', features: ['Old filter removal', 'Size measurement', 'Brand matching', 'New filter installation', 'Old filter disposal', 'Performance check'] },
+      { _id: 's5', name: 'Emergency Same-Day Repair', description: 'Urgent same-day repair service for hood emergencies, including motor failures and electrical faults.', price: 3500, category: 'repair', estimatedTime: '1-2 hours', features: ['Same day dispatch', 'Priority technician', 'Full diagnostic', 'On-site repair', '24/7 phone support', 'Emergency parts stock'] },
+      { _id: 's6', name: 'Annual Maintenance Contract (AMC)', description: 'Comprehensive AMC plan including 4 quarterly cleanings, priority repairs, and parts discounts for long-term care.', price: 5000, category: 'maintenance', estimatedTime: 'Yearly contract', features: ['4 quarterly cleanings', 'Priority scheduling', 'Free annual inspection', '10% parts discount', 'Free filter replacement', 'Dedicated support line'] }
+    ];
+
+    let allServices = [];
+    let currentCategory = 'all';
+    let servicesLoaded = false;
+
+    async function loadServices() {
+      // Show loading state
+      const grid = document.getElementById('servicesGrid');
+      grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500"><div class="w-8 h-8 border-2 border-yellow-500/40 border-t-yellow-500 rounded-full animate-spin mx-auto mb-3"></div>Loading services...</div>';
+      
+      try {
+        const res = await fetch('/api/services', { signal: AbortSignal.timeout(5000) });
+        if (res.ok) {
+          const data = await res.json();
+          const fetched = data.services || data;
+          if (Array.isArray(fetched) && fetched.length > 0) { 
+            allServices = fetched; 
+            servicesLoaded = true;
+            renderServices();
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to load services from API:', e.message);
+      }
+      // Show error if API fails
+      grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500">Could not load services. Please refresh the page.</div>';
+    }
+
+    function renderServices() {
+      const grid = document.getElementById('servicesGrid');
+      const filtered = currentCategory === 'all' ? allServices : allServices.filter(s => s.category === currentCategory);
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500">No services found in this category.</div>';
+        return;
+      }
+      grid.innerHTML = filtered.map(s => {
+        const catColors = { cleaning: 'blue', repair: 'red', installation: 'emerald', maintenance: 'amber' };
+        const color = catColors[s.category] || 'blue';
+        return '<div class="glass-card p-4 flex flex-col">' +
+          '<div class="flex items-start justify-between mb-2">' +
+            '<div class="service-icon !w-8 !h-8"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg></div>' +
+            '<span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-' + color + '-500/10 text-' + color + '-400 border border-' + color + '-500/20">' + s.category + '</span>' +
+          '</div>' +
+          '<h3 class="text-[13px] font-bold text-white mb-1.5 leading-tight">' + s.name + '</h3>' +
+          '<p class="text-[11px] text-slate-400 leading-snug mb-2.5 flex-1 line-clamp-3">' + s.description + '</p>' +
+          (s.features ? '<div class="space-y-1 mb-2.5">' + s.features.slice(0, 3).map(function(f) { return '<div class="flex items-center gap-1.5 text-[10px] text-slate-300"><div class="feature-check !w-3 !h-3"><svg class="w-2 h-2 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>' + f + '</div>'; }).join('') + '</div>' : '') +
+          '<div class="flex items-center justify-between mt-auto pt-3 border-t border-white/5">' +
+            '<div><span class="text-base font-black gold-text">৳' + s.price.toLocaleString() + '</span><span class="text-[9px] text-slate-500 ml-1.5">' + (s.estimatedTime || '') + '</span></div>' +
+            '<button onclick="openBooking(\'' + s._id + '\', \'' + s.name.replace(/\'/g, "\\'") + '\')" class="btn-gold !py-1.5 !px-3 !text-[10px]">Book Now</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // Category filter
+    document.getElementById('categoryFilter').addEventListener('click', function(e) {
+      if (e.target.classList.contains('category-pill')) {
+        document.querySelectorAll('.category-pill').forEach(function(p) { p.classList.remove('active'); });
+        e.target.classList.add('active');
+        currentCategory = e.target.dataset.cat;
+        renderServices();
+      }
+    });
+
+    // Booking Modal
+    function openBooking(serviceId, serviceName) {
+      const user = typeof getUser === 'function' ? getUser() : null;
+      if (!user) {
+        if(typeof showToast === 'function') showToast('Please login to book a service', 'info');
+        setTimeout(() => { window.location.href = '/login.html?redirect=' + encodeURIComponent(window.location.pathname); }, 800);
+        return;
+      }
+      document.getElementById('bookServiceId').value = serviceId;
+      document.getElementById('bookServiceName').textContent = serviceName;
+      document.getElementById('modalTitle').textContent = 'Book: ' + serviceName;
+      // Pre-fill phone from user profile
+      if(user.phone) document.getElementById('bookPhone').value = user.phone;
+      document.getElementById('bookingModal').classList.add('active');
+    }
+    function closeBookingModal() { document.getElementById('bookingModal').classList.remove('active'); }
+
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Booking...';
+      try {
+        const token = getToken();
+        if (!token) {
+          if(typeof showToast === 'function') showToast('Please login first', 'error');
+          window.location.href = '/login.html';
+          return;
+        }
+        const phone = document.getElementById('bookPhone').value.trim();
+        const address = document.getElementById('bookAddress').value.trim();
+        if (!phone) {
+          if(typeof showToast === 'function') showToast('Phone number is required', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Confirm Booking';
+          return;
+        }
+        if (!address) {
+          if(typeof showToast === 'function') showToast('Address is required', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Confirm Booking';
+          return;
+        }
+        const res = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({
+            service: document.getElementById('bookServiceId').value,
+            date: document.getElementById('bookDate').value,
+            timeSlot: document.getElementById('bookTime').value,
+            address: address,
+            phone: phone
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Booking failed');
+        closeBookingModal();
+        document.getElementById('bookingForm').reset();
+        if(typeof showToast === 'function') showToast('Service booked successfully! Check your dashboard for details.', 'success');
+      } catch (err) {
+        if(typeof showToast === 'function') showToast(err.message || 'Failed to book service', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirm Booking';
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadServices);
+  </script>
+</body>
+</html>

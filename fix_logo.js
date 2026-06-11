@@ -1,0 +1,20 @@
+const fs = require('fs');
+const path = require('path');
+const dir = 'e:/Projects/KitchenHood/public';
+const files = fs.readdirSync(dir).filter(f => f.endsWith('.html'));
+
+files.forEach(f => {
+    const p = path.join(dir, f);
+    let c = fs.readFileSync(p, 'utf-8');
+    
+    // Replace the KitchenHood logo string globally
+    // We match `<span class="text-[any size] font-black [any other classes]>Kitchen<span class="gold-text">Hood</span></span>`
+    // with exactly `<span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>`
+    
+    const regex = /<span class="text-[a-z]+ font-black[^>]*>Kitchen<span class="gold-text">Hood<\/span><\/span>/g;
+    const replacement = '<span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>';
+    
+    c = c.replace(regex, replacement);
+    fs.writeFileSync(p, c);
+    console.log('Updated ' + f);
+});

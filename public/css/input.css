@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer components {
+  /* Navigation */
+  #navLinks.active { display: flex !important; }
+  
+  /* Chat */
+  .chat-box { display: none; }
+  .chat-box.active { display: flex; }
+  
+  /* Cart */
+  .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .cart-drawer.active { transform: translateX(0); }
+  .cart-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; display: block; }
+  .cart-overlay.active { opacity: 1; pointer-events: auto; }
+  
+  /* Modal */
+  .modal { display: none; opacity: 0; transition: opacity 0.3s; }
+  .modal.active { display: flex; opacity: 1; }
+  
+  /* Accordion */
+  .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+  .accordion.active .accordion-content { max-height: 500px; }
+  .accordion.active .accordion-icon { transform: rotate(180deg); }
+  
+  /* Glassmorphism */
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  .dark .glass-nav {
+    background: rgba(11, 17, 32, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .dark .glass-card {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+  }
+  .glass-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 20px 40px -10px rgba(255, 107, 53, 0.15);
+    border-color: rgba(255, 107, 53, 0.3);
+  }
+
+  /* Scroll Reveal Animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+  .reveal-left.active { opacity: 1; transform: translateX(0); }
+
+  .reveal-right { opacity: 0; transform: translateX(50px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+  .reveal-right.active { opacity: 1; transform: translateX(0); }
+}
