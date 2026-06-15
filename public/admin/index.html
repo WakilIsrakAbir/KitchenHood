@@ -39,8 +39,7 @@
     body{font-family:'Inter',sans-serif;background:var(--navy);color:#F1F5F9;overflow-x:hidden}
     h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif}
     .gold-text{background:linear-gradient(135deg,var(--gold),var(--gold-light)) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
-    .glass-card{background:var(--navy-light);border:1px solid var(--border);border-radius:1rem;transition:all 0.3s}
-    
+    .glass-card{background:var(--navy-light);border:1px solid var(--border);border-radius:1rem;transition:all 0.3s;min-width:0;width:100%;}
     
     .sidebar{width:220px;height:calc(100vh - 72px);position:fixed;top:72px;left:0;background:#0d182b;border-right:1px solid var(--border);padding:1.5rem 0;z-index:40;transition:transform 0.3s ease-in-out;display:flex;flex-direction:column;box-shadow: 4px 0 24px rgba(0,0,0,0.2)}
     .sidebar::-webkit-scrollbar { display: none; }
@@ -50,8 +49,8 @@
     .nav-item.active{background:var(--gold);color:var(--navy);box-shadow: 0 4px 12px rgba(212,168,83,0.2)}
     
     
-    .main-content{margin-left:220px;margin-top:72px;min-height:calc(100vh - 72px);background:var(--navy);display:flex;flex-direction:column;transition:margin-left 0.3s ease-in-out;}
-    .view-section{display:none;animation:fadeIn 0.3s ease;padding:2rem}.view-section.active{display:block}
+    .main-content{margin-left:220px;margin-top:72px;min-height:calc(100vh - 72px);background:var(--navy);display:flex;flex-direction:column;transition:margin-left 0.3s ease-in-out;min-width:0;}
+    .view-section{display:none;animation:fadeIn 0.3s ease;padding:2rem;min-width:0;width:100%;}.view-section.active{display:block}
     
     
     @media (min-width: 769px) {
@@ -59,8 +58,9 @@
       body.sidebar-closed .main-content { margin-left: 0; }
     }
     @media (max-width: 768px){
+      .view-section{padding:1rem;}
       .sidebar { transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
-      .main-content { margin-left: 0 !important; padding: 1rem 1rem 100px 1rem; }
+      .main-content { margin-left: 0 !important; padding-bottom: 100px; }
       body.sidebar-open .sidebar { transform: translateX(0); }
     }
     .top-header{position:fixed;top:0;left:0;width:100%;height:72px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(10, 22, 40, 0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
@@ -121,7 +121,7 @@
   
   <header class="top-header">
     <div class="flex items-center gap-6">
-      <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+      <button id="sidebarToggleBtn" onclick="toggleSidebar()" class="text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
       <div class="flex items-center gap-2 text-sm font-bold text-slate-400">
         <span class="text-lg font-black text-white ml-2 hidden sm:block">Kitchen<span class="gold-text">Hood</span></span>
         <svg class="w-4 h-4 text-slate-600 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -170,7 +170,10 @@
       <div class="nav-item" onclick="switchView('products', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg> Products Catalog</div>
       <div class="nav-item" onclick="switchView('services', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg> Service Catalog</div>
     </div>
-    <div class="px-4 mt-auto mb-4 border-t border-white/5 pt-4 sm:hidden">
+    <div class="px-4 mt-auto mb-4 border-t border-white/5 pt-4 flex flex-col gap-2 sm:hidden">
+      <a href="/" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg> View Website
+      </a>
       <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded transition-colors border border-red-500/20">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Logout
       </button>
@@ -207,11 +210,11 @@
         </div>
       </div>
       
-      <div class="grid md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="glass-card p-4">
           <h3 class="font-bold text-base mb-3 text-white">Recent Orders</h3>
           <div class="overflow-x-auto">
-            <table id="recentOrdersTable">
+            <table id="recentOrdersTable" class="w-full">
               <thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
               <tbody><tr><td colspan="4" class="text-center py-4 text-slate-500">Loading...</td></tr></tbody>
             </table>
@@ -220,7 +223,7 @@
         <div class="glass-card p-4">
           <h3 class="font-bold text-base mb-3 text-white">Recent Bookings</h3>
           <div class="overflow-x-auto">
-            <table id="recentBookingsTable">
+            <table id="recentBookingsTable" class="w-full">
               <thead><tr><th>Service</th><th>Date</th><th>Customer</th><th>Status</th></tr></thead>
               <tbody><tr><td colspan="4" class="text-center py-4 text-slate-500">Loading...</td></tr></tbody>
             </table>
@@ -461,8 +464,20 @@
 
     
     function toggleSidebar() {
+      const btn = document.getElementById('sidebarToggleBtn');
       if(window.innerWidth <= 768) {
         document.body.classList.toggle('sidebar-open');
+        if (btn) {
+          if (document.body.classList.contains('sidebar-open')) {
+            btn.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>';
+            btn.classList.remove('text-slate-400', 'hover:text-white');
+            btn.classList.add('text-red-500', 'hover:text-red-400');
+          } else {
+            btn.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>';
+            btn.classList.remove('text-red-500', 'hover:text-red-400');
+            btn.classList.add('text-slate-400', 'hover:text-white');
+          }
+        }
       } else {
         document.body.classList.toggle('sidebar-closed');
       }

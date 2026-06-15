@@ -47,6 +47,17 @@ function handleHamburger() {
       navLinks.classList.toggle('items-center');
       navLinks.classList.toggle('border-b');
       navLinks.classList.toggle('border-white/10');
+      
+      const isHidden = navLinks.classList.contains('hidden');
+      if (isHidden) {
+        hamburger.innerHTML = '<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>';
+        hamburger.classList.remove('text-red-500', 'hover:text-red-400');
+        hamburger.classList.add('text-slate-400', 'hover:text-white');
+      } else {
+        hamburger.innerHTML = '<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>';
+        hamburger.classList.remove('text-slate-400', 'hover:text-white');
+        hamburger.classList.add('text-red-500', 'hover:text-red-400');
+      }
     });
   }
 }
