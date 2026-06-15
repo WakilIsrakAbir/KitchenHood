@@ -513,6 +513,12 @@
       
       if(window.innerWidth <= 768) {
         document.body.classList.remove('sidebar-open');
+        const btn = document.getElementById('sidebarToggleBtn');
+        if (btn) {
+          btn.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>';
+          btn.classList.remove('text-red-500', 'hover:text-red-400');
+          btn.classList.add('text-slate-400', 'hover:text-white');
+        }
       }
       
       if(viewId === 'messages') {
