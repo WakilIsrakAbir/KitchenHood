@@ -17,13 +17,13 @@ walkDir(publicDir, function(filePath) {
   if (filePath.endsWith('.html')) {
     let content = fs.readFileSync(filePath, 'utf8');
     
-    // Remove the Tailwind CDN script
+    
     content = content.replace(/<script src="https:\/\/cdn\.tailwindcss\.com"><\/script>\n?/g, '');
     
-    // Remove the tailwind.config block
+    
     content = content.replace(/<script>\s*tailwind\.config[\s\S]*?<\/script>\n?/g, '');
     
-    // Insert the link tag before </head> if it's not already there
+    
     if (!content.includes(linkTag)) {
       content = content.replace('</head>', `  ${linkTag}\n</head>`);
     }

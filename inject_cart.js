@@ -45,22 +45,22 @@ files.forEach(f => {
     if (!fs.existsSync(p)) return;
     let content = fs.readFileSync(p, 'utf-8');
 
-    // 1. Add CSS
+    
     if (!content.includes('/* Cart Drawer */') && !content.includes('.cart-drawer')) {
         content = content.replace('</style>', cssSnippet + '</style>');
     }
 
-    // 2. Add Button
+    
     if (!content.includes('openCart()')) {
         content = content.replace('<div class="auth-btn-container', btnSnippet + '\n          <div class="auth-btn-container');
     }
 
-    // 3. Add Drawer
+    
     if (!content.includes('id="cartDrawer"')) {
         content = content.replace('<footer', drawerSnippet + '\n  <footer');
     }
 
-    // 4. Add JS Script
+    
     if (!content.includes('cart.js')) {
         content = content.replace('<script src="/js/main.js"></script>', '<script src="/js/main.js"></script>\n  <script src="/js/cart.js"></script>');
     }

@@ -33,7 +33,7 @@ async function fetchProfile() {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) {
-      // Token expired or invalid
+      
       if (res.status === 401) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -62,7 +62,7 @@ async function login(email, password) {
   if (!res.ok) {
     throw new Error(data.message || 'Login failed');
   }
-  // API returns { token, user: { ... } }
+  
   localStorage.setItem('token', data.token);
   localStorage.setItem('user', JSON.stringify(data.user));
   currentUser = data.user;
@@ -79,7 +79,7 @@ async function register(name, email, password, phone) {
   if (!res.ok) {
     throw new Error(data.message || 'Registration failed');
   }
-  // API returns { token, user: { ... } }
+  
   localStorage.setItem('token', data.token);
   localStorage.setItem('user', JSON.stringify(data.user));
   currentUser = data.user;
@@ -109,7 +109,7 @@ function requireRole(role) {
 function updateAuthUI() {
   const user = getUser();
 
-  // Hide User-specific UI for Admins (Cart, Add to Cart, Chat)
+  
   if (user && user.role === 'admin') {
     if (!document.getElementById('adminHiddenStyles')) {
       const style = document.createElement('style');

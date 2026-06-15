@@ -41,7 +41,7 @@ const adminOnly = (req, res, next) => {
   }
 };
 
-// Optional auth: attaches user if token present, but doesn't block if not
+
 const optionalAuth = async (req, res, next) => {
   let token;
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -52,7 +52,7 @@ const optionalAuth = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = await User.findById(decoded.id).select('-password');
     } catch (e) {
-      // Token invalid, proceed without user
+      
     }
   }
   next();

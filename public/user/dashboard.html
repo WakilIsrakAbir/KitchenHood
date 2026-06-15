@@ -8,12 +8,35 @@
   <link rel="stylesheet" href="/css/tailwind.css">
   <style>
     :root{--navy:#0A1628;--navy-light:#111D35;--gold:#D4A853;--gold-light:#E8C97A;--gold-dark:#B8922F;--border:rgba(255,255,255,0.08);--glass:rgba(255,255,255,0.03)}
+    
+    html.light-mode {
+      --navy: #F8FAFC;
+      --navy-light: #FFFFFF;
+      --border: rgba(0,0,0,0.1);
+      --glass: rgba(0,0,0,0.03);
+    }
+    html.light-mode body { color: #1E293B; }
+    html.light-mode .text-white { color: #0F172A !important; }
+    html.light-mode .text-slate-400 { color: #64748B !important; }
+    html.light-mode .text-slate-300 { color: #475569 !important; }
+    html.light-mode .text-slate-500 { color: #94A3B8 !important; }
+    html.light-mode .bg-white\/5 { background-color: rgba(0,0,0,0.05) !important; }
+    html.light-mode .hover\:bg-white\/10:hover { background-color: rgba(0,0,0,0.1) !important; }
+    html.light-mode .border-white\/10 { border-color: rgba(0,0,0,0.1) !important; }
+    html.light-mode .sidebar { background: #FFFFFF; border-right: 1px solid rgba(0,0,0,0.1); }
+    html.light-mode .nav-item { color: #64748B; }
+    html.light-mode .nav-item:hover { background: rgba(0,0,0,0.05); color: #0F172A; }
+    html.light-mode .nav-item.active { background: var(--gold); color: #FFFFFF; }
+    html.light-mode .top-header { background: rgba(248, 250, 252, 0.95); }
+    html.light-mode th { color: #475569; }
+    html.light-mode .input-dark { background: #FFFFFF; color: #1E293B; border: 1px solid rgba(0,0,0,0.2); }
+    
     body{font-family:'Inter',sans-serif;background:var(--navy);color:#F1F5F9;overflow-x:hidden}
     h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif}
     .gold-text{background:linear-gradient(135deg,var(--gold),var(--gold-light)) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
     .glass-card{background:var(--navy-light);border:1px solid var(--border);border-radius:1rem;transition:all 0.3s}
     
-    /* Sidebar */
+    
     .sidebar{width:220px;height:calc(100vh - 72px);position:fixed;top:72px;left:0;background:#0d182b;border-right:1px solid var(--border);padding:1.5rem 0;z-index:40;transition:transform 0.3s ease-in-out;display:flex;flex-direction:column;box-shadow: 4px 0 24px rgba(0,0,0,0.2)}
     .sidebar::-webkit-scrollbar { display: none; }
     .sidebar { -ms-overflow-style: none; scrollbar-width: none; overflow-y: auto; overflow-x: hidden; transform: translateX(0); }
@@ -21,17 +44,30 @@
     .nav-item:hover{background:rgba(255,255,255,0.05);color:white}
     .nav-item.active{background:var(--gold);color:var(--navy);box-shadow: 0 4px 12px rgba(212,168,83,0.2)}
     
-    /* Main Content */
+    
     .main-content{margin-left:220px;margin-top:72px;min-height:calc(100vh - 72px);background:var(--navy);display:flex;flex-direction:column;transition:margin-left 0.3s ease-in-out;padding:2rem;}
     .view-section{display:none;animation:fadeIn 0.3s ease;}.view-section.active{display:block}
     
-    /* Toggle States */
-    body.sidebar-closed .sidebar { transform: translateX(-100%); }
-    body.sidebar-closed .main-content { margin-left: 0; }
     
-    @media (max-width:500px){
-      .main-content { margin-left: 0 !important; padding: 1rem; }
-      .sidebar { box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+    @media (min-width: 769px) {
+      body.sidebar-closed .sidebar { transform: translateX(-100%); }
+      body.sidebar-closed .main-content { margin-left: 0; }
+    }
+    @media (max-width: 768px){
+      .sidebar { transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+      .main-content { margin-left: 0 !important; padding: 1rem 1rem 100px 1rem; }
+      body.sidebar-open .sidebar { transform: translateX(0); }
+      .overflow-x-auto::before {
+        content: "Swipe left to see more \2192";
+        display: block;
+        font-size: 0.7rem;
+        color: var(--gold);
+        text-align: right;
+        margin-bottom: 8px;
+        font-weight: 600;
+        position: sticky;
+        left: 0;
+      }
     }
     .top-header{position:fixed;top:0;left:0;width:100%;height:72px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(10, 22, 40, 0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
     
@@ -44,7 +80,7 @@
     
     table{width:100%;text-align:left;border-collapse:collapse}
     th{padding:0.75rem 0.5rem;font-size:0.75rem;text-transform:uppercase;color:#94A3B8;border-bottom:1px solid var(--border);white-space:nowrap}
-    td{padding:0.75rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.8rem}
+    td{padding:0.75rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.8rem;white-space:nowrap}
     tr:hover td{background:rgba(255,255,255,0.01)}
     
     .input-dark{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:#F1F5F9;font-size:0.875rem;outline:none}
@@ -56,8 +92,13 @@
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 
-  <!-- Top Header -->
+  
   <header class="top-header">
     <div class="flex items-center gap-6">
       <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
@@ -67,22 +108,22 @@
         <span class="text-white" id="headerBreadcrumb">Overview</span>
       </div>
     </div>
-    <div class="flex items-center gap-6">
+    <div class="flex items-center gap-4 sm:gap-6">
       <button onclick="toggleTheme()" class="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-amber-500 transition-colors border border-white/10" title="Toggle Light/Dark Theme">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
       </button>
-      <a href="/" class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
+      <a href="/" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
         <span class="hidden sm:inline">View Website</span>
       </a>
-      <button onclick="logout()" class="flex items-center gap-2 px-3 py-1.5 text-sm font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded transition-colors border border-red-500/20">
+      <button onclick="logout()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded transition-colors border border-red-500/20">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
         <span class="hidden sm:inline">Logout</span>
       </button>
     </div>
   </header>
 
-  <!-- Sidebar -->
+  
   <div id="sidebar" class="sidebar">
     <div class="px-6 mb-8 hidden md:flex items-center gap-3">
       <div><span class="text-lg font-black text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-widest text-slate-500">User Panel</span></div>
@@ -97,19 +138,24 @@
       <div class="nav-item" onclick="switchView('bookings', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> Service Bookings</div>
       <div class="nav-item" onclick="switchView('profile', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> Profile Settings</div>
     </div>
+    <div class="px-4 mt-auto mb-4 border-t border-white/5 pt-4 sm:hidden">
+      <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded transition-colors border border-red-500/20">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Logout
+      </button>
+    </div>
   </div>
 
-  <!-- Main Content -->
+  
   <div id="main-content" class="main-content">
-    <div class="flex justify-between items-center mb-8">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
       <div>
-        <h1 class="text-xl md:text-xl font-black">Welcome, <span id="userNameDisplay" class="gold-text">User</span>!</h1>
+        <h1 class="text-xl md:text-2xl font-black">Welcome, <span id="userNameDisplay" class="gold-text">User</span>!</h1>
         <p class="text-slate-400 text-sm">Manage your appliance services and orders.</p>
       </div>
-      <a href="/services.html" class="btn-gold hidden sm:flex">Book New Service</a>
+      <a href="/services.html" class="btn-gold flex w-full sm:w-auto justify-center">Book New Service</a>
     </div>
 
-    <!-- Dashboard Overview -->
+    
     <div id="view-dashboard" class="view-section active">
       <div class="grid md:grid-cols-2 gap-4 mb-8">
         <div class="stat-card">
@@ -133,7 +179,7 @@
       </div>
     </div>
 
-    <!-- Orders View -->
+    
     <div id="view-orders" class="view-section">
       <div class="glass-card p-4">
         <h3 class="font-bold text-base mb-3">Order History</h3>
@@ -146,7 +192,7 @@
       </div>
     </div>
 
-    <!-- Bookings View -->
+    
     <div id="view-bookings" class="view-section">
       <div class="glass-card p-4">
         <h3 class="font-bold text-base mb-3">Service Bookings</h3>
@@ -159,10 +205,10 @@
       </div>
     </div>
 
-    <!-- Profile View -->
+    
     <div id="view-profile" class="view-section">
       <form id="profileForm" class="grid lg:grid-cols-2 gap-6 max-w-6xl">
-        <!-- Personal Information Card -->
+        
         <div class="glass-card p-4 md:p-5 h-fit">
           <h3 class="font-bold text-base mb-4">Personal Information</h3>
           <div class="space-y-5">
@@ -175,7 +221,7 @@
           </div>
         </div>
         
-        <!-- Change Password Card -->
+        
         <div class="glass-card p-4 md:p-5 h-fit flex flex-col">
           <div>
             <h3 class="font-bold text-base mb-1">Change Password</h3>
@@ -221,10 +267,10 @@
   <script src="/js/protect.js"></script>
   <script src="/js/auth.js"></script>
   <script>
-    // Setup Protection & Init
+    
     requireRole('user');
     
-    // View Switcher
+    
     function switchView(viewId, element) {
       window.location.hash = viewId;
       document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
@@ -235,15 +281,19 @@
         document.getElementById('headerBreadcrumb').textContent = element.textContent.trim();
       }
       
-      // Auto-close sidebar only on true mobile screens
-      if(window.innerWidth <= 500) {
-        document.body.classList.add('sidebar-closed');
+      
+      if(window.innerWidth <= 768) {
+        document.body.classList.remove('sidebar-open');
       }
     }
     
-    // Sidebar toggle
+    
     function toggleSidebar() {
-      document.body.classList.toggle('sidebar-closed');
+      if(window.innerWidth <= 768) {
+        document.body.classList.toggle('sidebar-open');
+      } else {
+        document.body.classList.toggle('sidebar-closed');
+      }
     } function showToast(msg, type='success') {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
@@ -269,7 +319,7 @@
     async function fetchDashboardData() {
       const token = getToken();
       try {
-        // Fetch Orders
+        
         const ordRes = await fetch('/api/orders/my', { headers: { 'Authorization': 'Bearer ' + token } });
         const ordersData = ordRes.ok ? await ordRes.json() : { orders: [] };
         const orders = ordersData.orders || [];
@@ -290,7 +340,7 @@
         }
         document.getElementById('ordersTable').querySelector('tbody').innerHTML = ordHtml;
 
-        // Fetch Bookings
+        
         const bkgRes = await fetch('/api/bookings/my', { headers: { 'Authorization': 'Bearer ' + token } });
         const bookingsData = bkgRes.ok ? await bkgRes.json() : { bookings: [] };
         const bookings = bookingsData.bookings || [];
@@ -310,7 +360,7 @@
         }
         document.getElementById('bookingsTable').querySelector('tbody').innerHTML = bkgHtml;
 
-        // Recent Activity (combine and sort)
+        
         let activity = [];
         orders.forEach(o => activity.push({type:'Order', date:o.createdAt, status:o.orderStatus, details:`${o.items ? o.items.length : 0} items - ৳${o.totalAmount || 0}`}));
         bookings.forEach(b => activity.push({type:'Booking', date:b.createdAt || b.preferredDate, status:b.status, details:b.serviceName || 'Service'}));
@@ -333,7 +383,7 @@
       } catch(e) { console.error('Error fetching data:', e); }
     }
 
-    // Profile Handling
+    
     async function loadProfile() {
       const token = getToken();
       try {
@@ -404,9 +454,23 @@
       }
     }
 
-    // Chat is now handled globally in main.js
+    
 
-    // Initialize
+    function toggleSidebar() {
+      if(window.innerWidth <= 768) {
+        document.body.classList.toggle('sidebar-open');
+      } else {
+        document.body.classList.toggle('sidebar-closed');
+      }
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('light-mode');
+      const isLight = document.documentElement.classList.contains('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
+
+    
     window.addEventListener('DOMContentLoaded', () => {
       loadProfile();
       fetchDashboardData();

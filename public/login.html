@@ -27,19 +27,24 @@
       .md\:flex { display: flex !important; }
       .md\:w-1\/2 { width: 50% !important; }
     }
-    /* Login specific split layout */
+    
     .auth-bg{background:linear-gradient(135deg,rgba(10,22,40,0.95),rgba(17,29,53,0.9)),url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=80') center/cover;position:relative}
   
-    /* Cart Drawer */
+    
     .cart-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; background: rgba(0,0,0,0.6); }
     .cart-overlay.active { opacity: 1; pointer-events: auto; }
     .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); background: var(--navy-light); border-left: 1px solid var(--border); }
     .cart-drawer.active { transform: translateX(0); }
 </style>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 </head>
 <body class="min-h-screen flex text-sm">
 
-  <!-- Left Side: Image/Branding -->
+  
   <div class="hidden md:flex w-1/2 auth-bg relative items-center justify-center p-8 md:p-12">
     <div class="relative z-10 max-w-md">
       <a href="/" class="flex items-center gap-3 mb-8">
@@ -48,7 +53,7 @@
         </div>
         <span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
       </a>
-      <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3 text-white leading-tight">Your Kitchen,<br><span class="gold-text">Perfectly Maintained.</span></h2>
+      <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3 text-white leading-tight">Your Kitchen,<br><span class="gold-text">Perfectly Maintained.</span></h2>
       <p class="text-slate-400 text-sm leading-relaxed mb-6">Access your dashboard to track orders, manage service bookings, and view your appliance history securely.</p>
       
       <div class="glass-card !bg-white/5 p-4 border-white/10">
@@ -64,10 +69,15 @@
     </div>
   </div>
 
-  <!-- Right Side: Form -->
-  <div class="w-full md:w-1/2 flex items-center justify-center p-4 sm:p-6" style="background:linear-gradient(160deg,#0A1628,#0F2847)">
+  
+  <div class="w-full md:w-1/2 flex items-center justify-center p-4 sm:p-6 relative form-side-bg">
+    <div class="absolute top-4 right-4 md:top-8 md:right-8 z-50">
+      <button onclick="toggleTheme()" class="relative flex items-center justify-center w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-amber-500 transition-colors border border-white/10" title="Toggle Light/Dark Theme">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
+    </div>
     <div class="w-full" style="max-width: 440px;">
-      <!-- Mobile Logo -->
+      
       <a href="/" class="flex md:hidden items-center justify-center gap-3 mb-8">
         <span class="text-3xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
       </a>
@@ -172,3 +182,4 @@
   </script>
 </body>
 </html>
+

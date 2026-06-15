@@ -7,9 +7,9 @@ files.forEach(f => {
     const p = path.join(dir, f);
     let c = fs.readFileSync(p, 'utf-8');
     
-    // Replace the KitchenHood logo string globally
-    // We match `<span class="text-[any size] font-black [any other classes]>Kitchen<span class="gold-text">Hood</span></span>`
-    // with exactly `<span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>`
+    
+    
+    
     
     const regex = /<span class="text-[a-z]+ font-black[^>]*>Kitchen<span class="gold-text">Hood<\/span><\/span>/g;
     const replacement = '<span class="text-xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>';

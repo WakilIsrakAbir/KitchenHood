@@ -80,7 +80,7 @@ app.get('/api/seed', async (req, res) => {
       });
     }
 
-    // Fix any existing services missing the isAvailable field
+    
     await Service.updateMany({ isAvailable: { $exists: false } }, { $set: { isAvailable: true } });
 
     const existingServices = await Service.countDocuments();
@@ -200,18 +200,18 @@ app.get('/api/seed', async (req, res) => {
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  // User joins their own room using their userId as conversationId
+  
   socket.on('join-room', (conversationId) => {
     socket.join(conversationId);
     console.log(`Socket ${socket.id} joined room: ${conversationId}`);
   });
 
-  // Legacy support for old 'join-chat' event
+  
   socket.on('join-chat', (conversationId) => {
     socket.join(conversationId);
   });
 
-  // Handle message from user or admin
+  
   socket.on('send-message', async (data) => {
     try {
       const Message = require('./models/Message');
@@ -222,7 +222,7 @@ io.on('connection', (socket) => {
         message: data.message,
         conversationId: data.conversationId
       });
-      // Broadcast to everyone in the room (both user and admin)
+      
       io.to(data.conversationId).emit('new-message', {
         _id: msgDoc._id,
         senderName: msgDoc.senderName,
@@ -231,7 +231,7 @@ io.on('connection', (socket) => {
         conversationId: msgDoc.conversationId,
         createdAt: msgDoc.createdAt
       });
-      // Notify admin panel of new conversation activity
+      
       io.emit('conversation-update', { conversationId: data.conversationId, senderName: data.senderName });
     } catch (error) {
       console.error('Chat error:', error.message);
@@ -247,12 +247,12 @@ io.on('connection', (socket) => {
   });
 });
 
-// Static HTML routing
+
 app.get(['/services.html', '/products.html', '/contact.html', '/about.html', '/login.html', '/register.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'public', req.path));
 });
 
-// SPA Dashboards (Catch-all for their respective sub-paths)
+
 app.get('/admin/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html'));
 });

@@ -24,7 +24,7 @@ router.get('/conversations', protect, adminOnly, async (req, res) => {
   }
 });
 
-// GET /api/chat/history — user gets their own chat history
+
 router.get('/history', protect, async (req, res) => {
   try {
     const conversationId = req.user._id.toString();

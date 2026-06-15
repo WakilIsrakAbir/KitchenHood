@@ -104,10 +104,10 @@ async function checkout() {
     return;
   }
 
-  // Close cart drawer before opening checkout modal
+  
   closeCart();
 
-  // Create checkout modal
+  
   const modalOverlay = document.createElement('div');
   modalOverlay.className = 'fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all opacity-0';
   modalOverlay.style.background = 'rgba(15, 23, 42, 0.85)';

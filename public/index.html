@@ -6,7 +6,7 @@
   <title>KitchenHood Pro | Bangladesh's #1 Kitchen Hood Service & Spare Parts</title>
   <meta name="description" content="Professional kitchen hood cleaning, repair, installation & genuine spare parts. Certified experts, 6-month warranty, same-day service in Dhaka. 15,000+ services completed.">
 
-  <!-- Advanced SEO Meta Tags -->
+  
   <meta property="og:title" content="KitchenHood Pro | Bangladesh's #1 Kitchen Hood Service & Spare Parts">
   <meta property="og:description" content="Professional kitchen hood cleaning, repair, installation & genuine spare parts. Certified experts, 6-month warranty, same-day service in Dhaka. 15,000+ services completed.">
   <meta property="og:image" content="https://kitchenhood.com.bd/images/hero_hood.png">
@@ -18,7 +18,7 @@
   <meta name="twitter:image" content="https://kitchenhood.com.bd/images/hero_hood.png">
   <link rel="canonical" href="https://kitchenhood.com.bd/">
   
-  <!-- Schema Markup (JSON-LD) for Local Business -->
+  
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -54,7 +54,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/tailwind.css?v=1.0.2">
+  <link rel="stylesheet" href="/css/tailwind.css?v=1.0.3">
 
   <style>
     :root {
@@ -63,7 +63,7 @@
       --navy-mid: #162544;
       --gold: #D4A853;
       --gold-light: #E8C97A;
-      --gold-dark: #B8922F;
+      --gold-dark: #B58A35;
       --accent: #2563EB;
       --accent-light: #3B82F6;
       --text-primary: #F1F5F9;
@@ -78,7 +78,33 @@
     body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--text-primary); overflow-x: hidden; }
     h1,h2,h3,h4,h5,h6 { font-family: 'Outfit', sans-serif; }
 
-    /* Premium Nav */
+    .hero-section {
+      padding-top: 100px;
+      padding-bottom: 60px;
+    }
+    .hero-title {
+      font-size: 30px;
+      line-height: 1.2;
+    }
+    .hero-subtitle {
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    @media (min-width: 768px) {
+      .hero-section {
+        padding-top: 100px;
+        padding-bottom: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+      }
+      .hero-title { font-size: 48px; }
+      .hero-subtitle { font-size: 18px; }
+    }
+    @media (min-width: 1024px) {
+      .hero-title { font-size: 60px; }
+    }
+    
     .premium-nav {
       background: rgba(10,22,40,0.85);
       backdrop-filter: blur(20px);
@@ -90,7 +116,7 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.3);
     }
 
-    /* Glass Card */
+    
     .glass-card {
       background: var(--glass);
       border: 1px solid var(--glass-border);
@@ -105,7 +131,7 @@
       box-shadow: 0 20px 60px -15px rgba(0,0,0,0.5);
     }
 
-    /* Gold Gradient Text */
+    
     .gold-text {
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
       -webkit-background-clip: text;
@@ -113,7 +139,7 @@
       background-clip: text;
     }
 
-    /* Buttons */
+    
     .btn-gold {
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
@@ -151,7 +177,7 @@
       background: rgba(212,168,83,0.05);
     }
 
-    /* Hero */
+    
     .hero-gradient {
       background: linear-gradient(160deg, #0A1628 0%, #111D35 40%, #0F2847 70%, #0A1628 100%);
       position: relative;
@@ -174,7 +200,7 @@
       pointer-events: none;
     }
 
-    /* Stats Counter */
+    
     .stat-card {
       text-align: center;
       padding: 2rem 1rem;
@@ -190,7 +216,7 @@
       background-clip: text;
     }
 
-    /* Service Card Icon */
+    
     .service-icon {
       width: 56px;
       height: 56px;
@@ -209,7 +235,7 @@
       color: var(--navy);
     }
 
-    /* Step circle */
+    
     .step-circle {
       width: 64px;
       height: 64px;
@@ -234,7 +260,7 @@
       box-shadow: 0 0 30px rgba(212,168,83,0.3);
     }
 
-    /* Testimonial card */
+    
     .testimonial-card {
       background: var(--navy-light);
       border: 1px solid var(--border);
@@ -247,7 +273,7 @@
       transform: translateY(-4px);
     }
 
-    /* Brand text */
+    
     .brand-text {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
@@ -262,7 +288,7 @@
       color: var(--gold);
     }
 
-    /* CTA Banner */
+    
     .cta-banner {
       background: linear-gradient(135deg, var(--navy-light) 0%, #0F2847 50%, var(--navy-light) 100%);
       border: 1px solid var(--border);
@@ -278,7 +304,7 @@
       pointer-events: none;
     }
 
-    /* Toast */
+    
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -298,13 +324,13 @@
     .toast.error { background: rgba(239,68,68,0.9); color: white; }
     .toast.info { background: rgba(37,99,235,0.9); color: white; }
 
-    /* Cart Drawer */
+    
     .cart-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; background: rgba(0,0,0,0.6); }
     .cart-overlay.active { opacity: 1; pointer-events: auto; }
     .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); background: var(--navy-light); border-left: 1px solid var(--border); }
     .cart-drawer.active { transform: translateX(0); }
 
-    /* Animations */
+    
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -320,15 +346,15 @@
     .animate-delay-4 { animation-delay: 0.4s; opacity: 0; }
     .animate-float { animation: float 6s ease-in-out infinite; }
 
-    /* Scrollbar */
+    
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--navy); }
     ::-webkit-scrollbar-thumb { background: var(--navy-mid); border-radius: 10px; }
 
-    /* Section separator */
+    
     .section-sep { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
 
-    /* Feature check */
+    
     .feature-check {
       width: 20px; height: 20px;
       border-radius: 50%;
@@ -340,23 +366,36 @@
       flex-shrink: 0;
     }
   </style>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 </head>
 <body>
 
-  <!-- Premium Navigation -->
+  
   <nav id="mainNav" class="fixed w-full z-50 premium-nav transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 relative">
-        <!-- Logo -->
+        
         <a href="/" class="flex items-center gap-3 group">
           <div>
             <span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
-            <span class="block text-[0.75rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span>
           </div>
         </a>
 
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+        
+        <div id="navLinks" class="hidden md:flex items-center gap-8 md:absolute md:left-1/2 md:-translate-x-1/2">
+          
+          <div class="md:hidden flex items-center justify-between w-full mb-6 pb-6 border-b border-white/10">
+            <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            <div class="auth-btn-container">
+              <a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white transition-colors">Login</a>
+            </div>
+          </div>
           <a href="/" class="text-lg font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Home</a>
           <a href="/services.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Services</a>
           <a href="/products.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Products</a>
@@ -364,24 +403,33 @@
           <a href="/contact.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
         </div>
 
-        <!-- Actions -->
+        
         <div class="flex items-center gap-6">
-          <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+          <button onclick="toggleTheme()" class="hidden md:block text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
           </button>
           <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
           </button>
-          <div class="auth-btn-container hidden sm:block">
+          <div class="auth-btn-container hidden md:block">
             <a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white transition-colors">Login</a>
+          </div>
+
+          
+          <div class="md:hidden flex items-center ml-1">
+            <button id="hamburger" class="text-slate-400 hover:text-white focus:outline-none p-1">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- Cart Drawer -->
+  
   <div id="cartOverlay" class="cart-overlay fixed inset-0 z-[100]" onclick="closeCart()"></div>
   <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-96 max-w-full z-[101] flex flex-col shadow-2xl">
     <div class="p-4 border-b border-white/5 flex items-center justify-between">
@@ -402,8 +450,8 @@
   </div>
 
   <main>
-    <!-- Hero Section -->
-    <section class="hero-gradient min-h-screen flex items-center pt-20 relative overflow-hidden">
+    
+    <section class="hero-gradient hero-section relative overflow-hidden">
       <div class="hero-glow bg-blue-600 top-[-200px] right-[-200px]"></div>
       <div class="hero-glow bg-yellow-600 bottom-[-300px] left-[-200px]"></div>
 
@@ -417,13 +465,39 @@
               </span>
             </div>
 
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.2] tracking-tight animate-fade-in-up animate-delay-1">
+            <h1 class="hero-title font-black tracking-tight animate-fade-in-up animate-delay-1">
               Professional Kitchen <span class="gold-text">Hood Experts</span> in Bangladesh.
             </h1>
 
-            <p class="text-base md:text-lg text-slate-400 max-w-2xl mx-auto md:mx-0 leading-relaxed animate-fade-in-up animate-delay-2">
+            <p class="hero-subtitle text-slate-400 max-w-2xl mx-auto md:mx-0 animate-fade-in-up animate-delay-2">
               From deep chemical cleaning to motor repair and genuine spare parts — we keep your kitchen safe, smoke-free, and operating at peak performance with certified technicians and a 6-month warranty.
             </p>
+
+          
+          <div class="block md:hidden w-full mt-16 mb-16 relative animate-fade-in-up animate-delay-3">
+            <div class="relative animate-float">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-yellow-600/10 rounded-3xl blur-3xl"></div>
+              <img src="/images/hero_hood.png" alt="Professional Kitchen Hood" class="relative rounded-3xl border border-white/10 shadow-2xl w-full h-64 sm:h-80 object-cover">
+              
+              <div class="absolute -bottom-4 -left-4 bg-navy-light glass-card px-4 py-3 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white">98% Satisfaction</div>
+                  <div class="text-[10px] text-slate-400">Based on 2,500+ reviews</div>
+                </div>
+              </div>
+              
+              <div class="absolute -top-3 -right-3 bg-navy-light glass-card px-4 py-2">
+                <div class="text-[10px] text-slate-400 mb-0.5">Response Time</div>
+                <div class="text-sm font-black text-yellow-400 flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                  Under 2hrs
+                </div>
+              </div>
+            </div>
+          </div>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in-up animate-delay-3">
               <a href="/services.html" class="btn-gold">
@@ -436,7 +510,7 @@
               </a>
             </div>
 
-            <!-- Trust Badges -->
+            
             <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-4 animate-fade-in-up animate-delay-4">
               <div class="flex items-center gap-2 text-sm text-slate-400">
                 <div class="feature-check"><svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
@@ -453,12 +527,12 @@
             </div>
           </div>
 
-          <!-- Hero Visual -->
-          <div class="block w-full mt-12 md:mt-0 relative">
+          
+          <div class="hidden md:block w-full mt-12 md:mt-0 relative">
             <div class="relative animate-float">
               <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-yellow-600/10 rounded-3xl blur-3xl"></div>
               <img src="/images/hero_hood.png" alt="Professional Kitchen Hood" class="relative rounded-3xl border border-white/10 shadow-2xl w-full h-64 sm:h-80 md:h-96 lg:h-[420px] object-cover">
-              <!-- Floating badge -->
+              
               <div class="absolute -bottom-4 -left-4 bg-navy-light glass-card px-4 py-3 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
                   <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -468,7 +542,7 @@
                   <div class="text-[10px] text-slate-400">Based on 2,500+ reviews</div>
                 </div>
               </div>
-              <!-- Floating badge 2 -->
+              
               <div class="absolute -top-3 -right-3 bg-navy-light glass-card px-4 py-2">
                 <div class="text-[10px] text-slate-400 mb-0.5">Response Time</div>
                 <div class="text-sm font-black text-yellow-400 flex items-center gap-1">
@@ -482,7 +556,7 @@
       </div>
     </section>
 
-    <!-- Stats Section -->
+    
     <section class="relative z-10 mt-12 md:mt-16">
       <div class="max-w-6xl mx-auto px-4">
         <div class="glass-card grid grid-cols-2 md:grid-cols-4 divide-x divide-white/5">
@@ -506,12 +580,12 @@
       </div>
     </section>
 
-    <!-- Why Maintenance Matters -->
+    
     <section class="py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="text-center mb-16">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Critical Safety Information</span>
-          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">Why Regular Maintenance is <span class="gold-text">Non-Negotiable</span></h2>
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">Why Regular Maintenance is <span class="gold-text">Non-Negotiable</span></h2>
           <p class="text-slate-400 max-w-2xl mx-auto leading-relaxed">Ignoring your kitchen hood leads to catastrophic safety hazards, expensive breakdowns, and unhealthy air quality. Here's what happens when maintenance is skipped.</p>
         </div>
 
@@ -548,12 +622,12 @@
 
     <div class="section-sep max-w-7xl mx-auto"></div>
 
-    <!-- Services Section -->
+    
     <section class="py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="text-center mb-16">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Our Expertise</span>
-          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">Specialized Services for <span class="gold-text">Every Need</span></h2>
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">Specialized Services for <span class="gold-text">Every Need</span></h2>
           <p class="text-slate-400 max-w-2xl mx-auto leading-relaxed">Comprehensive solutions engineered for commercial and residential kitchen ventilation systems, delivered by factory-certified professionals.</p>
         </div>
 
@@ -618,12 +692,12 @@
 
     <div class="section-sep max-w-7xl mx-auto"></div>
 
-    <!-- How It Works -->
+    
     <section class="py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="text-center mb-16">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Simple Process</span>
-          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">How It <span class="gold-text">Works</span></h2>
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">How It <span class="gold-text">Works</span></h2>
           <p class="text-slate-400 max-w-2xl mx-auto leading-relaxed">A seamless, hassle-free journey from booking to a sparkling clean, fully functional kitchen hood.</p>
         </div>
 
@@ -656,7 +730,7 @@
 
     <div class="section-sep max-w-7xl mx-auto"></div>
 
-    <!-- Brand Partners -->
+    
     <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <p class="text-center text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-10">We Service & Supply Parts for All Major Brands</p>
@@ -674,12 +748,12 @@
 
     <div class="section-sep max-w-7xl mx-auto"></div>
 
-    <!-- Testimonials -->
+    
     <section class="py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="text-center mb-16">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Client Reviews</span>
-          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">What Our Customers <span class="gold-text">Say</span></h2>
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3">What Our Customers <span class="gold-text">Say</span></h2>
           <p class="text-slate-400">Real reviews from verified customers across Dhaka city.</p>
         </div>
 
@@ -741,11 +815,11 @@
       </div>
     </section>
 
-    <!-- CTA Section -->
+    
     <section class="py-16">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="cta-banner p-12 md:p-16 text-center relative z-10">
-          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-3 tracking-tight">Ready for a <span class="gold-text">Spotless Kitchen</span>?</h2>
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-3 tracking-tight">Ready for a <span class="gold-text">Spotless Kitchen</span>?</h2>
           <p class="text-slate-400 max-w-xl mx-auto mb-8 leading-relaxed">Book your service today and experience the difference a properly maintained kitchen hood makes. Same-day service available in Dhaka.</p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/services.html" class="btn-gold !py-1.5 !px-3 text-[10px]">
@@ -762,7 +836,7 @@
     </section>
   </main>
 
-  <!-- Premium Footer -->
+  
   <footer class="border-t border-white/5 pt-12 pb-6" style="background: linear-gradient(180deg, var(--navy-light), var(--navy));">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
@@ -825,10 +899,11 @@
   <script src="/js/cart.js"></script>
   <script src="/js/main.js"></script>
   <script>
-    // Nav scroll effect
+    
     window.addEventListener('scroll', () => {
       document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
     });
   </script>
 </body>
 </html>
+

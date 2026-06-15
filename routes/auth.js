@@ -10,7 +10,7 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE || '7d' });
 };
 
-// Helper: format user response consistently
+
 const formatUserResponse = (user, token) => ({
   token,
   user: {
@@ -26,9 +26,9 @@ const formatUserResponse = (user, token) => ({
   }
 });
 
-// ==========================================
-// POST /api/auth/register
-// ==========================================
+
+
+
 router.post('/register', [
   body('name').trim().notEmpty().withMessage('Name is required').isLength({ max: 50 }).withMessage('Name too long'),
   body('email').trim().isEmail().withMessage('Please provide a valid email').normalizeEmail(),
@@ -67,9 +67,9 @@ router.post('/register', [
   }
 });
 
-// ==========================================
-// POST /api/auth/login
-// ==========================================
+
+
+
 router.post('/login', [
   body('email').trim().isEmail().withMessage('Please provide a valid email').normalizeEmail(),
   body('password').notEmpty().withMessage('Password is required')
@@ -87,7 +87,7 @@ router.post('/login', [
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Check if account is banned/suspended
+    
     if (user.status === 'banned') {
       return res.status(403).json({ message: 'Your account has been banned. Contact support for assistance.' });
     }
@@ -95,7 +95,7 @@ router.post('/login', [
       return res.status(403).json({ message: 'Your account has been suspended. Contact support for assistance.' });
     }
 
-    // Check if account is locked (too many failed attempts)
+    
     if (user.isLocked) {
       const lockMinutes = Math.ceil((user.lockUntil - Date.now()) / 60000);
       return res.status(423).json({
@@ -113,7 +113,7 @@ router.post('/login', [
       return res.status(401).json({ message: msg });
     }
 
-    // Successful login — reset attempts and update lastLogin
+    
     await user.resetLoginAttempts();
 
     const token = generateToken(user._id);
@@ -123,14 +123,14 @@ router.post('/login', [
   }
 });
 
-// ==========================================
-// POST /api/auth/forgot-password
-// ==========================================
+
+
+
 router.post('/forgot-password', [
   body('email').trim().isEmail().withMessage('Please provide a valid email')
 ], async (req, res) => {
   try {
-    // Always return success to prevent email enumeration
+    
     await new Promise(resolve => setTimeout(resolve, 800));
     res.json({
       success: true,
@@ -141,9 +141,9 @@ router.post('/forgot-password', [
   }
 });
 
-// ==========================================
-// GET /api/auth/profile
-// ==========================================
+
+
+
 router.get('/profile', protect, async (req, res) => {
   res.json({
     _id: req.user._id,
@@ -159,9 +159,9 @@ router.get('/profile', protect, async (req, res) => {
   });
 });
 
-// ==========================================
-// PUT /api/auth/profile
-// ==========================================
+
+
+
 router.put('/profile', protect, [
   body('name').optional().trim().isLength({ max: 50 }),
   body('phone').optional().trim(),
@@ -197,9 +197,9 @@ router.put('/profile', protect, [
   }
 });
 
-// ==========================================
-// ADMIN: GET /api/auth/users
-// ==========================================
+
+
+
 router.get('/users', protect, adminOnly, async (req, res) => {
   try {
     const users = await User.find({}).select('-password').sort({ createdAt: -1 });
@@ -209,9 +209,9 @@ router.get('/users', protect, adminOnly, async (req, res) => {
   }
 });
 
-// ==========================================
-// ADMIN: PUT /api/auth/users/:id/role
-// ==========================================
+
+
+
 router.put('/users/:id/role', protect, adminOnly, async (req, res) => {
   try {
     const { role } = req.body;
@@ -222,7 +222,7 @@ router.put('/users/:id/role', protect, adminOnly, async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    // Prevent demoting yourself
+    
     if (user._id.toString() === req.user._id.toString() && role !== 'admin') {
       return res.status(400).json({ message: 'You cannot change your own role' });
     }
@@ -235,9 +235,9 @@ router.put('/users/:id/role', protect, adminOnly, async (req, res) => {
   }
 });
 
-// ==========================================
-// ADMIN: PUT /api/auth/users/:id/status
-// ==========================================
+
+
+
 router.put('/users/:id/status', protect, adminOnly, async (req, res) => {
   try {
     const { status } = req.body;
@@ -248,12 +248,12 @@ router.put('/users/:id/status', protect, adminOnly, async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    // Prevent banning yourself
+    
     if (user._id.toString() === req.user._id.toString()) {
       return res.status(400).json({ message: 'You cannot change your own status' });
     }
 
-    // Prevent banning other admins
+    
     if (user.role === 'admin' && status !== 'active') {
       return res.status(400).json({ message: 'Cannot suspend or ban admin users' });
     }
@@ -266,9 +266,9 @@ router.put('/users/:id/status', protect, adminOnly, async (req, res) => {
   }
 });
 
-// ==========================================
-// ADMIN: DELETE /api/auth/users/:id
-// ==========================================
+
+
+
 router.delete('/users/:id', protect, adminOnly, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);

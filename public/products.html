@@ -6,7 +6,7 @@
   <title>KitchenHood Pro | Genuine Kitchen Hood Spare Parts & Accessories</title>
   <meta name="description" content="Shop genuine OEM kitchen hood spare parts - chimneys, filters, motors & accessories. Fast delivery in Dhaka. 100% authentic products.">
 
-  <!-- Advanced SEO Meta Tags -->
+  
   <meta property="og:title" content="KitchenHood Pro | Genuine Kitchen Hood Spare Parts & Accessories">
   <meta property="og:description" content="Shop genuine OEM kitchen hood spare parts - chimneys, filters, motors & accessories. Fast delivery in Dhaka. 100% authentic products.">
   <meta property="og:image" content="https://kitchenhood.com.bd/images/hero_hood.png">
@@ -41,14 +41,28 @@
     .stock-badge{font-size:0.65rem;font-weight:700;padding:3px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:0.05em}
     ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:var(--navy-mid);border-radius:10px}
   </style>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 </head>
 <body>
-  <!-- Nav -->
+  
   <nav class="fixed w-full z-50 premium-nav">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 relative">
-        <a href="/" class="flex items-center gap-3"><div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
-        <div class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+        <a href="/" class="flex items-center gap-3"><div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span></div></a>
+        <div id="navLinks" class="hidden md:flex items-center gap-8 md:absolute md:left-1/2 md:-translate-x-1/2">
+          
+          <div class="md:hidden flex items-center justify-between w-full mb-6 pb-6 border-b border-white/10">
+            <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            <div class="auth-btn-container">
+              <a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white transition-colors">Login</a>
+            </div>
+          </div>
           <a href="/" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Home</a>
           <a href="/services.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Services</a>
           <a href="/products.html" class="text-lg font-semibold text-white relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-yellow-500 after:rounded">Products</a>
@@ -56,20 +70,29 @@
           <a href="/contact.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
         </div>
         <div class="flex items-center gap-6">
-                    <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+          <button onclick="toggleTheme()" class="hidden md:block text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
           </button>
           <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
           </button>
-          <div class="auth-btn-container hidden sm:block"><a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white">Login</a></div>
+          <div class="auth-btn-container hidden md:block"><a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white transition-colors">Login</a></div>
+          
+          
+          <div class="md:hidden flex items-center ml-1">
+            <button id="hamburger" class="text-slate-400 hover:text-white focus:outline-none p-1">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- Cart Drawer -->
+  
   <div id="cartOverlay" class="cart-overlay fixed inset-0 z-[100]" onclick="closeCart()"></div>
   <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-96 max-w-full z-[101] flex flex-col shadow-2xl">
     <div class="p-4 border-b border-white/5 flex items-center justify-between">
@@ -84,11 +107,11 @@
   </div>
 
   <main class="pt-16 md:pt-20">
-    <!-- Page Header & Products Grid -->
+    
     <section class="pt-8 md:pt-12 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         
-        <!-- Simple Header -->
+        
         <div class="text-center mb-12">
           <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -98,7 +121,7 @@
           <p class="text-base text-slate-400 max-w-4xl mx-auto leading-relaxed">Original manufacturer kitchen hood chimneys, filters, motors, and accessories. Fast delivery within Dhaka. Every product comes with authenticity guarantee.</p>
         </div>
 
-        <!-- Category Filter -->
+        
         <div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-6 bg-navy-light/50 p-6 rounded-2xl border border-white/5">
           <div class="text-center md:text-left">
             <h2 class="text-xl font-black text-white mb-1">Explore Catalog</h2>
@@ -113,7 +136,7 @@
           </div>
         </div>
 
-        <!-- Search Bar -->
+        
         <div class="max-w-4xl mx-auto relative group mb-10">
           <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-emerald-500/5 to-amber-500/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
           <div class="relative flex items-center bg-navy-light/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden focus-within:border-amber-500/50 focus-within:shadow-[0_0_20px_rgba(212,168,83,0.15)] transition-all">
@@ -162,7 +185,7 @@
     let currentCat = 'all';
 
     async function loadProducts() {
-      // Instantly load fallback data
+      
       allProducts = fallbackProducts;
       renderProducts();
 
@@ -177,7 +200,7 @@
           }
         }
       } catch (e) {
-        // Silently fail
+        
       }
     }
 
@@ -235,3 +258,4 @@
   </script>
 </body>
 </html>
+

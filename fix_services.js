@@ -1,7 +1,7 @@
 const fs = require('fs');
 let html = fs.readFileSync('e:/Projects/KitchenHood/public/services.html', 'utf8');
 
-// I need to completely restore the variables and both functions
+
 const target = `    ];
 
     async function loadServices() {
@@ -24,7 +24,7 @@ const target = `    ];
       }
     }`;
 
-// Let's replace the broken part with the correct block
+
 const replacement = `    ];
 
     let allServices = [];

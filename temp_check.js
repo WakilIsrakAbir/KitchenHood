@@ -12,7 +12,7 @@
     let currentCategory = 'all';
 
     async function loadServices() {
-      // Instantly show fallback data so the page is never empty
+      
       allServices = fallbackServices;
       renderServices();
       
@@ -27,7 +27,7 @@
           }
         }
       } catch (e) {
-        // Silently fail as fallback is already rendered
+        
       }
     }
 

@@ -21,7 +21,7 @@ function initTheme() {
     document.documentElement.classList.add('light-mode');
   }
 }
-initTheme(); // Run immediately to prevent flash
+initTheme(); 
 
 function toggleTheme() {
   document.documentElement.classList.toggle('light-mode');
@@ -41,10 +41,12 @@ function handleHamburger() {
       navLinks.classList.toggle('top-20');
       navLinks.classList.toggle('left-0');
       navLinks.classList.toggle('w-full');
-      navLinks.classList.toggle('glass-nav');
-      navLinks.classList.toggle('p-4');
-      navLinks.classList.toggle('shadow-lg');
-      navLinks.classList.toggle('items-start');
+      navLinks.classList.toggle('bg-slate-900');
+      navLinks.classList.toggle('p-6');
+      navLinks.classList.toggle('shadow-2xl');
+      navLinks.classList.toggle('items-center');
+      navLinks.classList.toggle('border-b');
+      navLinks.classList.toggle('border-white/10');
     });
   }
 }
@@ -107,12 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function initChatWidget() {
   if (window.location.pathname.startsWith('/admin')) return;
 
-  // Ensure only logged-in users can use the chat system
+  
   let user = null;
   try { user = JSON.parse(localStorage.getItem('user')); } catch(e){}
   
   if (!user || !user._id || user.role === 'admin') {
-    return; // Do not initialize chat widget for non-logged in users or admins
+    return; 
   }
 
   const script = document.createElement('script');
@@ -124,7 +126,7 @@ function initChatWidget() {
     
     chatSocket.emit('join-room', convId);
 
-    // Inject CSS
+    
     const style = document.createElement('style');
     style.innerHTML = `
       .chat-widget{position:fixed;bottom:2rem;right:2rem;z-index:50}
@@ -146,7 +148,7 @@ function initChatWidget() {
     `;
     document.head.appendChild(style);
 
-    // Inject HTML
+    
     const widget = document.createElement('div');
     widget.className = 'chat-widget';
     widget.innerHTML = `
@@ -245,12 +247,12 @@ function initChatWidget() {
       }
     });
 
-    // Load history
+    
     fetch('/api/chat/' + convId, { headers: { 'Authorization': 'Bearer ' + (typeof getToken === 'function' ? getToken() : '') } })
       .then(r => r.json())
       .then(history => {
         if(Array.isArray(history) && history.length > 0) {
-          msgContainer.innerHTML = ''; // Clear default welcome message
+          msgContainer.innerHTML = ''; 
           history.forEach(msg => appendMsg(msg, false));
           msgContainer.scrollTop = msgContainer.scrollHeight;
           

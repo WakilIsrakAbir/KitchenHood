@@ -13,7 +13,7 @@ mongoose.connect(process.env.MONGODB_URI).then(async () => {
     });
     console.log('Admin created successfully.');
   } else {
-    // Force update password just in case
+    
     adminExists.password = 'admin123';
     await adminExists.save();
     console.log('Admin already existed. Password reset to admin123.');

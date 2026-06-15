@@ -6,7 +6,7 @@
   <title>KitchenHood Pro | About Us - Bangladesh's Leading Hood Specialists</title>
   <meta name="description" content="Learn about KitchenHood Pro - 10+ years of experience, 20+ certified experts, and 15,000+ services completed across Bangladesh.">
 
-  <!-- Advanced SEO Meta Tags -->
+  
   <meta property="og:title" content="KitchenHood Pro | About Us - Bangladesh's Leading Hood Specialists">
   <meta property="og:description" content="Learn about KitchenHood Pro - 10+ years of experience, 20+ certified experts, and 15,000+ services completed across Bangladesh.">
   <meta property="og:image" content="https://kitchenhood.com.bd/images/premium-hood.png">
@@ -33,19 +33,33 @@
     .timeline-dot{width:16px;height:16px;border-radius:50%;background:var(--gold);border:3px solid var(--navy);position:relative;z-index:2;box-shadow:0 0 0 4px rgba(212,168,83,0.2)}
     ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:#162544;border-radius:10px}
   
-    /* Cart Drawer */
+    
     .cart-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; background: rgba(0,0,0,0.6); }
     .cart-overlay.active { opacity: 1; pointer-events: auto; }
     .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); background: var(--navy-light); border-left: 1px solid var(--border); }
     .cart-drawer.active { transform: translateX(0); }
 </style>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 </head>
 <body>
   <nav class="fixed w-full z-50 premium-nav">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
       <div class="flex items-center justify-between h-20 relative">
-        <a href="/" class="flex items-center gap-3"><div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-[0.2em] text-slate-500 font-semibold -mt-0.5">Professional Services</span></div></a>
-        <div class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+        <a href="/" class="flex items-center gap-3"><div><span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span></div></a>
+        <div id="navLinks" class="hidden md:flex items-center gap-8 md:absolute md:left-1/2 md:-translate-x-1/2">
+          
+          <div class="md:hidden flex items-center justify-between w-full mb-6 pb-6 border-b border-white/10">
+            <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            <div class="auth-btn-container">
+              <a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white transition-colors">Login</a>
+            </div>
+          </div>
           <a href="/" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Home</a>
           <a href="/services.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Services</a>
           <a href="/products.html" class="text-lg font-medium text-slate-400 hover:text-white transition-colors">Products</a>
@@ -56,35 +70,45 @@
           
 
           
-        <!-- Actions -->
+        
         <div class="flex items-center gap-6">
-          <button onclick="toggleTheme()" class="text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
+          <button onclick="toggleTheme()" class="hidden md:block text-slate-400 hover:text-amber-500 transition-colors p-2" title="Toggle Light/Dark Theme">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
           </button>
           <button class="relative text-slate-400 hover:text-white transition-colors p-2" onclick="openCart()">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             <span class="cart-badge absolute -top-1 -right-1 min-w-[20px] h-[20px] flex items-center justify-center px-1 text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-[#0A1628]">0</span>
           </button>
-          <div class="auth-btn-container hidden sm:block">
-<a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white">Login</a></div>
+          <div class="auth-btn-container hidden md:block">
+            <a href="/login.html" class="text-lg font-semibold text-slate-400 hover:text-white transition-colors">Login</a>
+          </div>
+
+          
+          <div class="md:hidden flex items-center ml-1">
+            <button id="hamburger" class="text-slate-400 hover:text-white focus:outline-none p-1">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </nav>
 
   <main class="pt-20" style="padding-top: 100px;">
-    <!-- Page Header & Core Values -->
+    
     <section class="pt-8 md:pt-12 pb-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         
-        <!-- Professional Header Section -->
+        
         <div class="flex flex-col md:flex-row items-center justify-between gap-10 lg:gap-16 mb-20">
-          <!-- Text Content -->
+          
           <div class="relative z-10 w-full" style="flex: 1 1 55%; max-width: 600px;">
             <span class="text-xs font-bold uppercase tracking-[0.2em] text-amber-500 flex items-center gap-3 mb-6">
               <span class="w-8 h-[2px] bg-amber-500"></span> Our Story
             </span>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-[1.1]">
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-[1.1]">
               Mastering <br />
               <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600">Kitchen Ventilation</span>
             </h1>
@@ -105,13 +129,13 @@
             </div>
           </div>
           
-          <!-- Image Section -->
+          
           <div class="relative group w-full mt-10 md:mt-0" style="flex: 1 1 40%; max-width: 480px;">
             <div class="absolute -inset-4 bg-gradient-to-tr from-yellow-500/20 via-transparent to-amber-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-700 opacity-70"></div>
             <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
               <img src="/images/premium-hood.png" alt="Premium Kitchen Hood" class="w-full h-[300px] md:h-[400px] lg:h-[450px] object-cover transform group-hover:scale-105 transition-transform duration-[1.5s] ease-out">
               
-              <!-- Floating Badge -->
+              
               <div class="absolute bottom-6 left-6 right-6 glass-card p-4 border border-white/20 backdrop-blur-xl flex items-center gap-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                 <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-navy shrink-0 shadow-lg shadow-yellow-500/30">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
@@ -156,12 +180,12 @@
 
     <div class="section-sep max-w-7xl mx-auto"></div>
 
-    <!-- Team -->
+    
     <section class="py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="text-center mb-14">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Leadership</span>
-          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">Meet The <span class="gold-text">Lead Experts</span></h2>
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight">Meet The <span class="gold-text">Lead Experts</span></h2>
           <p class="text-slate-400 mt-3 max-w-xl mx-auto">Our senior technicians hold factory certifications and have decades of combined experience servicing Italian, German, and local kitchen hood brands.</p>
         </div>
         <div class="grid sm:grid-cols-3 gap-4">
@@ -195,12 +219,12 @@
 
     <div class="section-sep max-w-7xl mx-auto"></div>
 
-    <!-- Company Timeline -->
+    
     <section class="py-20">
       <div class="max-w-3xl mx-auto px-4">
         <div class="text-center mb-14">
           <span class="text-xs font-bold uppercase tracking-[0.2em] text-yellow-500 mb-3 block">Our Journey</span>
-          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">Company <span class="gold-text">Timeline</span></h2>
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight">Company <span class="gold-text">Timeline</span></h2>
         </div>
         <div class="relative">
           <div class="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-yellow-500/50 via-yellow-500/20 to-transparent"></div>
@@ -232,7 +256,7 @@
   </main>
 
   
-  <!-- Cart Drawer -->
+  
   <div id="cartOverlay" class="cart-overlay fixed inset-0 z-[100]" onclick="closeCart()"></div>
   <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-96 max-w-full z-[101] flex flex-col shadow-2xl">
     <div class="p-4 border-b border-white/5 flex items-center justify-between">
@@ -262,3 +286,4 @@
   <script src="/js/cart.js"></script>
 </body>
 </html>
+

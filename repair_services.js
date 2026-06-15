@@ -112,7 +112,7 @@ const perfectScript = `  <script>
 
 let html = fs.readFileSync('e:/Projects/KitchenHood/public/services.html', 'utf8');
 
-// Find the start of the mangled script
+
 const startIdx = html.indexOf('<script src="/js/cart.js"></script>');
 if (startIdx !== -1) {
     const endIdx = html.indexOf('</body>');

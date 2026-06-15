@@ -4,8 +4,8 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const { protect, adminOnly } = require('../middleware/auth');
 
-// Create a new order (Protected)
-// Supports both POST '/' and '/create'
+
+
 router.post(['/', '/create'], protect, async (req, res) => {
   try {
     const { items, totalAmount, shippingAddress, paymentMethod } = req.body;
@@ -18,7 +18,7 @@ router.post(['/', '/create'], protect, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Shipping address and phone are required' });
     }
 
-    // Validate stock and deduct
+    
     for (const item of items) {
       if (item.product) {
         try {
@@ -34,7 +34,7 @@ router.post(['/', '/create'], protect, async (req, res) => {
             await product.save();
           }
         } catch (e) {
-          // Product lookup failed, continue
+          
         }
       }
     }
@@ -55,8 +55,8 @@ router.post(['/', '/create'], protect, async (req, res) => {
   }
 });
 
-// Get logged in user orders (Protected)
-// Supports both '/my-orders' and '/my'
+
+
 router.get(['/my-orders', '/my'], protect, async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
@@ -66,7 +66,7 @@ router.get(['/my-orders', '/my'], protect, async (req, res) => {
   }
 });
 
-// Get all orders (Admin) — supports both '/all' and '/'
+
 router.get(['/', '/all'], protect, adminOnly, async (req, res) => {
   try {
     const orders = await Order.find({}).populate('user', 'id name email phone').sort({ createdAt: -1 });
@@ -76,7 +76,7 @@ router.get(['/', '/all'], protect, adminOnly, async (req, res) => {
   }
 });
 
-// Update order status (Admin only)
+
 router.put('/:id/status', protect, adminOnly, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -94,7 +94,7 @@ router.put('/:id/status', protect, adminOnly, async (req, res) => {
   }
 });
 
-// Delete order (Admin only)
+
 router.delete('/:id', protect, adminOnly, async (req, res) => {
   try {
     const order = await Order.findByIdAndDelete(req.params.id);
@@ -107,7 +107,7 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
   }
 });
 
-// Cancel order (User — can only cancel their own pending orders)
+
 router.put('/:id/cancel', protect, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -121,14 +121,14 @@ router.put('/:id/cancel', protect, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Only pending orders can be cancelled' });
     }
 
-    // Restore product stock
+    
     for (const item of order.items) {
       if (item.product) {
         try {
           await Product.findByIdAndUpdate(item.product, {
             $inc: { stock: item.quantity || 1 }
           });
-        } catch (e) { /* continue */ }
+        } catch (e) {  }
       }
     }
 

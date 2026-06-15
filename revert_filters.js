@@ -8,24 +8,24 @@ files.forEach(f => {
     const p = path.join(dir, f);
     let html = fs.readFileSync(p, 'utf8');
 
-    // The block is at the very top of the file, before <!DOCTYPE html>
+    
     const doctypeIdx = html.indexOf('<!DOCTYPE html>');
     if (doctypeIdx > 0) {
         let filterBlock = html.substring(0, doctypeIdx);
-        // Clean up the block: change gap-3 mb-8 back to gap-3, and maybe fix missing closing div?
-        // Let's check if the filterBlock has a missing closing div.
-        // It should end with `</button>\n        `
-        // Wait, look at the extracted block from products.html:
-        //   <button class="category-pill" data-cat="part">Spare Parts</button>
-        // </div>
-        // It doesn't have the closing `</div>` because my previous script removed it weirdly?
-        // Wait, products.html lines 1-8:
-        // 7:           <button class="category-pill" data-cat="part">Spare Parts</button>
-        // 8:         
-        // 9:         <!DOCTYPE html>
-        // It is absolutely missing the closing `</div>`!
         
-        // Reconstruct the correct filter block manually
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         let rebuiltFilterBlock = '';
         if (f === 'services.html') {
             rebuiltFilterBlock = `        <!-- Category Filter -->
@@ -46,10 +46,10 @@ files.forEach(f => {
         </div>`;
         }
         
-        // Remove the top broken part
+        
         html = html.substring(doctypeIdx);
         
-        // Find the insertion point
+        
         let insertionText = '';
         if (f === 'services.html') {
             insertionText = '<p class="text-base text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">Expert kitchen hood cleaning, repair, installation, and maintenance services with genuine parts and a 6-month service warranty. Serving all major brands across Dhaka.</p>';

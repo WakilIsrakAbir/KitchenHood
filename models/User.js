@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// Virtual: check if account is currently locked
+
 userSchema.virtual('isLocked').get(function () {
   return !!(this.lockUntil && this.lockUntil > Date.now());
 });
@@ -73,9 +73,9 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-// Increment login attempts and lock if threshold reached
+
 userSchema.methods.incrementLoginAttempts = async function () {
-  // Reset if lock has expired
+  
   if (this.lockUntil && this.lockUntil < Date.now()) {
     return this.updateOne({
       $set: { loginAttempts: 1 },
@@ -83,14 +83,14 @@ userSchema.methods.incrementLoginAttempts = async function () {
     });
   }
   const updates = { $inc: { loginAttempts: 1 } };
-  // Lock account after 5 failed attempts for 15 minutes
+  
   if (this.loginAttempts + 1 >= 5) {
     updates.$set = { lockUntil: Date.now() + 15 * 60 * 1000 };
   }
   return this.updateOne(updates);
 };
 
-// Reset login attempts on successful login
+
 userSchema.methods.resetLoginAttempts = async function () {
   return this.updateOne({
     $set: { loginAttempts: 0, lastLogin: new Date() },

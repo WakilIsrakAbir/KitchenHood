@@ -29,7 +29,7 @@
     }
     .auth-bg{background:linear-gradient(135deg,rgba(10,22,40,0.95),rgba(17,29,53,0.9)),url('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80') center/cover;position:relative}
     
-    /* Checkbox */
+    
     .checkbox-container { display: block; position: relative; padding-left: 28px; cursor: pointer; font-size: 0.8rem; user-select: none; color: #94A3B8; }
     .checkbox-container input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
     .checkmark { position: absolute; top: 0; left: 0; height: 18px; width: 18px; background-color: rgba(10,22,40,0.8); border: 1px solid var(--border); border-radius: 4px; transition: all 0.2s; }
@@ -39,16 +39,21 @@
     .checkbox-container input:checked ~ .checkmark:after { display: block; }
     .checkbox-container .checkmark:after { left: 6px; top: 2px; width: 5px; height: 10px; border: solid #0A1628; border-width: 0 2px 2px 0; transform: rotate(45deg); }
   
-    /* Cart Drawer */
+    
     .cart-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; background: rgba(0,0,0,0.6); }
     .cart-overlay.active { opacity: 1; pointer-events: auto; }
     .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); background: var(--navy-light); border-left: 1px solid var(--border); }
     .cart-drawer.active { transform: translateX(0); }
 </style>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 </head>
 <body class="min-h-screen flex text-sm">
 
-  <!-- Left Side: Image/Branding -->
+  
   <div class="hidden md:flex w-1/2 auth-bg relative items-center justify-center p-8 md:p-12">
     <div class="relative z-10 max-w-md">
       <a href="/" class="flex items-center gap-3 mb-8">
@@ -57,7 +62,7 @@
         </div>
         <span class="text-2xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
       </a>
-      <h2 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3 text-white leading-tight">Professional Services,<br><span class="gold-text">Exceptional Quality.</span></h2>
+      <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3 text-white leading-tight">Professional Services,<br><span class="gold-text">Exceptional Quality.</span></h2>
       <p class="text-slate-400 text-sm leading-relaxed mb-6">Join thousands of satisfied customers who trust KitchenHood for their kitchen maintenance needs.</p>
       <ul class="space-y-4 mb-8 text-slate-400">
         <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div> Priority booking for emergency repairs</li>
@@ -78,10 +83,15 @@
     </div>
   </div>
 
-  <!-- Right Side: Form -->
-  <div class="w-full md:w-1/2 flex items-center justify-center p-4 sm:p-6 overflow-y-auto" style="background:linear-gradient(160deg,#0A1628,#0F2847)">
+  
+  <div class="w-full md:w-1/2 flex items-center justify-center p-4 sm:p-6 overflow-y-auto relative form-side-bg">
+    <div class="absolute top-4 right-4 md:top-8 md:right-8 z-50">
+      <button onclick="toggleTheme()" class="relative flex items-center justify-center w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-amber-500 transition-colors border border-white/10" title="Toggle Light/Dark Theme">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
+    </div>
     <div class="w-full" style="max-width: 540px;">
-      <!-- Mobile Logo -->
+      
       <a href="/" class="flex md:hidden items-center justify-center gap-3 mb-8">
         <span class="text-3xl font-black tracking-tight text-white">Kitchen<span class="gold-text">Hood</span></span>
       </a>
@@ -221,3 +231,4 @@
   </script>
 </body>
 </html>
+

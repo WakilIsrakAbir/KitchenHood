@@ -8,12 +8,40 @@
   <link rel="stylesheet" href="/css/tailwind.css">
   <style>
     :root{--navy:#0A1628;--navy-light:#111D35;--gold:#D4A853;--gold-light:#E8C97A;--gold-dark:#B8922F;--border:rgba(255,255,255,0.08);--glass:rgba(255,255,255,0.03)}
+    
+    html.light-mode {
+      --navy: #F8FAFC;
+      --navy-light: #FFFFFF;
+      --border: rgba(0,0,0,0.1);
+      --glass: rgba(0,0,0,0.03);
+    }
+    html.light-mode body { color: #1E293B; }
+    html.light-mode .text-white { color: #0F172A !important; }
+    html.light-mode .text-slate-400 { color: #64748B !important; }
+    html.light-mode .text-slate-300 { color: #475569 !important; }
+    html.light-mode .text-slate-500 { color: #94A3B8 !important; }
+    html.light-mode .bg-white\/5 { background-color: rgba(0,0,0,0.05) !important; }
+    html.light-mode .hover\:bg-white\/10:hover { background-color: rgba(0,0,0,0.1) !important; }
+    html.light-mode .border-white\/10 { border-color: rgba(0,0,0,0.1) !important; }
+    html.light-mode .sidebar { background: #FFFFFF; border-right: 1px solid rgba(0,0,0,0.1); }
+    html.light-mode .nav-item { color: #64748B; }
+    html.light-mode .nav-item:hover { background: rgba(0,0,0,0.05); color: #0F172A; }
+    html.light-mode .nav-item.active { background: var(--gold); color: #FFFFFF; }
+    html.light-mode .top-header { background: rgba(248, 250, 252, 0.95); }
+    html.light-mode th { color: #475569; }
+    html.light-mode .msg-user { background: #F1F5F9; border: 1px solid rgba(0,0,0,0.1); color: #1E293B; }
+    html.light-mode .chat-input-area { background: #F8FAFC; border-top: 1px solid rgba(0,0,0,0.1); }
+    html.light-mode .chat-input-area input { background: #FFFFFF; color: #1E293B; border: 1px solid rgba(0,0,0,0.1); }
+    html.light-mode .select-dark { background: #FFFFFF; color: #1E293B; border: 1px solid rgba(0,0,0,0.2); }
+    html.light-mode .input-dark { background: #FFFFFF; color: #1E293B; border: 1px solid rgba(0,0,0,0.2); }
+    html.light-mode .modal-box { background: #FFFFFF; }
+    
     body{font-family:'Inter',sans-serif;background:var(--navy);color:#F1F5F9;overflow-x:hidden}
     h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif}
     .gold-text{background:linear-gradient(135deg,var(--gold),var(--gold-light)) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
     .glass-card{background:var(--navy-light);border:1px solid var(--border);border-radius:1rem;transition:all 0.3s}
     
-    /* Sidebar */
+    
     .sidebar{width:220px;height:calc(100vh - 72px);position:fixed;top:72px;left:0;background:#0d182b;border-right:1px solid var(--border);padding:1.5rem 0;z-index:40;transition:transform 0.3s ease-in-out;display:flex;flex-direction:column;box-shadow: 4px 0 24px rgba(0,0,0,0.2)}
     .sidebar::-webkit-scrollbar { display: none; }
     .sidebar { -ms-overflow-style: none; scrollbar-width: none; overflow-y: auto; overflow-x: hidden; transform: translateX(0); }
@@ -21,37 +49,39 @@
     .nav-item:hover{background:rgba(255,255,255,0.05);color:white}
     .nav-item.active{background:var(--gold);color:var(--navy);box-shadow: 0 4px 12px rgba(212,168,83,0.2)}
     
-    /* Main Content */
+    
     .main-content{margin-left:220px;margin-top:72px;min-height:calc(100vh - 72px);background:var(--navy);display:flex;flex-direction:column;transition:margin-left 0.3s ease-in-out;}
     .view-section{display:none;animation:fadeIn 0.3s ease;padding:2rem}.view-section.active{display:block}
     
-    /* Toggle States */
-    body.sidebar-closed .sidebar { transform: translateX(-100%); }
-    body.sidebar-closed .main-content { margin-left: 0; }
     
-    @media (max-width:500px){
-      .main-content { margin-left: 0 !important; padding: 1rem; }
-      .sidebar { box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+    @media (min-width: 769px) {
+      body.sidebar-closed .sidebar { transform: translateX(-100%); }
+      body.sidebar-closed .main-content { margin-left: 0; }
+    }
+    @media (max-width: 768px){
+      .sidebar { transform: translateX(-100%); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+      .main-content { margin-left: 0 !important; padding: 1rem 1rem 100px 1rem; }
+      body.sidebar-open .sidebar { transform: translateX(0); }
     }
     .top-header{position:fixed;top:0;left:0;width:100%;height:72px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(10, 22, 40, 0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
     
-    /* Custom Modal */
+    
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 22, 40, 0.8); backdrop-filter: blur(5px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal-box { background: var(--navy-light); border: 1px solid var(--border); border-radius: 1.5rem; padding: 2rem; width: 90%; max-width: 400px; transform: translateY(30px) scale(0.95); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; }
     .modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
     
-    /* Stats */
+    
     .stat-card{background:linear-gradient(135deg,var(--navy-light),rgba(17,29,53,0.5));border:1px solid var(--border);border-radius:1rem;padding:1.5rem;display:flex;align-items:center;gap:1rem}
     .stat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center}
     
-    /* Tables */
+    
     table{width:100%;text-align:left;border-collapse:collapse}
     th{padding:0.75rem 0.5rem;font-size:0.75rem;text-transform:uppercase;color:#94A3B8;border-bottom:1px solid var(--border);white-space:nowrap}
-    td{padding:0.75rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.8rem}
+    td{padding:0.75rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.02);font-size:0.8rem;white-space:nowrap}
     tr:hover td{background:rgba(255,255,255,0.01)}
     
-    /* Elements */
+    
     .status-badge{padding:4px 10px;border-radius:100px;font-size:0.75rem;font-weight:700;text-transform:uppercase;display:inline-block}
     .select-dark{background:var(--navy);border:1px solid var(--border);color:white;padding:4px 8px;border-radius:6px;font-size:0.75rem;outline:none}
     .select-dark:focus{border-color:var(--gold)}
@@ -60,7 +90,7 @@
     .btn-danger{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);font-weight:600;padding:6px 12px;border-radius:6px;font-size:0.75rem;cursor:pointer;transition:all 0.2s}
     .btn-danger:hover{background:#ef4444;color:white}
     
-    /* Chat Split Layout */
+    
     .chat-layout{display:flex;height:calc(100vh - 120px);gap:1.5rem}
     .chat-list{width:300px;border-right:1px solid var(--border);overflow-y:auto;padding-right:1rem;display:flex;flex-direction:column;gap:0.5rem}
     .chat-user-item{padding:1rem;border-radius:12px;background:var(--glass);border:1px solid transparent;cursor:pointer;transition:all 0.2s}
@@ -74,7 +104,7 @@
     .chat-input-area{padding:1rem;border-top:1px solid var(--border);background:var(--navy);display:flex;gap:0.5rem}
     .chat-input-area input{flex:1;background:var(--navy-light);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:white;font-size:0.875rem;outline:none}
     
-    /* Toast */
+    
     .toast{position:fixed;bottom:2rem;right:2rem;padding:14px 24px;border-radius:12px;font-weight:600;font-size:0.875rem;z-index:10000;transform:translateY(100px);opacity:0;transition:all 0.4s;background:rgba(16,185,129,0.9);color:white}
     .toast.show{transform:translateY(0);opacity:1}.toast.error{background:rgba(239,68,68,0.9)}
 
@@ -82,8 +112,13 @@
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+  </script>
 
-  <!-- Top Header -->
+  
   <header class="top-header">
     <div class="flex items-center gap-6">
       <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
@@ -93,7 +128,7 @@
         <span class="text-white" id="headerBreadcrumb">Dashboard</span>
       </div>
     </div>
-    <div class="flex items-center gap-6">
+    <div class="flex items-center gap-4 sm:gap-6">
       <button onclick="switchView('messages', null)" class="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-colors border border-white/10" title="Messages">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
         <span id="msgBadge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">New</span>
@@ -101,18 +136,18 @@
       <button onclick="toggleTheme()" class="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-amber-500 transition-colors border border-white/10" title="Toggle Light/Dark Theme">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
       </button>
-      <a href="/" class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
+      <a href="/" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
         <span class="hidden sm:inline">View Website</span>
       </a>
-      <button onclick="logout()" class="flex items-center gap-2 px-3 py-1.5 text-sm font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded transition-colors border border-red-500/20">
+      <button onclick="logout()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded transition-colors border border-red-500/20">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
         <span class="hidden sm:inline">Logout</span>
       </button>
     </div>
   </header>
 
-  <!-- Sidebar -->
+  
   <div id="sidebar" class="sidebar">
     <div class="px-6 mb-8 hidden md:flex items-center gap-3">
       <div><span class="text-lg font-black text-white">Kitchen<span class="gold-text">Hood</span></span><span class="block text-[0.75rem] uppercase tracking-widest text-slate-500">Admin Control</span></div>
@@ -135,15 +170,19 @@
       <div class="nav-item" onclick="switchView('products', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg> Products Catalog</div>
       <div class="nav-item" onclick="switchView('services', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg> Service Catalog</div>
     </div>
-    
+    <div class="px-4 mt-auto mb-4 border-t border-white/5 pt-4 sm:hidden">
+      <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded transition-colors border border-red-500/20">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> Logout
+      </button>
+    </div>
   </div>
 
-  <!-- Main Content -->
+  
   <div id="main-content" class="main-content">
     
-    <!-- Dashboard Overview -->
+    
     <div id="view-dashboard" class="view-section active">
-      <div class="flex justify-between items-end mb-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8">
         <div>
           <h1 class="text-2xl font-black mb-1">Executive <span class="gold-text">Overview</span></h1>
           <p class="text-sm text-slate-400">Welcome back, here's what's happening today.</p>
@@ -190,7 +229,7 @@
       </div>
     </div>
 
-    <!-- Orders View -->
+    
     <div id="view-orders" class="view-section">
       <h1 class="text-xl font-black mb-3">Manage <span class="gold-text">Orders</span></h1>
       <div class="glass-card p-4">
@@ -203,7 +242,7 @@
       </div>
     </div>
 
-    <!-- Bookings View -->
+    
     <div id="view-bookings" class="view-section">
       <h1 class="text-xl font-black mb-3">Manage <span class="gold-text">Bookings</span></h1>
       <div class="glass-card p-4">
@@ -216,7 +255,7 @@
       </div>
     </div>
 
-    <!-- Users View -->
+    
     <div id="view-users" class="view-section">
       <h1 class="text-xl font-black mb-3">Manage <span class="gold-text">Customers</span></h1>
       <div class="glass-card p-4">
@@ -229,7 +268,7 @@
       </div>
     </div>
     
-    <!-- Products View -->
+    
     <div id="view-products" class="view-section">
       <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-2">
         <h1 class="text-xl font-black mb-0">Products <span class="gold-text">Catalog</span></h1>
@@ -256,7 +295,7 @@
       </div>
     </div>
 
-    <!-- Services View -->
+    
     <div id="view-services" class="view-section">
       <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-2">
         <h1 class="text-xl font-black mb-0">Service <span class="gold-text">Catalog</span></h1>
@@ -283,15 +322,15 @@
       </div>
     </div>
 
-    <!-- Messages / Chat View -->
+    
     <div id="view-messages" class="view-section h-full">
       <h1 class="text-xl font-black mb-3">Live <span class="gold-text">Support</span></h1>
       <div class="chat-layout">
-        <!-- User List -->
+        
         <div class="chat-list" id="chatUserList">
           <div class="text-center py-8 text-slate-500 text-sm">Loading conversations...</div>
         </div>
-        <!-- Chat Window -->
+        
         <div class="chat-window">
           <div id="chatWindowHeader" class="p-4 bg-navy border-b border-white/5 font-bold flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs">--</div>
@@ -312,7 +351,7 @@
 
   <div id="toast" class="toast"></div>
 
-  <!-- Custom Confirm Modal -->
+  
   <div id="customConfirmOverlay" class="modal-overlay">
     <div class="modal-box relative overflow-hidden">
       <div id="modalGlow" class="absolute -top-20 -right-20 w-40 h-40 bg-red-500/20 blur-[50px] rounded-full pointer-events-none"></div>
@@ -329,7 +368,7 @@
     </div>
   </div>
 
-  <!-- Edit Product Modal -->
+  
   <div id="editProductModal" class="modal-overlay">
     <div class="modal-box relative overflow-hidden text-left">
       <h3 class="text-xl font-bold text-white mb-4 text-center">Edit Product</h3>
@@ -347,7 +386,7 @@
     </div>
   </div>
 
-  <!-- Edit Service Modal -->
+  
   <div id="editServiceModal" class="modal-overlay">
     <div class="modal-box relative overflow-hidden text-left">
       <h3 class="text-xl font-bold text-white mb-4 text-center">Edit Service</h3>
@@ -373,10 +412,15 @@
   <script src="/js/protect.js"></script>
   <script src="/js/auth.js"></script>
   <script>
-    // Setup Protection
+    
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.add('light-mode');
+    }
+
+    
     requireRole('admin');
 
-    // Custom Modal Logic
+    
     let confirmCallback = null;
 
     function showConfirm(title, text, confirmText, isDanger, onConfirm) {
@@ -415,9 +459,19 @@
       closeConfirm();
     });
 
-    // UI Helpers
+    
     function toggleSidebar() {
-      document.body.classList.toggle('sidebar-closed');
+      if(window.innerWidth <= 768) {
+        document.body.classList.toggle('sidebar-open');
+      } else {
+        document.body.classList.toggle('sidebar-closed');
+      }
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('light-mode');
+      const isLight = document.documentElement.classList.contains('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
     }
 
     function switchView(viewId, element) {
@@ -441,14 +495,14 @@
         breadcrumb.textContent = titles[viewId] || 'Dashboard';
       }
       
-      // Auto-close sidebar only on true mobile screens
-      if(window.innerWidth <= 500) {
-        document.body.classList.add('sidebar-closed');
+      
+      if(window.innerWidth <= 768) {
+        document.body.classList.remove('sidebar-open');
       }
       
       if(viewId === 'messages') {
-        // Badge is now handled globally, no need to hide it unconditionally
-        // loadChatUsers will be called implicitly if needed
+        
+        
       }
     }
 
@@ -474,12 +528,12 @@
       return `<span class="status-badge ${c}">${status}</span>`;
     };
 
-    // Global Chat Socket (Listen everywhere for notifications)
+    
     let chatSocket;
     function initAdminSocket() {
       chatSocket = io();
-      // Admins don't join a single room initially, they listen globally for updates
-      // and join specific rooms when they open a chat.
+      
+      
       
       chatSocket.on('new-message', (msg) => {
         if(typeof handleIncomingMessage === 'function') {
@@ -492,16 +546,16 @@
       });
 
       chatSocket.on('conversation-update', () => {
-        loadChatUsers(); // Always refresh to update global unread counts
+        loadChatUsers(); 
       });
     }
 
-    // Table Filter Function
+    
     function filterAdminTable(tableId, query) {
       const q = query.toLowerCase();
       const rows = document.querySelectorAll(`#${tableId} tbody tr`);
       rows.forEach(row => {
-        // Skip rows that span multiple columns (like "Loading...")
+        
         if (row.cells.length === 1) return;
         
         if (row.innerText.toLowerCase().includes(q)) {
@@ -512,12 +566,12 @@
       });
     }
 
-    // Data Fetching
+    
     async function loadDashboardData() {
       const token = getToken();
       const headers = { 'Authorization': 'Bearer ' + token };
       try {
-        // Fetch All Data
+        
         const [ordRes, bkgRes, usrRes, prodRes, servRes, statsRes] = await Promise.all([
           fetch('/api/orders/all', { headers }), fetch('/api/bookings/all', { headers }),
           fetch('/api/auth/users', { headers }), fetch('/api/products'), fetch('/api/services'),
@@ -537,14 +591,14 @@
         const servicesData = servRes.ok ? await servRes.json() : [];
         const services = Array.isArray(servicesData) ? servicesData : (servicesData.services || []);
 
-        // Overview Stats
+        
         const stats = statsRes.ok ? await statsRes.json() : { totalRevenue: 0, totalOrders: 0, totalBookings: 0, totalUsers: 0 };
         document.getElementById('totalRevenue').textContent = '৳' + stats.totalRevenue.toLocaleString();
         document.getElementById('totalOrders').textContent = stats.totalOrders;
         document.getElementById('totalBookings').textContent = stats.totalBookings;
         document.getElementById('totalUsers').textContent = stats.totalUsers;
 
-        // Calculate pending badges
+        
         const pendingOrders = orders.filter(o => o.orderStatus === 'pending').length;
         const pendingBookings = bookings.filter(b => b.status === 'pending').length;
 
@@ -560,7 +614,7 @@
           else bkgBadge.classList.add('hidden');
         }
 
-        // Recent Orders Table
+        
         const rOrdHtml = orders.slice(0,5).map(o => `
           <tr>
             <td class="font-mono text-xs text-slate-400">#${o._id.substring(o._id.length-6)}</td>
@@ -571,7 +625,7 @@
         `).join('');
         document.getElementById('recentOrdersTable').querySelector('tbody').innerHTML = rOrdHtml || '<tr><td colspan="4">No orders</td></tr>';
 
-        // Recent Bookings Table
+        
         const rBkgHtml = bookings.slice(0,5).map(b => `
           <tr>
             <td class="font-semibold text-white">${b.serviceName || 'Unknown Service'}</td>
@@ -582,8 +636,8 @@
         `).join('');
         document.getElementById('recentBookingsTable').querySelector('tbody').innerHTML = rBkgHtml || '<tr><td colspan="4">No bookings</td></tr>';
 
-        // All Orders Table
-        // All Orders Table
+        
+        
         const aOrdHtml = orders.map(o => {
           const itemsList = o.items && o.items.length > 0 
             ? o.items.map(i => `<div class="text-[11px] text-slate-300 leading-tight mb-1" title="${i.name || 'Product'}"><span class="text-amber-500 font-bold">${i.quantity}x</span> ${i.name || 'Product'}</div>`).join('') 
@@ -606,7 +660,7 @@
         `}).join('');
         document.getElementById('allOrdersTable').querySelector('tbody').innerHTML = aOrdHtml;
 
-        // All Bookings Table
+        
         const aBkgHtml = bookings.map(b => `
           <tr>
             <td class="font-mono text-xs text-slate-400">#${b._id.substring(b._id.length-6)}</td>
@@ -623,7 +677,7 @@
         `).join('');
         document.getElementById('allBookingsTable').querySelector('tbody').innerHTML = aBkgHtml;
 
-        // Users Table
+        
         const usrHtml = users.map(u => `
           <tr>
             <td class="font-semibold text-white">${u.name}</td>
@@ -639,7 +693,7 @@
         `).join('');
         document.getElementById('usersTable').querySelector('tbody').innerHTML = usrHtml;
         
-        // Products Table
+        
         const prodHtml = Array.isArray(products) ? products.map(p => `
           <tr>
             <td class="font-semibold text-white">${p.name}</td>
@@ -650,7 +704,7 @@
         `).join('') : '<tr><td colspan="4">No products found</td></tr>';
         document.getElementById('adminProductsTable').querySelector('tbody').innerHTML = prodHtml;
 
-        // Services Table
+        
         const servHtml = Array.isArray(services) ? services.map(s => `
           <tr>
             <td class="font-semibold text-white">${s.name}</td>
@@ -665,7 +719,7 @@
       } catch(e) { console.error(e); }
     }
 
-    // Action Handlers
+    
     async function updateStatus(type, id, newStatus) {
       const endpoint = type === 'order' ? `/api/orders/${id}/status` : `/api/bookings/${id}/status`;
       try {
@@ -736,7 +790,7 @@
       );
     }
 
-    // Product Editing
+    
     function editProduct(id, currentPrice) {
       document.getElementById('editProductId').value = id;
       document.getElementById('editProductPrice').value = currentPrice;
@@ -776,7 +830,7 @@
       }
     }
 
-    // Service Editing
+    
     function editService(id, currentPrice, currentTime) {
       document.getElementById('editServiceId').value = id;
       document.getElementById('editServicePrice').value = currentPrice;
@@ -818,7 +872,7 @@
       }
     }
 
-    // Chat Implementation
+    
     let activeChatUser = null;
     let chatConversations = [];
 
@@ -828,7 +882,7 @@
         if(!res.ok) return;
         chatConversations = await res.json();
         
-        // Update global unread badge
+        
         const unreadCount = chatConversations.filter(c => c.unread > 0).length;
         const badge = document.getElementById('msgBadge');
         if(badge) {
@@ -877,14 +931,14 @@
 
     async function openChat(conversationId, userName) {
       activeChatUser = conversationId;
-      renderChatList(); // update active state
+      renderChatList(); 
       
       document.getElementById('chatWindowHeader').innerHTML = `
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-navy font-bold text-xs shrink-0">${userName.substring(0,2).toUpperCase()}</div>
         <div class="font-bold text-white">${userName}</div>
       `;
       
-      // Join socket room to receive live messages for this conversation
+      
       if(chatSocket) {
         chatSocket.emit('join-room', conversationId);
       }
@@ -904,10 +958,10 @@
           msgContainer.scrollTop = msgContainer.scrollHeight;
         }, 10);
         
-        // Mark as read
+        
         fetch('/api/chat/read/' + conversationId, { method: 'PUT', headers: { 'Authorization': 'Bearer ' + getToken() } });
         
-        // Optimistically clear unread state in UI instantly
+        
         const conv = chatConversations.find(c => c._id === conversationId);
         if(conv) conv.unread = 0;
         
@@ -932,9 +986,9 @@
       document.getElementById('adminChatInput').focus();
     }
 
-    // Called globally by socket
+    
     async function handleIncomingMessage(msg) {
-      // If it's for the currently open chat, append it
+      
       if(activeChatUser === msg.conversationId) {
         const msgContainer = document.getElementById('chatWindowMessages');
         const isAdmin = msg.senderRole === 'admin';
@@ -944,11 +998,11 @@
           msgContainer.scrollTop = msgContainer.scrollHeight;
         }, 10);
         
-        // Mark as read immediately since we are viewing it
+        
         await fetch('/api/chat/read/' + activeChatUser, { method: 'PUT', headers: { 'Authorization': 'Bearer ' + getToken() } });
       }
       
-      // Reload conversation list to update previews and unread counts
+      
       loadChatUsers();
     }
 
@@ -965,11 +1019,11 @@
         senderName: 'KitchenHood Support'
       });
       
-      // We don't append immediately, wait for the socket broadcast to ensure delivery order
+      
       input.value = '';
     });
 
-    // Initialize
+    
     window.addEventListener('DOMContentLoaded', () => {
       loadDashboardData();
       initAdminSocket();

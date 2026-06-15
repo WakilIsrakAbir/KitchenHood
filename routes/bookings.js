@@ -4,8 +4,8 @@ const Booking = require('../models/Booking');
 const Service = require('../models/Service');
 const { protect, adminOnly } = require('../middleware/auth');
 
-// Create a new booking (Protected)
-// Accepts POST on both '/' and '/create' for frontend compatibility
+
+
 router.post(['/', '/create'], protect, async (req, res) => {
   try {
     const { service, date, timeSlot, address, phone, notes } = req.body;
@@ -14,7 +14,7 @@ router.post(['/', '/create'], protect, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Service is required' });
     }
 
-    // Look up the service to get name and price
+    
     let serviceName = req.body.serviceName || '';
     let price = req.body.price || 0;
     try {
@@ -24,7 +24,7 @@ router.post(['/', '/create'], protect, async (req, res) => {
         price = serviceDoc.price;
       }
     } catch (e) {
-      // Service lookup failed, use provided values
+      
     }
 
     const booking = new Booking({
@@ -50,8 +50,8 @@ router.post(['/', '/create'], protect, async (req, res) => {
   }
 });
 
-// Get logged in user bookings (Protected)
-// Supports both '/my-bookings' and '/my'
+
+
 router.get(['/my-bookings', '/my'], protect, async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.user._id }).sort({ createdAt: -1 });
@@ -61,7 +61,7 @@ router.get(['/my-bookings', '/my'], protect, async (req, res) => {
   }
 });
 
-// Get all bookings (Admin) — supports both '/all' and '/' GET
+
 router.get(['/', '/all'], protect, adminOnly, async (req, res) => {
   try {
     const bookings = await Booking.find({}).populate('user', 'id name email phone').sort({ createdAt: -1 });
@@ -71,7 +71,7 @@ router.get(['/', '/all'], protect, adminOnly, async (req, res) => {
   }
 });
 
-// Update booking status (Admin only)
+
 router.put('/:id/status', protect, adminOnly, async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
@@ -88,7 +88,7 @@ router.put('/:id/status', protect, adminOnly, async (req, res) => {
   }
 });
 
-// Delete booking (Admin only)
+
 router.delete('/:id', protect, adminOnly, async (req, res) => {
   try {
     const booking = await Booking.findByIdAndDelete(req.params.id);
@@ -101,7 +101,7 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
   }
 });
 
-// Cancel booking (User — can only cancel their own pending bookings)
+
 router.put('/:id/cancel', protect, async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
