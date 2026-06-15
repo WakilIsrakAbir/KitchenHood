@@ -22,8 +22,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/tailwind.css">
   <style>
-    :root{--navy:#0A1628;--navy-light:#111D35;--gold:#D4A853;--gold-light:#E8C97A;--gold-dark:#B8922F;--border:rgba(255,255,255,0.08);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06)}
-    *{-webkit-font-smoothing:antialiased}body{font-family:'Inter',sans-serif;background:var(--navy);color:#F1F5F9;overflow-x:hidden}h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif}
+    :root{--navy:#0A1628;--navy-light:#111D35;--gold:#D4A853;--gold-light:#E8C97A;--gold-dark:#B8922F;--border:rgba(255,255,255,0.08);--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--text-main:#F1F5F9;--nav-bg:rgba(10,22,40,0.9)}
+    html.light-mode{--text-primary:#1E293B;--text-secondary:#475569;--text-muted:#64748B;--navy:#F8FAFC;--navy-light:#FFFFFF;--navy-mid:#F1F5F9;--border:rgba(0,0,0,0.1);--glass:rgba(255,255,255,0.8);--glass-border:rgba(0,0,0,0.1);--text-main:#1E293B;--nav-bg:rgba(248,250,252,0.9)}
+    *{-webkit-font-smoothing:antialiased}body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text-main);overflow-x:hidden}h1,h2,h3,h4,h5,h6{font-family:'Outfit',sans-serif}
+    html.light-mode .premium-nav { background: rgba(255,255,255,0.85) !important; }
     .premium-nav{background:rgba(10,22,40,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
     .gold-text{background:linear-gradient(135deg,var(--gold),var(--gold-light)) !important;-webkit-background-clip:text !important;-webkit-text-fill-color:transparent !important;background-clip:text !important}
     .glass-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:1rem;backdrop-filter:blur(10px);transition:all 0.4s}
@@ -282,7 +284,7 @@
     </div>
   </footer>
   <script src="/js/auth.js"></script>
-  <script src="/js/main.js"></script>
+  <script src="/js/main.js?v=1781504640163"></script>
   <script src="/js/cart.js"></script>
 </body>
 </html>

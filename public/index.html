@@ -71,8 +71,8 @@
       --text-muted: #64748B;
       --border: rgba(255,255,255,0.08);
       --glass: rgba(255,255,255,0.03);
-      --glass-border: rgba(255,255,255,0.06);
-    }
+      --glass-border: rgba(255,255,255,0.06);--text-main:#F1F5F9;--nav-bg:rgba(10,22,40,0.9)}
+    html.light-mode{--text-primary:#1E293B;--text-secondary:#475569;--text-muted:#64748B;--navy:#F8FAFC;--navy-light:#FFFFFF;--navy-mid:#F1F5F9;--border:rgba(0,0,0,0.1);--glass:rgba(255,255,255,0.8);--glass-border:rgba(0,0,0,0.1);--text-main:#1E293B;--nav-bg:rgba(248,250,252,0.9)}
 
     * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
     body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--text-primary); overflow-x: hidden; }
@@ -105,12 +105,14 @@
       .hero-title { font-size: 60px; }
     }
     
+    html.light-mode .premium-nav { background: rgba(255,255,255,0.85) !important; }
     .premium-nav {
       background: rgba(10,22,40,0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
+    html.light-mode .premium-nav.scrolled { background: rgba(255,255,255,0.95) !important; box-shadow: 0 4px 30px rgba(0,0,0,0.05) !important; }
     .premium-nav.scrolled {
       background: rgba(10,22,40,0.95);
       box-shadow: 0 4px 30px rgba(0,0,0,0.3);
@@ -178,6 +180,7 @@
     }
 
     
+    html.light-mode .hero-gradient { background: linear-gradient(160deg, #F8FAFC 0%, #FFFFFF 40%, #F1F5F9 70%, #F8FAFC 100%); }
     .hero-gradient {
       background: linear-gradient(160deg, #0A1628 0%, #111D35 40%, #0F2847 70%, #0A1628 100%);
       position: relative;
@@ -474,7 +477,7 @@
             </p>
 
           
-          <div class="block md:hidden w-full mt-16 mb-16 relative animate-fade-in-up animate-delay-3">
+          <div class="block md:hidden w-full relative animate-fade-in-up animate-delay-3" style="margin-top: 80px; margin-bottom: 80px;">
             <div class="relative animate-float">
               <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-yellow-600/10 rounded-3xl blur-3xl"></div>
               <img src="/images/hero_hood.png" alt="Professional Kitchen Hood" class="relative rounded-3xl border border-white/10 shadow-2xl w-full h-64 sm:h-80 object-cover">
@@ -897,7 +900,7 @@
 
   <script src="/js/auth.js"></script>
   <script src="/js/cart.js"></script>
-  <script src="/js/main.js"></script>
+  <script src="/js/main.js?v=1781504640205"></script>
   <script>
     
     window.addEventListener('scroll', () => {
