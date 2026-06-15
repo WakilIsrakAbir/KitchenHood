@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /user/
+
+Sitemap: https://kitchenhood.com.bd/sitemap.xml
