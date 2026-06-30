@@ -2510,6 +2510,12 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-\[0_4px_15px_rgba\(16\2c 185\2c 129\2c 0\.3\)\] {
+  --tw-shadow: 0 4px 15px rgba(16,185,129,0.3);
+  --tw-shadow-colored: 0 4px 15px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .shadow-yellow-500\/20 {
   --tw-shadow-color: rgb(234 179 8 / 0.2);
   --tw-shadow: var(--tw-shadow-colored);
@@ -2815,8 +2821,18 @@ html.light-mode .cta-banner {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.hover\:from-emerald-400:hover {
+  --tw-gradient-from: #34d399 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(52 211 153 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .hover\:to-yellow-500:hover {
   --tw-gradient-to: #eab308 var(--tw-gradient-to-position);
+}
+
+.hover\:to-emerald-500:hover {
+  --tw-gradient-to: #10b981 var(--tw-gradient-to-position);
 }
 
 .hover\:text-amber-500:hover {

@@ -85,6 +85,8 @@
     .status-badge{padding:4px 10px;border-radius:100px;font-size:0.75rem;font-weight:700;text-transform:uppercase;display:inline-block}
     .select-dark{background:var(--navy);border:1px solid var(--border);color:white;padding:4px 8px;border-radius:6px;font-size:0.75rem;outline:none}
     .select-dark:focus{border-color:var(--gold)}
+    .input-dark{background:var(--navy);border:1px solid var(--border);color:white;border-radius:8px;font-size:0.85rem;outline:none}
+    .input-dark:focus{border-color:var(--gold)}
     .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);font-weight:700;padding:8px 16px;border-radius:8px;font-size:0.8rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:6px;cursor:pointer;border:none}
     .btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,168,83,0.3)}
     .btn-danger{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);font-weight:600;padding:6px 12px;border-radius:6px;font-size:0.75rem;cursor:pointer;transition:all 0.2s}
@@ -274,7 +276,10 @@
     
     <div id="view-products" class="view-section">
       <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-2">
-        <h1 class="text-xl font-black mb-0">Products <span class="gold-text">Catalog</span></h1>
+        <div class="flex items-center gap-3">
+          <h1 class="text-xl font-black mb-0">Products <span class="gold-text">Catalog</span></h1>
+          <button onclick="openAddProductModal()" class="btn-gold !py-1.5 !px-4 !text-xs">+ Add New</button>
+        </div>
         <div class="relative group w-full md:w-80">
           <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-emerald-500/5 to-amber-500/10 rounded-xl blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
           <div class="relative flex items-center bg-navy-light/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden focus-within:border-amber-500/50 focus-within:shadow-[0_0_15px_rgba(212,168,83,0.15)] transition-all">
@@ -291,8 +296,8 @@
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
           <table id="adminProductsTable">
-            <thead><tr><th>Product Name</th><th>Category</th><th>Price</th><th>Action</th></tr></thead>
-            <tbody><tr><td colspan="4" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
+            <thead><tr><th>Product Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
+            <tbody><tr><td colspan="5" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -301,7 +306,10 @@
     
     <div id="view-services" class="view-section">
       <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-2">
-        <h1 class="text-xl font-black mb-0">Service <span class="gold-text">Catalog</span></h1>
+        <div class="flex items-center gap-3">
+          <h1 class="text-xl font-black mb-0">Service <span class="gold-text">Catalog</span></h1>
+          <button onclick="openAddServiceModal()" class="btn-gold !py-1.5 !px-4 !text-xs">+ Add New</button>
+        </div>
         <div class="relative group w-full md:w-80">
           <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-emerald-500/5 to-amber-500/10 rounded-xl blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
           <div class="relative flex items-center bg-navy-light/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden focus-within:border-amber-500/50 focus-within:shadow-[0_0_15px_rgba(212,168,83,0.15)] transition-all">
@@ -372,41 +380,90 @@
   </div>
 
   
-  <div id="editProductModal" class="modal-overlay">
-    <div class="modal-box relative overflow-hidden text-left">
+    <div id="editProductModal" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden text-left" style="max-width:500px">
       <h3 class="text-xl font-bold text-white mb-4 text-center">Edit Product</h3>
       <input type="hidden" id="editProductId">
-      <div class="space-y-4 mb-6">
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Price (৳)</label>
-          <input type="number" id="editProductPrice" class="w-full text-white px-3 py-2 rounded-lg outline-none" style="background: var(--navy-light); border: 1px solid var(--border);">
+      <div class="space-y-3 mb-6" style="max-height:60vh;overflow-y:auto">
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Product Name</label><input type="text" id="editProductName" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Description</label><textarea id="editProductDesc" rows="2" class="input-dark w-full px-3 py-2 rounded-lg resize-none"></textarea></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Price (৳)</label><input type="number" id="editProductPrice" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Stock</label><input type="number" id="editProductStock" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label><select id="editProductCategory" class="select-dark w-full px-3 py-2 rounded-lg"><option value="chimney">Chimney</option><option value="hood">Hood</option><option value="filter">Filter</option><option value="accessory">Accessory</option><option value="part">Part</option></select></div>
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Image URL</label><input type="text" id="editProductImage" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="/images/hood.png"></div>
         </div>
       </div>
-      <div class="flex gap-3 justify-end">
+      <div class="flex gap-3">
         <button onclick="closeEditProductModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
         <button onclick="saveProduct()" class="px-5 py-2 rounded-xl text-sm font-bold text-navy bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 transition-all shadow-[0_4px_15px_rgba(234,179,8,0.3)] w-full">Save Changes</button>
       </div>
     </div>
   </div>
 
-  
-  <div id="editServiceModal" class="modal-overlay">
-    <div class="modal-box relative overflow-hidden text-left">
+    <div id="editServiceModal" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden text-left" style="max-width:500px">
       <h3 class="text-xl font-bold text-white mb-4 text-center">Edit Service</h3>
       <input type="hidden" id="editServiceId">
-      <div class="space-y-4 mb-6">
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Price (৳)</label>
-          <input type="number" id="editServicePrice" class="w-full text-white px-3 py-2 rounded-lg outline-none" style="background: var(--navy-light); border: 1px solid var(--border);">
+      <div class="space-y-3 mb-6" style="max-height:60vh;overflow-y:auto">
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Service Name</label><input type="text" id="editServiceName" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Description</label><textarea id="editServiceDesc" rows="2" class="input-dark w-full px-3 py-2 rounded-lg resize-none"></textarea></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Price (৳)</label><input type="number" id="editServicePrice" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Estimated Time</label><input type="text" id="editServiceTime" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="e.g. 1-2 hours"></div>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Estimated Time</label>
-          <input type="text" id="editServiceTime" class="w-full text-white px-3 py-2 rounded-lg outline-none" style="background: var(--navy-light); border: 1px solid var(--border);" placeholder="e.g. 1-2 hours">
-        </div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label><select id="editServiceCategory" class="select-dark w-full px-3 py-2 rounded-lg"><option value="repair">Repair</option><option value="cleaning">Cleaning</option><option value="installation">Installation</option><option value="maintenance">Maintenance</option></select></div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Features (comma separated)</label><input type="text" id="editServiceFeatures" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="Feature 1, Feature 2"></div>
       </div>
-      <div class="flex gap-3 justify-end">
+      <div class="flex gap-3">
         <button onclick="closeEditServiceModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
         <button onclick="saveService()" class="px-5 py-2 rounded-xl text-sm font-bold text-navy bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 transition-all shadow-[0_4px_15px_rgba(234,179,8,0.3)] w-full">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="addProductModal" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden text-left" style="max-width:500px">
+      <div class="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/20 blur-[50px] rounded-full pointer-events-none"></div>
+      <h3 class="text-xl font-bold text-white mb-4 text-center">Add New Product</h3>
+      <div class="space-y-3 mb-6" style="max-height:60vh;overflow-y:auto">
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Product Name *</label><input type="text" id="addProductName" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Description *</label><textarea id="addProductDesc" rows="2" class="input-dark w-full px-3 py-2 rounded-lg resize-none"></textarea></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Price (৳) *</label><input type="number" id="addProductPrice" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Stock</label><input type="number" id="addProductStock" value="0" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label><select id="addProductCategory" class="select-dark w-full px-3 py-2 rounded-lg"><option value="chimney">Chimney</option><option value="hood">Hood</option><option value="filter">Filter</option><option value="accessory">Accessory</option><option value="part">Part</option></select></div>
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Image URL</label><input type="text" id="addProductImage" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="/images/hood.png"></div>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeAddProductModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
+        <button onclick="addProduct()" class="px-5 py-2 rounded-xl text-sm font-bold text-navy bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition-all shadow-[0_4px_15px_rgba(16,185,129,0.3)] w-full">Add Product</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="addServiceModal" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden text-left" style="max-width:500px">
+      <div class="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/20 blur-[50px] rounded-full pointer-events-none"></div>
+      <h3 class="text-xl font-bold text-white mb-4 text-center">Add New Service</h3>
+      <div class="space-y-3 mb-6" style="max-height:60vh;overflow-y:auto">
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Service Name *</label><input type="text" id="addServiceName" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Description *</label><textarea id="addServiceDesc" rows="2" class="input-dark w-full px-3 py-2 rounded-lg resize-none"></textarea></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Price (৳) *</label><input type="number" id="addServicePrice" class="input-dark w-full px-3 py-2 rounded-lg"></div>
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Estimated Time</label><input type="text" id="addServiceTime" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="e.g. 1-2 hours"></div>
+        </div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label><select id="addServiceCategory" class="select-dark w-full px-3 py-2 rounded-lg"><option value="repair">Repair</option><option value="cleaning">Cleaning</option><option value="installation">Installation</option><option value="maintenance">Maintenance</option></select></div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Features (comma separated)</label><input type="text" id="addServiceFeatures" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="Feature 1, Feature 2"></div>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeAddServiceModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
+        <button onclick="addService()" class="px-5 py-2 rounded-xl text-sm font-bold text-navy bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 transition-all shadow-[0_4px_15px_rgba(16,185,129,0.3)] w-full">Add Service</button>
       </div>
     </div>
   </div>
@@ -595,7 +652,7 @@
         
         const [ordRes, bkgRes, usrRes, prodRes, servRes, statsRes] = await Promise.all([
           fetch('/api/orders/all', { headers }), fetch('/api/bookings/all', { headers }),
-          fetch('/api/auth/users', { headers }), fetch('/api/products'), fetch('/api/services'),
+          fetch('/api/auth/users', { headers }), fetch('/api/products/all', { headers }), fetch('/api/services/all', { headers }),
           fetch('/api/admin/stats', { headers })
         ]);
         
@@ -715,24 +772,27 @@
         document.getElementById('usersTable').querySelector('tbody').innerHTML = usrHtml;
         
         
+        allAdminProducts = products;
         const prodHtml = Array.isArray(products) ? products.map(p => `
           <tr>
             <td class="font-semibold text-white">${p.name}</td>
             <td><span class="status-badge bg-white/5 text-slate-300">${p.category}</span></td>
             <td class="gold-text font-bold">৳${p.price.toLocaleString()}</td>
-            <td><button class="btn-gold !py-1 !px-3 !text-xs" onclick="editProduct('${p._id}', ${p.price})">Edit</button></td>
+            <td>${p.stock ?? 0}</td>
+            <td><div class="flex gap-2"><button class="btn-gold !py-1 !px-3 !text-xs" onclick="editProduct('${p._id}')">Edit</button><button class="btn-danger" onclick="deleteProduct('${p._id}')">Delete</button></div></td>
           </tr>
-        `).join('') : '<tr><td colspan="4">No products found</td></tr>';
+        `).join('') : '<tr><td colspan="5">No products found</td></tr>';
         document.getElementById('adminProductsTable').querySelector('tbody').innerHTML = prodHtml;
 
         
+        allAdminServices = services;
         const servHtml = Array.isArray(services) ? services.map(s => `
           <tr>
             <td class="font-semibold text-white">${s.name}</td>
             <td><span class="status-badge bg-white/5 text-slate-300">${s.category}</span></td>
             <td class="gold-text font-bold">৳${s.price.toLocaleString()}</td>
             <td>${s.estimatedTime || '-'}</td>
-            <td><button class="btn-gold !py-1 !px-3 !text-xs" onclick="editService('${s._id}', ${s.price}, '${s.estimatedTime || ''}')">Edit</button></td>
+            <td><div class="flex gap-2"><button class="btn-gold !py-1 !px-3 !text-xs" onclick="editService('${s._id}')">Edit</button><button class="btn-danger" onclick="deleteService('${s._id}')">Delete</button></div></td>
           </tr>
         `).join('') : '<tr><td colspan="5">No services found</td></tr>';
         document.getElementById('adminServicesTable').querySelector('tbody').innerHTML = servHtml;
@@ -812,88 +872,140 @@
     }
 
     
-    function editProduct(id, currentPrice) {
-      document.getElementById('editProductId').value = id;
-      document.getElementById('editProductPrice').value = currentPrice;
-      document.getElementById('editProductModal').classList.add('active');
+    // ── Product & Service CRUD ──
+    let allAdminProducts = [];
+    let allAdminServices = [];
+
+    function openAddProductModal() {
+      ['addProductName','addProductDesc','addProductPrice','addProductImage'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('addProductStock').value = '0';
+      document.getElementById('addProductCategory').value = 'hood';
+      document.getElementById('addProductModal').classList.add('active');
+    }
+    function closeAddProductModal() { document.getElementById('addProductModal').classList.remove('active'); }
+
+    async function addProduct() {
+      const name = document.getElementById('addProductName').value.trim();
+      const description = document.getElementById('addProductDesc').value.trim();
+      const price = parseFloat(document.getElementById('addProductPrice').value);
+      const stock = parseInt(document.getElementById('addProductStock').value) || 0;
+      const category = document.getElementById('addProductCategory').value;
+      const image = document.getElementById('addProductImage').value.trim();
+      if (!name || !description || isNaN(price) || price < 0) { showToast('Name, Description ও valid Price দিন', 'error'); return; }
+      try {
+        const res = await fetch('/api/products', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,stock,category,image}) });
+        if (res.ok) { showToast('Product added!'); closeAddProductModal(); loadDashboardData(); }
+        else { const e = await res.json(); showToast(e.message||'Failed','error'); }
+      } catch(e) { showToast('Network error','error'); }
     }
 
-    function closeEditProductModal() {
-      document.getElementById('editProductModal').classList.remove('active');
+    function editProduct(id) {
+      const p = allAdminProducts.find(x => x._id === id);
+      if (!p) return showToast('Product not found','error');
+      document.getElementById('editProductId').value = p._id;
+      document.getElementById('editProductName').value = p.name||'';
+      document.getElementById('editProductDesc').value = p.description||'';
+      document.getElementById('editProductPrice').value = p.price||0;
+      document.getElementById('editProductStock').value = p.stock||0;
+      document.getElementById('editProductCategory').value = p.category||'hood';
+      document.getElementById('editProductImage').value = p.image||'';
+      document.getElementById('editProductModal').classList.add('active');
     }
+    function closeEditProductModal() { document.getElementById('editProductModal').classList.remove('active'); }
 
     async function saveProduct() {
       const id = document.getElementById('editProductId').value;
+      const name = document.getElementById('editProductName').value.trim();
+      const description = document.getElementById('editProductDesc').value.trim();
       const price = parseFloat(document.getElementById('editProductPrice').value);
-      
-      if (isNaN(price) || price < 0) {
-        showToast('Please enter valid price', 'error');
-        return;
-      }
-      
+      const stock = parseInt(document.getElementById('editProductStock').value) || 0;
+      const category = document.getElementById('editProductCategory').value;
+      const image = document.getElementById('editProductImage').value.trim();
+      if (!name || !description || isNaN(price) || price < 0) { showToast('Name, Description ও valid Price দিন', 'error'); return; }
       try {
-        const res = await fetch(`/api/products/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
-          body: JSON.stringify({ price })
-        });
-        
-        if (res.ok) {
-          showToast('Product updated successfully');
-          closeEditProductModal();
-          loadDashboardData();
-        } else {
-          const err = await res.json();
-          showToast(err.message || 'Failed to update product', 'error');
-        }
-      } catch(e) {
-        showToast('Network error', 'error');
-      }
+        const res = await fetch('/api/products/' + id, { method:'PUT', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,stock,category,image}) });
+        if (res.ok) { showToast('Product updated!'); closeEditProductModal(); loadDashboardData(); }
+        else { const e = await res.json(); showToast(e.message||'Update failed','error'); }
+      } catch(e) { showToast('Network error','error'); }
     }
 
-    
-    function editService(id, currentPrice, currentTime) {
-      document.getElementById('editServiceId').value = id;
-      document.getElementById('editServicePrice').value = currentPrice;
-      document.getElementById('editServiceTime').value = currentTime;
+    function deleteProduct(id) {
+      const p = allAdminProducts.find(x => x._id === id);
+      const name = p ? p.name : 'this product';
+      showConfirm('Delete Product?', '"' + name + '" permanently delete হবে।', 'Yes, Delete', true, async () => {
+        try {
+          const res = await fetch('/api/products/' + id, { method:'DELETE', headers:{'Authorization':'Bearer '+getToken()} });
+          if (res.ok) { showToast('Product deleted'); loadDashboardData(); } else showToast('Delete failed','error');
+        } catch(e) { showToast('Network error','error'); }
+      });
+    }
+
+    // ── Service CRUD ──
+    function openAddServiceModal() {
+      ['addServiceName','addServiceDesc','addServicePrice','addServiceTime','addServiceFeatures'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('addServiceCategory').value = 'repair';
+      document.getElementById('addServiceModal').classList.add('active');
+    }
+    function closeAddServiceModal() { document.getElementById('addServiceModal').classList.remove('active'); }
+
+    async function addService() {
+      const name = document.getElementById('addServiceName').value.trim();
+      const description = document.getElementById('addServiceDesc').value.trim();
+      const price = parseFloat(document.getElementById('addServicePrice').value);
+      const estimatedTime = document.getElementById('addServiceTime').value.trim();
+      const category = document.getElementById('addServiceCategory').value;
+      const fs = document.getElementById('addServiceFeatures').value.trim();
+      const features = fs ? fs.split(',').map(f => f.trim()).filter(f => f) : [];
+      if (!name || !description || isNaN(price) || price < 0) { showToast('Name, Description ও valid Price দিন', 'error'); return; }
+      try {
+        const res = await fetch('/api/services', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,estimatedTime,category,features}) });
+        if (res.ok) { showToast('Service added!'); closeAddServiceModal(); loadDashboardData(); }
+        else { const e = await res.json(); showToast(e.message||'Failed','error'); }
+      } catch(e) { showToast('Network error','error'); }
+    }
+
+    function editService(id) {
+      const s = allAdminServices.find(x => x._id === id);
+      if (!s) return showToast('Service not found','error');
+      document.getElementById('editServiceId').value = s._id;
+      document.getElementById('editServiceName').value = s.name||'';
+      document.getElementById('editServiceDesc').value = s.description||'';
+      document.getElementById('editServicePrice').value = s.price||0;
+      document.getElementById('editServiceTime').value = s.estimatedTime||'';
+      document.getElementById('editServiceCategory').value = s.category||'repair';
+      document.getElementById('editServiceFeatures').value = (s.features||[]).join(', ');
       document.getElementById('editServiceModal').classList.add('active');
     }
-
-    function closeEditServiceModal() {
-      document.getElementById('editServiceModal').classList.remove('active');
-    }
+    function closeEditServiceModal() { document.getElementById('editServiceModal').classList.remove('active'); }
 
     async function saveService() {
       const id = document.getElementById('editServiceId').value;
+      const name = document.getElementById('editServiceName').value.trim();
+      const description = document.getElementById('editServiceDesc').value.trim();
       const price = parseFloat(document.getElementById('editServicePrice').value);
       const estimatedTime = document.getElementById('editServiceTime').value.trim();
-      
-      if (isNaN(price) || price < 0) {
-        showToast('Please enter valid price', 'error');
-        return;
-      }
-      
+      const category = document.getElementById('editServiceCategory').value;
+      const fs = document.getElementById('editServiceFeatures').value.trim();
+      const features = fs ? fs.split(',').map(f => f.trim()).filter(f => f) : [];
+      if (!name || !description || isNaN(price) || price < 0) { showToast('Name, Description ও valid Price দিন', 'error'); return; }
       try {
-        const res = await fetch(`/api/services/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
-          body: JSON.stringify({ price, estimatedTime })
-        });
-        
-        if (res.ok) {
-          showToast('Service updated successfully');
-          closeEditServiceModal();
-          loadDashboardData();
-        } else {
-          const err = await res.json();
-          showToast(err.message || 'Failed to update service', 'error');
-        }
-      } catch(e) {
-        showToast('Network error', 'error');
-      }
+        const res = await fetch('/api/services/' + id, { method:'PUT', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,estimatedTime,category,features}) });
+        if (res.ok) { showToast('Service updated!'); closeEditServiceModal(); loadDashboardData(); }
+        else { const e = await res.json(); showToast(e.message||'Update failed','error'); }
+      } catch(e) { showToast('Network error','error'); }
     }
 
-    
+    function deleteService(id) {
+      const s = allAdminServices.find(x => x._id === id);
+      const name = s ? s.name : 'this service';
+      showConfirm('Delete Service?', '"' + name + '" permanently delete হবে।', 'Yes, Delete', true, async () => {
+        try {
+          const res = await fetch('/api/services/' + id, { method:'DELETE', headers:{'Authorization':'Bearer '+getToken()} });
+          if (res.ok) { showToast('Service deleted'); loadDashboardData(); } else showToast('Delete failed','error');
+        } catch(e) { showToast('Network error','error'); }
+      });
+    }
+
     let activeChatUser = null;
     let chatConversations = [];
 
