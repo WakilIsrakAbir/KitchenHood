@@ -395,6 +395,7 @@
           <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label><select id="editProductCategory" class="select-dark w-full px-3 py-2 rounded-lg"><option value="chimney">Chimney</option><option value="hood">Hood</option><option value="filter">Filter</option><option value="accessory">Accessory</option><option value="part">Part</option></select></div>
           <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Image URL</label><input type="text" id="editProductImage" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="/images/hood.png"></div>
         </div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Specifications (e.g. Brand:Elica, Size:60cm)</label><input type="text" id="editProductSpecs" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="Comma separated Key:Value pairs"></div>
       </div>
       <div class="flex gap-3">
         <button onclick="closeEditProductModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
@@ -439,6 +440,7 @@
           <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label><select id="addProductCategory" class="select-dark w-full px-3 py-2 rounded-lg"><option value="chimney">Chimney</option><option value="hood">Hood</option><option value="filter">Filter</option><option value="accessory">Accessory</option><option value="part">Part</option></select></div>
           <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Image URL</label><input type="text" id="addProductImage" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="/images/hood.png"></div>
         </div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Specifications (e.g. Brand:Elica, Size:60cm)</label><input type="text" id="addProductSpecs" class="input-dark w-full px-3 py-2 rounded-lg" placeholder="Comma separated Key:Value pairs"></div>
       </div>
       <div class="flex gap-3">
         <button onclick="closeAddProductModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Cancel</button>
@@ -877,7 +879,7 @@
     let allAdminServices = [];
 
     function openAddProductModal() {
-      ['addProductName','addProductDesc','addProductPrice','addProductImage'].forEach(id => document.getElementById(id).value = '');
+      ['addProductName','addProductDesc','addProductPrice','addProductImage','addProductSpecs'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('addProductStock').value = '0';
       document.getElementById('addProductCategory').value = 'hood';
       document.getElementById('addProductModal').classList.add('active');
@@ -891,9 +893,17 @@
       const stock = parseInt(document.getElementById('addProductStock').value) || 0;
       const category = document.getElementById('addProductCategory').value;
       const image = document.getElementById('addProductImage').value.trim();
+      const specsString = document.getElementById('addProductSpecs').value.trim();
+      let specs = {};
+      if (specsString) {
+        specsString.split(',').forEach(pair => {
+          const parts = pair.split(':');
+          if (parts.length === 2) specs[parts[0].trim()] = parts[1].trim();
+        });
+      }
       if (!name || !description || isNaN(price) || price < 0) { showToast('Name, Description ও valid Price দিন', 'error'); return; }
       try {
-        const res = await fetch('/api/products', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,stock,category,image}) });
+        const res = await fetch('/api/products', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,stock,category,image,specs}) });
         if (res.ok) { showToast('Product added!'); closeAddProductModal(); loadDashboardData(); }
         else { const e = await res.json(); showToast(e.message||'Failed','error'); }
       } catch(e) { showToast('Network error','error'); }
@@ -909,6 +919,13 @@
       document.getElementById('editProductStock').value = p.stock||0;
       document.getElementById('editProductCategory').value = p.category||'hood';
       document.getElementById('editProductImage').value = p.image||'';
+      
+      let specsStr = '';
+      if (p.specs && Object.keys(p.specs).length > 0) {
+        specsStr = Object.entries(p.specs).map(([k,v]) => `${k}:${v}`).join(', ');
+      }
+      document.getElementById('editProductSpecs').value = specsStr;
+      
       document.getElementById('editProductModal').classList.add('active');
     }
     function closeEditProductModal() { document.getElementById('editProductModal').classList.remove('active'); }
@@ -921,9 +938,19 @@
       const stock = parseInt(document.getElementById('editProductStock').value) || 0;
       const category = document.getElementById('editProductCategory').value;
       const image = document.getElementById('editProductImage').value.trim();
-      if (!name || !description || isNaN(price) || price < 0) { showToast('Name, Description ও valid Price দিন', 'error'); return; }
+      const specsString = document.getElementById('editProductSpecs').value.trim();
+      
+      let specs = {};
+      if (specsString) {
+        specsString.split(',').forEach(pair => {
+          const parts = pair.split(':');
+          if (parts.length === 2) specs[parts[0].trim()] = parts[1].trim();
+        });
+      }
+
+      if (!name || !description || isNaN(price) || price < 0) { showToast('Invalid input', 'error'); return; }
       try {
-        const res = await fetch('/api/products/' + id, { method:'PUT', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,stock,category,image}) });
+        const res = await fetch('/api/products/'+id, { method:'PUT', headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()}, body:JSON.stringify({name,description,price,stock,category,image,specs}) });
         if (res.ok) { showToast('Product updated!'); closeEditProductModal(); loadDashboardData(); }
         else { const e = await res.json(); showToast(e.message||'Update failed','error'); }
       } catch(e) { showToast('Network error','error'); }
