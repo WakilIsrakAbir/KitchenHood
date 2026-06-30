@@ -6,7 +6,13 @@
   "scripts": {
     "start": "node server.js",
     "build:css": "npx tailwindcss -i ./public/css/input.css -o ./public/css/tailwind.css",
-    "dev": "concurrently \"nodemon server.js\" \"npx tailwindcss -i ./public/css/input.css -o ./public/css/tailwind.css --watch\""
+    "dev": "concurrently \"nodemon server.js\" \"npx tailwindcss -i ./public/css/input.css -o ./public/css/tailwind.css --watch\"",
+    "db:test": "node scripts/db-utils.js test-db",
+    "db:check-admin": "node scripts/db-utils.js check-admin",
+    "db:create-admin": "node scripts/db-utils.js create-admin",
+    "db:seed": "node scripts/db-utils.js seed",
+    "db:fix-images": "node scripts/db-utils.js fix-product-images",
+    "db:seed-products": "node scripts/db-utils.js seed-products"
   },
   "keywords": [
     "kitchen",
