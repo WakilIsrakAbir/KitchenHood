@@ -171,6 +171,10 @@
       <div class="nav-item" onclick="switchView('users', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg> Customers</div>
       <div class="nav-item" onclick="switchView('products', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg> Products Catalog</div>
       <div class="nav-item" onclick="switchView('services', this)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path></svg> Service Catalog</div>
+      <div class="nav-item" onclick="switchView('inquiries', this)">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> 
+        Inquiries <span id="inquiriesBadge" class="hidden ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
+      </div>
     </div>
     <div class="px-4 mt-auto mb-4 border-t border-white/5 pt-4 flex flex-col gap-2 sm:hidden">
       <a href="/" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors border border-white/10">
@@ -334,6 +338,19 @@
     </div>
 
     
+    <div id="view-inquiries" class="view-section">
+      <h1 class="text-xl font-black mb-3">Customer <span class="gold-text">Inquiries</span></h1>
+      <div class="glass-card p-4">
+        <div class="overflow-x-auto">
+          <table id="inquiriesTable" class="w-full">
+            <thead><tr><th>Date</th><th>Name</th><th>Email / Phone</th><th>Message</th><th>Action</th></tr></thead>
+            <tbody><tr><td colspan="5" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    
     <div id="view-messages" class="view-section h-full">
       <h1 class="text-xl font-black mb-3">Live <span class="gold-text">Support</span></h1>
       <div class="chat-layout">
@@ -470,6 +487,24 @@
     </div>
   </div>
 
+  <div id="viewInquiryModal" class="modal-overlay">
+    <div class="modal-box relative overflow-hidden text-left" style="max-width:500px">
+      <h3 class="text-xl font-bold text-white mb-4 text-center">Inquiry Details</h3>
+      <div class="space-y-3 mb-6" style="max-height:60vh;overflow-y:auto">
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Name</label><div id="viewInqName" class="text-white text-sm bg-navy px-3 py-2 rounded-lg"></div></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email</label><div id="viewInqEmail" class="text-white text-sm bg-navy px-3 py-2 rounded-lg break-all"></div></div>
+          <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Phone</label><div id="viewInqPhone" class="text-white text-sm bg-navy px-3 py-2 rounded-lg break-all"></div></div>
+        </div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Date</label><div id="viewInqDate" class="text-white text-sm bg-navy px-3 py-2 rounded-lg"></div></div>
+        <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Message</label><div id="viewInqMessage" class="text-white text-sm bg-navy px-3 py-2 rounded-lg whitespace-pre-wrap"></div></div>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeViewInquiryModal()" class="px-5 py-2 rounded-xl text-sm font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors w-full">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/protect.js"></script>
   <script src="/js/auth.js"></script>
@@ -562,6 +597,7 @@
         'users': 'Customers',
         'products': 'Products Catalog',
         'services': 'Service Catalog',
+        'inquiries': 'Customer Inquiries',
         'messages': 'Live Support'
       };
       const breadcrumb = document.getElementById('headerBreadcrumb');
@@ -652,10 +688,10 @@
       const headers = { 'Authorization': 'Bearer ' + token };
       try {
         
-        const [ordRes, bkgRes, usrRes, prodRes, servRes, statsRes] = await Promise.all([
+        const [ordRes, bkgRes, usrRes, prodRes, servRes, statsRes, inqRes] = await Promise.all([
           fetch('/api/orders/all', { headers }), fetch('/api/bookings/all', { headers }),
           fetch('/api/auth/users', { headers }), fetch('/api/products/all', { headers }), fetch('/api/services/all', { headers }),
-          fetch('/api/admin/stats', { headers })
+          fetch('/api/admin/stats', { headers }), fetch('/api/contact', { headers })
         ]);
         
         const ordersData = ordRes.ok ? await ordRes.json() : { orders: [] };
@@ -681,6 +717,8 @@
         
         const pendingOrders = orders.filter(o => o.orderStatus === 'pending').length;
         const pendingBookings = bookings.filter(b => b.status === 'pending').length;
+        const inquiries = inqRes.ok ? await inqRes.json() : [];
+        const unreadInquiries = inquiries.filter(i => !i.isRead).length;
 
         const ordBadge = document.getElementById('ordersBadge');
         if(ordBadge) {
@@ -692,6 +730,12 @@
         if(bkgBadge) {
           if(pendingBookings > 0) { bkgBadge.textContent = pendingBookings; bkgBadge.classList.remove('hidden'); }
           else bkgBadge.classList.add('hidden');
+        }
+
+        const inqBadge = document.getElementById('inquiriesBadge');
+        if(inqBadge) {
+          if(unreadInquiries > 0) { inqBadge.textContent = unreadInquiries; inqBadge.classList.remove('hidden'); }
+          else inqBadge.classList.add('hidden');
         }
 
         
@@ -773,7 +817,23 @@
         `).join('');
         document.getElementById('usersTable').querySelector('tbody').innerHTML = usrHtml;
         
+        const inqHtml = inquiries.map(i => `
+          <tr class="${!i.isRead ? 'bg-amber-500/5' : ''}">
+            <td>${formatDate(i.createdAt)}</td>
+            <td class="font-semibold text-white">${i.name}</td>
+            <td><div class="text-slate-300">${i.email}</div><div class="text-[10px] text-slate-500">${i.phone || '-'}</div></td>
+            <td class="text-sm ${!i.isRead ? 'font-bold text-white' : 'text-slate-400'} max-w-md truncate" title="${i.message}">${i.message}</td>
+            <td>
+              <div class="flex gap-2">
+                <button class="btn-gold !py-1 !px-3 !text-xs" onclick="openViewInquiry('${i._id}')">View</button>
+                <button class="btn-danger" onclick="deleteItem('inquiry', '${i._id}')">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+        document.getElementById('inquiriesTable').querySelector('tbody').innerHTML = inqHtml || '<tr><td colspan="5" class="text-center py-8 text-slate-500">No inquiries found</td></tr>';
         
+        allInquiries = inquiries;
         allAdminProducts = products;
         const prodHtml = Array.isArray(products) ? products.map(p => `
           <tr>
@@ -827,7 +887,11 @@
         'Yes, Delete',
         true,
         async () => {
-          const endpoint = type === 'order' ? `/api/orders/${id}` : `/api/bookings/${id}`;
+          let endpoint = '';
+          if(type === 'order') endpoint = `/api/orders/${id}`;
+          else if(type === 'booking') endpoint = `/api/bookings/${id}`;
+          else if(type === 'inquiry') endpoint = `/api/contact/${id}`;
+          
           try {
             const res = await fetch(endpoint, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + getToken() }});
             if(res.ok) { showToast('Deleted successfully'); loadDashboardData(); }
@@ -877,6 +941,31 @@
     // ── Product & Service CRUD ──
     let allAdminProducts = [];
     let allAdminServices = [];
+    let allInquiries = [];
+
+    async function openViewInquiry(id) {
+      const inq = allInquiries.find(x => x._id === id);
+      if (!inq) return;
+      document.getElementById('viewInqName').textContent = inq.name;
+      document.getElementById('viewInqEmail').textContent = inq.email;
+      document.getElementById('viewInqPhone').textContent = inq.phone || '-';
+      document.getElementById('viewInqDate').textContent = formatDate(inq.createdAt);
+      document.getElementById('viewInqMessage').textContent = inq.message;
+      
+      document.getElementById('viewInquiryModal').classList.add('active');
+
+      if (!inq.isRead) {
+        try {
+          await fetch('/api/contact/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() }, body: JSON.stringify({ isRead: true }) });
+          inq.isRead = true;
+          loadDashboardData(); 
+        } catch(e) {}
+      }
+    }
+
+    function closeViewInquiryModal() {
+      document.getElementById('viewInquiryModal').classList.remove('active');
+    }
 
     function openAddProductModal() {
       ['addProductName','addProductDesc','addProductPrice','addProductImage','addProductSpecs'].forEach(id => document.getElementById(id).value = '');
