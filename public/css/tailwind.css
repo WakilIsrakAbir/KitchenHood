@@ -1679,6 +1679,10 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgb(245 158 11 / 0.1);
 }
 
+.bg-amber-500\/5 {
+  background-color: rgb(245 158 11 / 0.05);
+}
+
 .bg-black\/20 {
   background-color: rgb(0 0 0 / 0.2);
 }
@@ -1788,10 +1792,6 @@ h1, h2, h3, h4, h5, h6 {
 .bg-yellow-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(202 138 4 / var(--tw-bg-opacity, 1));
-}
-
-.bg-amber-500\/5 {
-  background-color: rgb(245 158 11 / 0.05);
 }
 
 .bg-gradient-to-b {
