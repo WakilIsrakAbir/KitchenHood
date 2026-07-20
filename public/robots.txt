@@ -4,4 +4,4 @@ Disallow: /api/
 Disallow: /admin/
 Disallow: /user/
 
-Sitemap: https://kitchenhood.com.bd/sitemap.xml
+Sitemap: https://kitchenhood-production.up.railway.app/sitemap.xml
