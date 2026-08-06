@@ -139,4 +139,9 @@
   html.light-mode .cta-banner {
     background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #F8FAFC 100%) !important;
   }
+  
+  html.light-mode .auth-bg .text-white { color: #FFFFFF !important; }
+  html.light-mode .auth-bg .text-slate-400 { color: #94A3B8 !important; }
+  html.light-mode .auth-bg .text-slate-300 { color: #CBD5E1 !important; }
+  html.light-mode .auth-bg .text-emerald-400 { color: #34D399 !important; }
 }
