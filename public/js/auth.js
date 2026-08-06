@@ -66,6 +66,9 @@ async function login(email, password) {
   localStorage.setItem('token', data.token);
   localStorage.setItem('user', JSON.stringify(data.user));
   currentUser = data.user;
+  
+  await linkGuestData(data.token);
+  
   return data;
 }
 
@@ -83,7 +86,33 @@ async function register(name, email, password, phone) {
   localStorage.setItem('token', data.token);
   localStorage.setItem('user', JSON.stringify(data.user));
   currentUser = data.user;
+  
+  await linkGuestData(data.token);
+  
   return data;
+}
+
+async function linkGuestData(token) {
+  try {
+    const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+    
+    // Link chat
+    const guestConvId = localStorage.getItem('guestConvId');
+    if (guestConvId) {
+      await fetch(`${API_URL}/chat/link-guest`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({ guestConvId })
+      });
+      localStorage.removeItem('guestConvId');
+    }
+    
+    // Link orders & bookings (they use the user's phone number internally)
+    await fetch(`${API_URL}/orders/link-guest`, { method: 'PUT', headers }).catch(() => {});
+    await fetch(`${API_URL}/bookings/link-guest`, { method: 'PUT', headers }).catch(() => {});
+  } catch (err) {
+    console.warn('Failed to link guest data:', err);
+  }
 }
 
 function logout() {

@@ -742,7 +742,7 @@
         const rOrdHtml = orders.slice(0,5).map(o => `
           <tr>
             <td class="font-mono text-xs text-slate-400">#${o._id.substring(o._id.length-6)}</td>
-            <td class="font-semibold text-white">${o.user ? o.user.name : 'Unknown'}</td>
+            <td class="font-semibold text-white">${o.user ? o.user.name : (o.isGuest ? (o.guestName + ' <span class="bg-slate-700 text-[10px] px-1.5 py-0.5 rounded text-slate-300 ml-1">Guest</span>') : 'Unknown')}</td>
             <td class="gold-text font-bold">৳${(o.totalAmount || 0).toLocaleString()}</td>
             <td>${getStatusBadge(o.orderStatus)}</td>
           </tr>
@@ -754,7 +754,7 @@
           <tr>
             <td class="font-semibold text-white">${b.serviceName || 'Unknown Service'}</td>
             <td>${b.preferredDate ? formatDate(b.preferredDate) : 'Not set'}</td>
-            <td>${b.customerName || (b.user ? b.user.name : 'Unknown')}</td>
+            <td>${b.user ? b.user.name : (b.isGuest ? (b.customerName + ' <span class="bg-slate-700 text-[10px] px-1.5 py-0.5 rounded text-slate-300 ml-1">Guest</span>') : (b.customerName || 'Unknown'))}</td>
             <td>${getStatusBadge(b.status)}</td>
           </tr>
         `).join('');
@@ -771,7 +771,7 @@
           <tr>
             <td class="font-mono text-xs text-slate-400">#${o._id.substring(o._id.length-6)}</td>
             <td>${itemsList}</td>
-            <td><div class="font-semibold text-white">${o.user ? o.user.name : 'Unknown'}</div><div class="text-[10px] text-slate-500">${o.shippingAddress?.phone || '-'}</div></td>
+            <td><div class="font-semibold text-white">${o.user ? o.user.name : (o.isGuest ? (o.guestName + ' <span class="bg-slate-700 text-[10px] px-1.5 py-0.5 rounded text-slate-300 ml-1">Guest</span>') : 'Unknown')}</div><div class="text-[10px] text-slate-500">${o.shippingAddress?.phone || o.guestPhone || '-'}</div></td>
             <td>${formatDate(o.createdAt)}</td>
             <td class="gold-text font-bold">৳${(o.totalAmount || 0).toLocaleString()}</td>
             <td>
@@ -788,7 +788,7 @@
         const aBkgHtml = bookings.map(b => `
           <tr>
             <td class="font-mono text-xs text-slate-400">#${b._id.substring(b._id.length-6)}</td>
-            <td><div class="font-semibold text-white">${b.customerName || (b.user ? b.user.name : 'Unknown')}</div><div class="text-[10px] text-slate-500">${b.customerPhone || '-'}</div></td>
+            <td><div class="font-semibold text-white">${b.user ? b.user.name : (b.isGuest ? (b.customerName + ' <span class="bg-slate-700 text-[10px] px-1.5 py-0.5 rounded text-slate-300 ml-1">Guest</span>') : (b.customerName || 'Unknown'))}</div><div class="text-[10px] text-slate-500">${b.customerPhone || '-'}</div></td>
             <td class="text-slate-300 max-w-[150px] truncate" title="${b.serviceName || ''}">${b.serviceName || 'Unknown'}</td>
             <td>${b.preferredDate ? formatDate(b.preferredDate) : 'Not specified'}<br><span class="text-xs">${b.preferredTime || ''}</span></td>
             <td>

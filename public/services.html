@@ -205,39 +205,43 @@
         <h3 class="text-sm font-bold text-white" id="modalTitle">Book Service</h3>
         <button onclick="closeBookingModal()" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
       </div>
-      <form id="bookingForm" class="p-5 space-y-4">
+      <form id="bookingForm" class="p-5 space-y-3">
         <input type="hidden" id="bookServiceId">
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Service Selected</label>
-          <div id="bookServiceName" class="text-white font-bold"></div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Service Selected</label>
+          <div id="bookServiceName" class="text-white font-bold text-sm"></div>
         </div>
-        <div id="guestNameField" style="display:none;">
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Your Name <span class="text-red-400">*</span></label>
-          <input type="text" id="bookGuestName" class="input-dark" placeholder="আপনার নাম">
+        <div class="grid grid-cols-2 gap-3">
+          <div id="guestNameField" style="display:none;" class="col-span-2 sm:col-span-1">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Your Name <span class="text-red-400">*</span></label>
+            <input type="text" id="bookGuestName" class="input-dark text-sm !py-2" placeholder="আপনার নাম">
+          </div>
+          <div class="col-span-2 sm:col-span-1" id="phoneContainer">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Number <span class="text-red-400">*</span></label>
+            <input type="tel" id="bookPhone" required class="input-dark text-sm !py-2" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="col-span-2 sm:col-span-1">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Preferred Date</label>
+            <input type="date" id="bookDate" required class="input-dark text-sm !py-2">
+          </div>
+          <div class="col-span-2 sm:col-span-1">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Preferred Time</label>
+            <select id="bookTime" required class="input-dark text-sm !py-2">
+              <option value="">Select a time slot</option>
+              <option value="9:00 AM - 11:00 AM">9:00 AM - 11:00 AM</option>
+              <option value="11:00 AM - 1:00 PM">11:00 AM - 1:00 PM</option>
+              <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
+              <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
+            </select>
+          </div>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Preferred Date</label>
-          <input type="date" id="bookDate" required class="input-dark">
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Full Address <span class="text-red-400">*</span></label>
+          <textarea id="bookAddress" required rows="2" class="input-dark text-sm !py-2 resize-none" placeholder="House/Flat, Road, Area, City"></textarea>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Preferred Time</label>
-          <select id="bookTime" required class="input-dark">
-            <option value="">Select a time slot</option>
-            <option value="9:00 AM - 11:00 AM">9:00 AM - 11:00 AM</option>
-            <option value="11:00 AM - 1:00 PM">11:00 AM - 1:00 PM</option>
-            <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
-            <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Full Address <span class="text-red-400">*</span></label>
-          <textarea id="bookAddress" required rows="2" class="input-dark resize-none" placeholder="House/Flat, Road, Area, City"></textarea>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number <span class="text-red-400">*</span></label>
-          <input type="tel" id="bookPhone" required class="input-dark" placeholder="01XXXXXXXXX">
-        </div>
-        <button type="submit" class="btn-gold w-full justify-center !py-3 mt-2">Confirm Booking</button>
+        <button type="submit" class="btn-gold w-full justify-center !py-2.5 mt-1 text-sm font-semibold">Confirm Booking</button>
       </form>
     </div>
   </div>

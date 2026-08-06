@@ -124,8 +124,8 @@ function initChatWidget() {
   let user = null;
   try { user = JSON.parse(localStorage.getItem('user')); } catch(e){}
   
-  if (!user || !user._id || user.role === 'admin') {
-    return; 
+  if (user && user.role === 'admin') {
+    return; // Admin uses dashboard chat
   }
 
   const script = document.createElement('script');
@@ -133,7 +133,16 @@ function initChatWidget() {
   script.onload = () => {
     let chatSocket = io(window.location.origin);
     
-    let convId = user._id;
+    let convId;
+    if (user && user._id) {
+      convId = user._id;
+    } else {
+      convId = localStorage.getItem('guestConvId');
+      if (!convId) {
+        convId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('guestConvId', convId);
+      }
+    }
     
     chatSocket.emit('join-room', convId);
 

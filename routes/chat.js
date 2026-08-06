@@ -90,4 +90,36 @@ router.put('/read/:conversationId', protect, async (req, res) => {
   }
 });
 
+router.put('/link-guest', protect, async (req, res) => {
+  try {
+    const { guestConvId } = req.body;
+    if (guestConvId) {
+      // Update all messages where this guest was the sender
+      await Message.updateMany(
+        { conversationId: guestConvId, senderRole: 'user' },
+        { 
+          $set: { 
+            conversationId: req.user._id.toString(),
+            sender: req.user._id
+          } 
+        }
+      );
+      // Update all messages sent by admin to this guest
+      await Message.updateMany(
+        { conversationId: guestConvId, senderRole: 'admin' },
+        { 
+          $set: { 
+            conversationId: req.user._id.toString()
+          } 
+        }
+      );
+      res.json({ success: true, message: 'Chat history linked successfully' });
+    } else {
+      res.status(400).json({ success: false, message: 'Guest conversation ID required' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = router;
