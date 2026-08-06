@@ -355,13 +355,16 @@
       document.getElementById('bookServiceName').textContent = serviceName;
       document.getElementById('modalTitle').textContent = 'Book: ' + serviceName;
       const guestNameField = document.getElementById('guestNameField');
+      const phoneContainer = document.getElementById('phoneContainer');
       if (user) {
         guestNameField.style.display = 'none';
+        if(phoneContainer) phoneContainer.className = 'col-span-2';
         document.getElementById('bookGuestName').removeAttribute('required');
         if(user.phone) document.getElementById('bookPhone').value = user.phone;
         if(user.address) document.getElementById('bookAddress').value = user.address;
       } else {
         guestNameField.style.display = 'block';
+        if(phoneContainer) phoneContainer.className = 'col-span-2 sm:col-span-1';
         document.getElementById('bookGuestName').setAttribute('required', 'required');
       }
       document.getElementById('bookingModal').classList.add('active');
