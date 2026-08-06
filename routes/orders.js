@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-const { protect, adminOnly } = require('../middleware/auth');
+const { protect, adminOnly, optionalAuth } = require('../middleware/auth');
 
 
 
-router.post(['/', '/create'], protect, async (req, res) => {
+router.post(['/', '/create'], optionalAuth, async (req, res) => {
   try {
-    const { items, totalAmount, shippingAddress, paymentMethod } = req.body;
+    const { items, totalAmount, shippingAddress, paymentMethod, guestName, guestPhone } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ success: false, message: 'No order items' });
@@ -18,7 +18,18 @@ router.post(['/', '/create'], protect, async (req, res) => {
       return res.status(400).json({ success: false, message: 'Shipping address and phone are required' });
     }
 
-    
+    // Guest validation
+    const isGuest = !req.user;
+    if (isGuest) {
+      if (!guestName || !guestName.trim()) {
+        return res.status(400).json({ success: false, message: 'Name is required' });
+      }
+      if (!guestPhone || !guestPhone.trim()) {
+        return res.status(400).json({ success: false, message: 'Phone number is required' });
+      }
+    }
+
+    // Stock check
     for (const item of items) {
       if (item.product) {
         try {
@@ -34,21 +45,30 @@ router.post(['/', '/create'], protect, async (req, res) => {
             await product.save();
           }
         } catch (e) {
-          
+          // Product ID may be from fallback data
         }
       }
     }
 
-    const order = new Order({
-      user: req.user._id,
+    const orderData = {
       items,
       totalAmount,
       shippingAddress,
-      paymentMethod: paymentMethod || 'cod'
-    });
+      paymentMethod: paymentMethod || 'cod',
+      isGuest
+    };
 
+    if (req.user) {
+      orderData.user = req.user._id;
+    } else {
+      orderData.guestName = guestName.trim();
+      orderData.guestPhone = guestPhone.trim();
+      orderData.guestAddress = shippingAddress.address || '';
+    }
+
+    const order = new Order(orderData);
     const createdOrder = await order.save();
-    res.status(201).json({ success: true, order: createdOrder });
+    res.status(201).json({ success: true, order: createdOrder, isGuest });
   } catch (error) {
     console.error('Error creating order:', error);
     res.status(500).json({ success: false, message: 'Server error creating order' });
@@ -73,6 +93,23 @@ router.get(['/', '/all'], protect, adminOnly, async (req, res) => {
     res.json({ success: true, orders });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error fetching all orders' });
+  }
+});
+
+// Link guest orders to user account after registration/login (match by phone)
+router.put('/link-guest', protect, async (req, res) => {
+  try {
+    const phone = req.user.phone;
+    if (!phone) {
+      return res.json({ success: true, linked: 0 });
+    }
+    const result = await Order.updateMany(
+      { isGuest: true, guestPhone: phone, user: null },
+      { $set: { user: req.user._id, isGuest: false } }
+    );
+    res.json({ success: true, linked: result.modifiedCount });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error linking guest orders' });
   }
 });
 

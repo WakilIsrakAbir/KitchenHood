@@ -199,7 +199,6 @@
     </section>
   </main>
 
-  
   <div class="modal-overlay" id="bookingModal">
     <div class="modal-box">
       <div class="p-5 border-b border-white/5 flex justify-between items-center">
@@ -211,6 +210,10 @@
         <div>
           <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Service Selected</label>
           <div id="bookServiceName" class="text-white font-bold"></div>
+        </div>
+        <div id="guestNameField" style="display:none;">
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Your Name <span class="text-red-400">*</span></label>
+          <input type="text" id="bookGuestName" class="input-dark" placeholder="আপনার নাম">
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Preferred Date</label>
@@ -227,11 +230,11 @@
           </select>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Full Address</label>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Full Address <span class="text-red-400">*</span></label>
           <textarea id="bookAddress" required rows="2" class="input-dark resize-none" placeholder="House/Flat, Road, Area, City"></textarea>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number <span class="text-red-400">*</span></label>
           <input type="tel" id="bookPhone" required class="input-dark" placeholder="01XXXXXXXXX">
         </div>
         <button type="submit" class="btn-gold w-full justify-center !py-3 mt-2">Confirm Booking</button>
@@ -239,9 +242,6 @@
     </div>
   </div>
 
-  
-  
-  
   <div id="cartOverlay" class="cart-overlay fixed inset-0 z-[100]" onclick="closeCart()"></div>
   <div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-96 max-w-full z-[101] flex flex-col shadow-2xl">
     <div class="p-4 border-b border-white/5 flex items-center justify-between">
@@ -256,7 +256,7 @@
         <span class="text-sm text-slate-400">Subtotal</span>
         <span class="font-bold text-white text-lg">৳<span id="cartTotal">0</span></span>
       </div>
-      <button class="btn-gold w-full justify-center">Checkout Now</button>
+      <button class="btn-gold w-full justify-center" onclick="checkout()">Checkout Now</button>
     </div>
   </div>
 
@@ -285,10 +285,8 @@
     let servicesLoaded = false;
 
     async function loadServices() {
-      
       const grid = document.getElementById('servicesGrid');
       grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500"><div class="w-8 h-8 border-2 border-yellow-500/40 border-t-yellow-500 rounded-full animate-spin mx-auto mb-3"></div>Loading services...</div>';
-      
       try {
         const res = await fetch('/api/services', { signal: AbortSignal.timeout(5000) });
         if (res.ok) {
@@ -304,7 +302,6 @@
       } catch (e) {
         console.warn('Failed to load services from API:', e.message);
       }
-      
       grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500">Could not load services. Please refresh the page.</div>';
     }
 
@@ -339,7 +336,6 @@
       }).join('');
     }
 
-    // Category filter
     document.getElementById('categoryFilter').addEventListener('click', function(e) {
       if (e.target.classList.contains('category-pill')) {
         document.querySelectorAll('.category-pill').forEach(function(p) { p.classList.remove('active'); });
@@ -349,75 +345,76 @@
       }
     });
 
-    // Booking Modal
     function openBooking(serviceId, serviceName) {
       const user = typeof getUser === 'function' ? getUser() : null;
-      if (!user) {
-        if(typeof showToast === 'function') showToast('Please login to book a service', 'info');
-        setTimeout(() => { window.location.href = '/login.html?redirect=' + encodeURIComponent(window.location.pathname); }, 800);
-        return;
-      }
       document.getElementById('bookServiceId').value = serviceId;
       document.getElementById('bookServiceName').textContent = serviceName;
       document.getElementById('modalTitle').textContent = 'Book: ' + serviceName;
-      // Pre-fill phone from user profile
-      if(user.phone) document.getElementById('bookPhone').value = user.phone;
+      const guestNameField = document.getElementById('guestNameField');
+      if (user) {
+        guestNameField.style.display = 'none';
+        document.getElementById('bookGuestName').removeAttribute('required');
+        if(user.phone) document.getElementById('bookPhone').value = user.phone;
+        if(user.address) document.getElementById('bookAddress').value = user.address;
+      } else {
+        guestNameField.style.display = 'block';
+        document.getElementById('bookGuestName').setAttribute('required', 'required');
+      }
       document.getElementById('bookingModal').classList.add('active');
     }
     function closeBookingModal() { document.getElementById('bookingModal').classList.remove('active'); }
 
     document.getElementById('bookingForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+      const user = typeof getUser === 'function' ? getUser() : null;
       const submitBtn = this.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
       submitBtn.textContent = 'Booking...';
       try {
-        const token = getToken();
-        if (!token) {
-          if(typeof showToast === 'function') showToast('Please login first', 'error');
-          window.location.href = '/login.html';
-          return;
-        }
         const phone = document.getElementById('bookPhone').value.trim();
         const address = document.getElementById('bookAddress').value.trim();
-        if (!phone) {
-          if(typeof showToast === 'function') showToast('Phone number is required', 'error');
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Confirm Booking';
-          return;
-        }
-        if (!address) {
-          if(typeof showToast === 'function') showToast('Address is required', 'error');
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Confirm Booking';
-          return;
-        }
-        const res = await fetch('/api/bookings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-          body: JSON.stringify({
-            service: document.getElementById('bookServiceId').value,
-            date: document.getElementById('bookDate').value,
-            timeSlot: document.getElementById('bookTime').value,
-            address: address,
-            phone: phone
-          })
-        });
+        const guestName = document.getElementById('bookGuestName')?.value?.trim() || '';
+        if (!phone) { showToast('Phone number is required', 'error'); submitBtn.disabled = false; submitBtn.textContent = 'Confirm Booking'; return; }
+        if (!address) { showToast('Address is required', 'error'); submitBtn.disabled = false; submitBtn.textContent = 'Confirm Booking'; return; }
+        if (!user && !guestName) { showToast('Name is required', 'error'); submitBtn.disabled = false; submitBtn.textContent = 'Confirm Booking'; return; }
+
+        const headers = { 'Content-Type': 'application/json' };
+        const token = typeof getToken === 'function' ? getToken() : null;
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const bodyData = { service: document.getElementById('bookServiceId').value, date: document.getElementById('bookDate').value, timeSlot: document.getElementById('bookTime').value, address, phone };
+        if (!user) bodyData.customerName = guestName;
+
+        const res = await fetch('/api/bookings', { method: 'POST', headers, body: JSON.stringify(bodyData) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Booking failed');
         closeBookingModal();
         document.getElementById('bookingForm').reset();
-        if(typeof showToast === 'function') showToast('Service booked successfully! Check your dashboard for details.', 'success');
+        if (!user) {
+          if (typeof showGuestSuccessModal === 'function') showGuestSuccessModal('booking', guestName, phone);
+          else _showBookingGuestModal(guestName, phone);
+        } else {
+          showToast('Service booked successfully! Check your dashboard for details.', 'success');
+        }
       } catch (err) {
-        if(typeof showToast === 'function') showToast(err.message || 'Failed to book service', 'error');
+        showToast(err.message || 'Failed to book service', 'error');
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Confirm Booking';
       }
     });
 
+    function _showBookingGuestModal(name, phone) {
+      const overlay = document.createElement('div');
+      overlay.className = 'fixed inset-0 z-[200] flex items-center justify-center p-4';
+      overlay.style.cssText = 'background:rgba(15,23,42,0.9);backdrop-filter:blur(10px);animation:fadeIn 0.3s forwards';
+      overlay.innerHTML = '<div class="bg-slate-800 border border-white/10 rounded-2xl w-full shadow-2xl text-center p-6" style="max-width:380px;animation:scaleIn 0.3s forwards"><div class="w-16 h-16 rounded-full bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-xl font-black text-white mb-2">Booking Confirmed! 🎉</h3><p class="text-sm text-slate-400 mb-6 leading-relaxed">আপনার booking সফলভাবে সম্পন্ন হয়েছে।<br>Account তৈরি করলে booking track করতে পারবেন।</p><div class="space-y-2.5"><a href="/register.html?name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone) + '" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 font-bold py-2.5 text-sm rounded-xl shadow-lg">Create Account</a><a href="/login.html" class="w-full flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white font-semibold py-2.5 text-sm rounded-xl">Already have an account? Login</a><button class="guestSkipBtn w-full text-slate-500 hover:text-slate-300 font-medium py-2 text-xs">Skip for now →</button></div></div>';
+      document.body.appendChild(overlay);
+      overlay.querySelector('.guestSkipBtn').addEventListener('click', function() { overlay.style.opacity = '0'; setTimeout(function() { overlay.remove(); }, 200); showToast('Booking placed successfully! 🎉', 'success'); });
+    }
+
     document.addEventListener('DOMContentLoaded', loadServices);
   </script>
 </body>
 </html>
-
+

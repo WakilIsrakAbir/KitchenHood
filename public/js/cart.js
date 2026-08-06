@@ -94,20 +94,13 @@ function closeCart() {
 
 async function checkout() {
   const user = typeof getUser === 'function' ? getUser() : null;
-  if (!user) {
-    showToast('Please login to place order', 'info');
-    setTimeout(() => { window.location.href = '/login.html?redirect=' + encodeURIComponent(window.location.pathname); }, 800);
-    return;
-  }
   if (cart.length === 0) {
     showToast('Cart is empty', 'error');
     return;
   }
 
-  
   closeCart();
 
-  
   const modalOverlay = document.createElement('div');
   modalOverlay.className = 'fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all opacity-0';
   modalOverlay.style.background = 'rgba(15, 23, 42, 0.85)';
@@ -121,15 +114,23 @@ async function checkout() {
 
   const totalAmount = getCartTotal();
 
+  // Guest gets Name field; logged-in user doesn't need it
+  const nameField = !user ? `
+      <div>
+        <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Your Name <span class="text-red-400">*</span></label>
+        <input type="text" id="checkoutName" required placeholder="আপনার নাম" class="w-full bg-slate-900 border border-slate-700 focus:border-yellow-500 rounded-md px-3 py-1.5 text-xs text-white outline-none transition-colors">
+      </div>` : '';
+
   modalContent.innerHTML = `
     <div class="p-3 border-b border-white/10 flex justify-between items-center bg-slate-800/50">
       <h3 class="text-sm font-bold text-white flex items-center gap-1.5"><svg class="w-4 h-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg> Checkout</h3>
       <button id="closeCheckoutBtn" class="text-slate-400 hover:text-white transition-colors text-xl leading-none">&times;</button>
     </div>
     <form id="checkoutForm" class="p-4 flex flex-col gap-3">
+      ${nameField}
       <div>
-        <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Number</label>
-        <input type="tel" id="checkoutPhone" required placeholder="01XXXXXXXXX" value="${user.phone || ''}" class="w-full bg-slate-900 border border-slate-700 focus:border-yellow-500 rounded-md px-3 py-1.5 text-xs text-white outline-none transition-colors">
+        <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Phone Number <span class="text-red-400">*</span></label>
+        <input type="tel" id="checkoutPhone" required placeholder="01XXXXXXXXX" value="${user && user.phone ? user.phone : ''}" class="w-full bg-slate-900 border border-slate-700 focus:border-yellow-500 rounded-md px-3 py-1.5 text-xs text-white outline-none transition-colors">
       </div>
       <div>
         <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">City</label>
@@ -145,8 +146,8 @@ async function checkout() {
         </select>
       </div>
       <div>
-        <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Full Address</label>
-        <textarea id="checkoutAddress" required placeholder="House, Road, Area..." rows="2" class="w-full bg-slate-900 border border-slate-700 focus:border-yellow-500 rounded-md px-3 py-1.5 text-xs text-white outline-none transition-colors resize-none">${user.address || ''}</textarea>
+        <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Full Address <span class="text-red-400">*</span></label>
+        <textarea id="checkoutAddress" required placeholder="House, Road, Area..." rows="2" class="w-full bg-slate-900 border border-slate-700 focus:border-yellow-500 rounded-md px-3 py-1.5 text-xs text-white outline-none transition-colors resize-none">${user && user.address ? user.address : ''}</textarea>
       </div>
       
       <div class="mt-1 bg-slate-900/50 p-2.5 rounded-md border border-white/5 flex justify-between items-center">
@@ -190,6 +191,7 @@ async function checkout() {
 
   document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const guestName = document.getElementById('checkoutName')?.value?.trim() || '';
     const phone = document.getElementById('checkoutPhone').value.trim();
     const city = document.getElementById('checkoutCity').value.trim();
     const address = document.getElementById('checkoutAddress').value.trim();
@@ -207,24 +209,29 @@ async function checkout() {
     }));
 
     try {
-      const token = getToken();
-      if (!token) {
-        showToast('Session expired, please login again', 'error');
-        window.location.href = '/login.html';
-        return;
+      const headers = { 'Content-Type': 'application/json' };
+      const token = typeof getToken === 'function' ? getToken() : null;
+      if (token) {
+        headers['Authorization'] = 'Bearer ' + token;
       }
+
+      const bodyData = {
+        items,
+        totalAmount,
+        shippingAddress: { address: address, phone: phone, city: city },
+        paymentMethod: 'cod'
+      };
+
+      // Add guest info if not logged in
+      if (!user) {
+        bodyData.guestName = guestName;
+        bodyData.guestPhone = phone;
+      }
+
       const res = await fetch('/api/orders', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({
-          items,
-          totalAmount,
-          shippingAddress: { address: address, phone: phone, city: city },
-          paymentMethod: 'cod'
-        })
+        headers,
+        body: JSON.stringify(bodyData)
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Order failed');
@@ -233,12 +240,59 @@ async function checkout() {
       saveCart();
       closeCart();
       closeModal();
-      showToast('Order placed successfully! 🎉 Check your dashboard for details.', 'success');
+
+      // Show post-order prompt
+      if (!user) {
+        showGuestSuccessModal('order', guestName, phone);
+      } else {
+        showToast('Order placed successfully! 🎉 Check your dashboard for details.', 'success');
+      }
     } catch (err) {
       showToast(err.message || 'Failed to place order', 'error');
       confirmBtn.disabled = false;
       confirmBtn.innerHTML = 'Confirm Order <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>';
     }
+  });
+}
+
+// Post-order/booking success modal for guest users
+function showGuestSuccessModal(type, name, phone) {
+  const typeLabel = type === 'order' ? 'Order' : 'Booking';
+  const overlay = document.createElement('div');
+  overlay.className = 'fixed inset-0 z-[200] flex items-center justify-center p-4';
+  overlay.style.background = 'rgba(15, 23, 42, 0.9)';
+  overlay.style.backdropFilter = 'blur(10px)';
+  overlay.style.animation = 'fadeIn 0.3s forwards';
+
+  overlay.innerHTML = `
+    <div class="bg-slate-800 border border-white/10 rounded-2xl w-full shadow-2xl text-center p-6" style="max-width:380px; animation: scaleIn 0.3s forwards;">
+      <div class="w-16 h-16 rounded-full bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h3 class="text-xl font-black text-white mb-2">${typeLabel} Confirmed! 🎉</h3>
+      <p class="text-sm text-slate-400 mb-6 leading-relaxed">আপনার ${typeLabel.toLowerCase()} সফলভাবে সম্পন্ন হয়েছে।<br>Account তৈরি করলে order track করতে পারবেন।</p>
+      
+      <div class="space-y-2.5">
+        <a href="/register.html?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-bold py-2.5 text-sm rounded-xl shadow-lg shadow-yellow-500/20 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+          Create Account
+        </a>
+        <a href="/login.html" class="w-full flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold py-2.5 text-sm rounded-xl transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+          Already have an account? Login
+        </a>
+        <button id="skipRegistrationBtn" class="w-full text-slate-500 hover:text-slate-300 font-medium py-2 text-xs transition-colors">
+          Skip for now →
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.getElementById('skipRegistrationBtn').addEventListener('click', () => {
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.remove(), 200);
+    showToast(`${typeLabel} placed successfully! 🎉`, 'success');
   });
 }
 

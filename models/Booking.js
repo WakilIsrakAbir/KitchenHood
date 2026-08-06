@@ -5,6 +5,10 @@ const bookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  isGuest: {
+    type: Boolean,
+    default: false
+  },
   service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Service',

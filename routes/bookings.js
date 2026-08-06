@@ -2,19 +2,31 @@ const express = require('express');
 const router = express.Router();
 const Booking = require('../models/Booking');
 const Service = require('../models/Service');
-const { protect, adminOnly } = require('../middleware/auth');
+const { protect, adminOnly, optionalAuth } = require('../middleware/auth');
 
 
 
-router.post(['/', '/create'], protect, async (req, res) => {
+router.post(['/', '/create'], optionalAuth, async (req, res) => {
   try {
-    const { service, date, timeSlot, address, phone, notes } = req.body;
+    const { service, date, timeSlot, address, phone, notes, customerName } = req.body;
 
     if (!service) {
       return res.status(400).json({ success: false, message: 'Service is required' });
     }
 
-    
+    const isGuest = !req.user;
+
+    // Guest validation
+    if (isGuest) {
+      if (!customerName || !customerName.trim()) {
+        return res.status(400).json({ success: false, message: 'Name is required' });
+      }
+      if (!phone || !phone.trim()) {
+        return res.status(400).json({ success: false, message: 'Phone number is required' });
+      }
+    }
+
+    // Fetch service details
     let serviceName = req.body.serviceName || '';
     let price = req.body.price || 0;
     try {
@@ -24,26 +36,31 @@ router.post(['/', '/create'], protect, async (req, res) => {
         price = serviceDoc.price;
       }
     } catch (e) {
-      
+      // Service ID may be from fallback data
     }
 
-    const booking = new Booking({
-      user: req.user._id,
+    const bookingData = {
       service,
       serviceName,
       price,
-      customerName: req.user.name,
-      customerPhone: phone || req.user.phone || '',
-      customerEmail: req.user.email,
-      customerAddress: address || req.user.address || '',
+      customerName: req.user ? req.user.name : customerName.trim(),
+      customerPhone: phone || (req.user ? req.user.phone : '') || '',
+      customerEmail: req.user ? req.user.email : '',
+      customerAddress: address || (req.user ? req.user.address : '') || '',
       preferredDate: date || req.body.preferredDate,
       preferredTime: timeSlot || req.body.preferredTime || '',
       notes: notes || '',
-      status: 'pending'
-    });
+      status: 'pending',
+      isGuest
+    };
 
+    if (req.user) {
+      bookingData.user = req.user._id;
+    }
+
+    const booking = new Booking(bookingData);
     const createdBooking = await booking.save();
-    res.status(201).json({ success: true, booking: createdBooking });
+    res.status(201).json({ success: true, booking: createdBooking, isGuest });
   } catch (error) {
     console.error('Error creating booking:', error);
     res.status(500).json({ success: false, message: 'Server error creating booking' });
@@ -68,6 +85,23 @@ router.get(['/', '/all'], protect, adminOnly, async (req, res) => {
     res.json({ success: true, bookings });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error fetching all bookings' });
+  }
+});
+
+// Link guest bookings to user account after registration/login (match by phone)
+router.put('/link-guest', protect, async (req, res) => {
+  try {
+    const phone = req.user.phone;
+    if (!phone) {
+      return res.json({ success: true, linked: 0 });
+    }
+    const result = await Booking.updateMany(
+      { isGuest: true, customerPhone: phone, user: null },
+      { $set: { user: req.user._id, isGuest: false } }
+    );
+    res.json({ success: true, linked: result.modifiedCount });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error linking guest bookings' });
   }
 });
 
