@@ -212,20 +212,20 @@
     <div id="view-profile" class="view-section">
       <form id="profileForm" class="grid lg:grid-cols-2 gap-6 max-w-6xl">
         
-        <div class="glass-card p-4 md:p-5 h-fit">
+        <div class="glass-card p-4 md:p-5 h-full flex flex-col">
           <h3 class="font-bold text-base mb-4">Personal Information</h3>
-          <div class="space-y-5">
+          <div class="space-y-5 flex-1">
             <div class="grid md:grid-cols-2 gap-4">
               <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Full Name</label><input type="text" id="profName" class="input-dark"></div>
               <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Phone (Read Only)</label><input type="text" id="profPhone" class="input-dark" readonly style="opacity:0.7;cursor:not-allowed"></div>
             </div>
-            <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Email Address (Read Only)</label><input type="email" id="profEmail" class="input-dark" readonly style="opacity:0.7;cursor:not-allowed"></div>
+
             <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Default Address</label><textarea id="profAddress" class="input-dark" rows="3"></textarea></div>
           </div>
         </div>
         
         
-        <div class="glass-card p-4 md:p-5 h-fit flex flex-col">
+        <div class="glass-card p-4 md:p-5 h-full flex flex-col">
           <div>
             <h3 class="font-bold text-base mb-1">Change Password</h3>
             <p class="text-xs text-slate-400 mb-5">Leave blank if you do not want to change your password.</p>
@@ -413,7 +413,6 @@
           const user = await res.json();
           document.getElementById('userNameDisplay').textContent = user.name.split(' ')[0];
           document.getElementById('profName').value = user.name || '';
-          document.getElementById('profEmail').value = user.email || '';
           document.getElementById('profPhone').value = user.phone || '';
           document.getElementById('profAddress').value = user.address || '';
         }
