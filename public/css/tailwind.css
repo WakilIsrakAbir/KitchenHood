@@ -1147,6 +1147,10 @@ h1, h2, h3, h4, h5, h6 {
   min-height: 100vh;
 }
 
+.min-h-\[150px\] {
+  min-height: 150px;
+}
+
 .\!w-10 {
   width: 2.5rem !important;
 }
