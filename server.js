@@ -5,6 +5,7 @@ const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
+const { sendMessageNotification } = require('./utils/notificationService');
 
 dotenv.config();
 
@@ -233,6 +234,16 @@ io.on('connection', (socket) => {
       });
       
       io.emit('conversation-update', { conversationId: data.conversationId, senderName: data.senderName });
+
+      // Send email notification if it's a user message
+      if (msgDoc.senderRole !== 'admin') {
+        sendMessageNotification({
+          name: msgDoc.senderName || 'User',
+          email: null, // email not available in socket data usually, sends to Admin
+          phone: 'N/A',
+          message: msgDoc.message
+        }).catch(err => console.error('Email error from socket:', err));
+      }
     } catch (error) {
       console.error('Chat error:', error.message);
     }

@@ -3,6 +3,7 @@ const router = express.Router();
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const { protect, adminOnly, optionalAuth } = require('../middleware/auth');
+const { sendOrderNotification } = require('../utils/notificationService');
 
 
 
@@ -68,6 +69,11 @@ router.post(['/', '/create'], optionalAuth, async (req, res) => {
 
     const order = new Order(orderData);
     const createdOrder = await order.save();
+    
+    // Send email notification
+    const userEmail = req.user ? req.user.email : null;
+    sendOrderNotification(createdOrder, userEmail).catch(err => console.error('Email error:', err));
+
     res.status(201).json({ success: true, order: createdOrder, isGuest });
   } catch (error) {
     console.error('Error creating order:', error);

@@ -3,6 +3,7 @@ const router = express.Router();
 const Booking = require('../models/Booking');
 const Service = require('../models/Service');
 const { protect, adminOnly, optionalAuth } = require('../middleware/auth');
+const { sendBookingNotification } = require('../utils/notificationService');
 
 
 
@@ -60,6 +61,11 @@ router.post(['/', '/create'], optionalAuth, async (req, res) => {
 
     const booking = new Booking(bookingData);
     const createdBooking = await booking.save();
+    
+    // Send email notification
+    const userEmail = req.user ? req.user.email : null;
+    sendBookingNotification(createdBooking, userEmail).catch(err => console.error('Email error:', err));
+
     res.status(201).json({ success: true, booking: createdBooking, isGuest });
   } catch (error) {
     console.error('Error creating booking:', error);

@@ -1,12 +1,17 @@
 const express = require('express');
 const Contact = require('../models/Contact');
 const { protect, adminOnly } = require('../middleware/auth');
+const { sendMessageNotification } = require('../utils/notificationService');
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
   try {
     const contact = await Contact.create(req.body);
+    
+    // Send email notification
+    sendMessageNotification(contact).catch(err => console.error('Email error:', err));
+
     res.status(201).json({ message: 'Message sent successfully', contact });
   } catch (error) {
     res.status(500).json({ message: error.message });

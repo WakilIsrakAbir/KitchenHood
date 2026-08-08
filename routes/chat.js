@@ -1,6 +1,7 @@
 const express = require('express');
 const Message = require('../models/Message');
 const { protect, adminOnly } = require('../middleware/auth');
+const { sendMessageNotification } = require('../utils/notificationService');
 
 const router = express.Router();
 
@@ -55,6 +56,17 @@ router.post('/', protect, async (req, res) => {
       message: req.body.message,
       conversationId: req.body.conversationId
     });
+    
+    // Send email notification for user messages (not admin)
+    if (req.user.role === 'user') {
+      sendMessageNotification({
+        name: req.user.name,
+        email: req.user.email,
+        phone: req.user.phone || 'N/A',
+        message: req.body.message
+      }).catch(err => console.error('Email error:', err));
+    }
+
     res.status(201).json(message);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -69,6 +81,15 @@ router.post('/guest', async (req, res) => {
       message: req.body.message,
       conversationId: req.body.conversationId
     });
+
+    // Send email notification for guest chat
+    sendMessageNotification({
+      name: req.body.name || 'Guest',
+      email: null,
+      phone: 'N/A',
+      message: req.body.message
+    }).catch(err => console.error('Email error:', err));
+
     res.status(201).json(message);
   } catch (error) {
     res.status(500).json({ message: error.message });
