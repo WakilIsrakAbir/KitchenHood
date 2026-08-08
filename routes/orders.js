@@ -72,7 +72,8 @@ router.post(['/', '/create'], optionalAuth, async (req, res) => {
     
     // Send email notification
     const userEmail = req.user ? req.user.email : null;
-    sendOrderNotification(createdOrder, userEmail).catch(err => console.error('Email error:', err));
+    const customerName = req.user ? req.user.name : (guestName || 'Customer');
+    sendOrderNotification(createdOrder, userEmail, customerName).catch(err => console.error('Email error:', err));
 
     res.status(201).json({ success: true, order: createdOrder, isGuest });
   } catch (error) {

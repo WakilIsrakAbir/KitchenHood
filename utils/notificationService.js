@@ -45,20 +45,28 @@ const sendMail = async (to, subject, text, html) => {
 const getAdminEmail = () => process.env.ADMIN_EMAIL || process.env.SMTP_USER;
 
 // Specific notification functions
-const sendOrderNotification = async (order, userEmail) => {
+const sendOrderNotification = async (order, userEmail, customerName) => {
   const adminEmail = getAdminEmail();
   const orderId = order._id;
   const amount = order.totalAmount;
+  
+  const productNames = order.items.map(item => `${item.name} (x${item.quantity || 1})`).join(', ');
+  const phone = order.shippingAddress?.phone || order.guestPhone || 'N/A';
+  const address = order.shippingAddress?.address || order.guestAddress || 'N/A';
+  const cName = customerName || order.guestName || 'Customer';
   
   // To Admin
   await sendMail(
     adminEmail,
     `New Order Received: #${orderId}`,
-    `A new order has been placed.\nOrder ID: ${orderId}\nTotal Amount: ৳${amount}\nPayment Method: ${order.paymentMethod}`,
+    `A new order has been placed.\nOrder ID: ${orderId}\nCustomer: ${cName}\nPhone: ${phone}\nAddress: ${address}\nProducts: ${productNames}\nTotal Amount: ৳${amount}`,
     `<h3>New Order Received</h3>
      <p><strong>Order ID:</strong> ${orderId}</p>
-     <p><strong>Total Amount:</strong> ৳${amount}</p>
-     <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>`
+     <p><strong>Customer:</strong> ${cName}</p>
+     <p><strong>Phone:</strong> ${phone}</p>
+     <p><strong>Address:</strong> ${address}</p>
+     <p><strong>Products:</strong> ${productNames}</p>
+     <p><strong>Total Amount:</strong> ৳${amount}</p>`
   );
 
   // To User (if email is available)
@@ -66,12 +74,14 @@ const sendOrderNotification = async (order, userEmail) => {
     await sendMail(
       userEmail,
       `Order Confirmation: #${orderId}`,
-      `Thank you for your order!\nOrder ID: ${orderId}\nTotal Amount: ৳${amount}\nPayment Method: ${order.paymentMethod}`,
+      `Hi ${cName},\nThank you for your order!\nOrder ID: ${orderId}\nProducts: ${productNames}\nTotal Amount: ৳${amount}\nShipping Address: ${address}`,
       `<h3>Order Confirmation</h3>
+       <p>Hi ${cName},</p>
        <p>Thank you for shopping with KitchenHood!</p>
        <p><strong>Order ID:</strong> ${orderId}</p>
+       <p><strong>Products:</strong> ${productNames}</p>
        <p><strong>Total Amount:</strong> ৳${amount}</p>
-       <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+       <p><strong>Shipping Address:</strong> ${address}</p>
        <p>We will process your order soon.</p>`
     );
   }
