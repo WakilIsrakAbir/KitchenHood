@@ -52,11 +52,11 @@ async function fetchProfile() {
   }
 }
 
-async function login(email, password) {
+async function login(phone, password) {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ phone, password })
   });
   const data = await res.json();
   if (!res.ok) {
@@ -72,11 +72,11 @@ async function login(email, password) {
   return data;
 }
 
-async function register(name, email, password, phone) {
+async function register(name, phone, password) {
   const res = await fetch(`${API_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, password, phone })
+    body: JSON.stringify({ name, phone, password })
   });
   const data = await res.json();
   if (!res.ok) {

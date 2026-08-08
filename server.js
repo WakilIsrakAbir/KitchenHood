@@ -70,11 +70,11 @@ app.get('/api/seed', async (req, res) => {
     const User = require('./models/User');
     const bcrypt = require('bcryptjs');
 
-    const adminExists = await User.findOne({ email: 'admin@kitchenhood.com' });
+    const adminExists = await User.findOne({ phone: '01700000000' });
     if (!adminExists) {
       await User.create({
         name: 'Admin',
-        email: 'admin@kitchenhood.com',
+        phone: '01700000000',
         password: 'admin123',
         role: 'admin'
       });

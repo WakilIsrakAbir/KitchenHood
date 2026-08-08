@@ -85,9 +85,9 @@ async function runCommand(cmd) {
 
 async function checkAdmin() {
   const User = require('../models/User');
-  const admin = await User.findOne({ email: 'admin@kitchenhood.com' });
+  const admin = await User.findOne({ phone: '01700000000' });
   if (admin) {
-    console.log('✅ Admin exists:', { name: admin.name, email: admin.email, role: admin.role });
+    console.log('✅ Admin exists:', { name: admin.name, phone: admin.phone, role: admin.role });
   } else {
     console.log('⚠️  Admin user not found.');
   }
@@ -95,10 +95,10 @@ async function checkAdmin() {
 
 async function createAdmin() {
   const User = require('../models/User');
-  const existing = await User.findOne({ email: 'admin@kitchenhood.com' });
+  const existing = await User.findOne({ phone: '01700000000' });
   if (!existing) {
-    await User.create({ name: 'Admin', email: 'admin@kitchenhood.com', password: 'admin123', role: 'admin' });
-    console.log('✅ Admin created: admin@kitchenhood.com / admin123');
+    await User.create({ name: 'Admin', phone: '01700000000', password: 'admin123', role: 'admin' });
+    console.log('✅ Admin created: 01700000000 / admin123');
   } else {
     existing.password = 'admin123';
     await existing.save();
@@ -112,9 +112,9 @@ async function seedAll() {
   const Product = require('../models/Product');
 
   // Admin
-  const adminExists = await User.findOne({ email: 'admin@kitchenhood.com' });
+  const adminExists = await User.findOne({ phone: '01700000000' });
   if (!adminExists) {
-    await User.create({ name: 'Admin', email: 'admin@kitchenhood.com', password: 'admin123', role: 'admin', status: 'active' });
+    await User.create({ name: 'Admin', phone: '01700000000', password: 'admin123', role: 'admin', status: 'active' });
     console.log('  → Admin user created');
   } else {
     console.log('  → Admin already exists');

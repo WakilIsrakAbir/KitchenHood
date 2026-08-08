@@ -31,9 +31,9 @@ const formatUserResponse = (user, token) => ({
 
 router.post('/register', [
   body('name').trim().notEmpty().withMessage('Name is required').isLength({ max: 50 }).withMessage('Name too long'),
-  body('email').trim().isEmail().withMessage('Please provide a valid email').normalizeEmail(),
+  body('phone').trim().notEmpty().withMessage('Please provide a valid phone number'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  body('phone').optional().trim()
+  body('email').optional().trim().isEmail().normalizeEmail()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -41,18 +41,18 @@ router.post('/register', [
       return res.status(400).json({ message: errors.array()[0].msg });
     }
 
-    const { name, email, password, phone } = req.body;
+    const { name, phone, password, email } = req.body;
 
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ phone });
     if (userExists) {
-      return res.status(400).json({ message: 'An account with this email already exists' });
+      return res.status(400).json({ message: 'An account with this phone number already exists' });
     }
 
     const user = await User.create({
       name,
-      email,
+      phone,
+      email: email || null,
       password,
-      phone: phone || '',
       role: 'user',
       status: 'active'
     });
@@ -61,7 +61,7 @@ router.post('/register', [
     res.status(201).json(formatUserResponse(user, token));
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).json({ message: 'An account with this email already exists' });
+      return res.status(400).json({ message: 'An account with this phone number already exists' });
     }
     res.status(500).json({ message: error.message });
   }
@@ -71,7 +71,7 @@ router.post('/register', [
 
 
 router.post('/login', [
-  body('email').trim().isEmail().withMessage('Please provide a valid email').normalizeEmail(),
+  body('phone').trim().notEmpty().withMessage('Please provide a valid phone number'),
   body('password').notEmpty().withMessage('Password is required')
 ], async (req, res) => {
   try {
@@ -80,11 +80,11 @@ router.post('/login', [
       return res.status(400).json({ message: errors.array()[0].msg });
     }
 
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { phone, password } = req.body;
+    const user = await User.findOne({ phone });
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid phone number or password' });
     }
 
     

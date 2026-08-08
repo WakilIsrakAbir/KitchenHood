@@ -243,7 +243,7 @@
       <h1 class="text-xl font-black mb-3">Manage <span class="gold-text">Orders</span></h1>
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
-          <table id="allOrdersTable">
+          <table id="allOrdersTable" class="w-full">
             <thead><tr><th>Order ID</th><th>Items Ordered</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
             <tbody><tr><td colspan="7" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
@@ -256,7 +256,7 @@
       <h1 class="text-xl font-black mb-3">Manage <span class="gold-text">Bookings</span></h1>
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
-          <table id="allBookingsTable">
+          <table id="allBookingsTable" class="w-full">
             <thead><tr><th>Booking ID</th><th>Customer</th><th>Service</th><th>Date & Time</th><th>Status</th><th>Action</th></tr></thead>
             <tbody><tr><td colspan="6" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
@@ -269,9 +269,9 @@
       <h1 class="text-xl font-black mb-3">Manage <span class="gold-text">Customers</span></h1>
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
-          <table id="usersTable">
-            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Action</th></tr></thead>
-            <tbody><tr><td colspan="5" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
+          <table id="usersTable" class="w-full">
+            <thead><tr><th class="text-left">Name</th><th class="text-left">Phone</th><th class="text-center">Role</th><th class="text-center">Action</th></tr></thead>
+            <tbody><tr><td colspan="4" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -299,7 +299,7 @@
       </div>
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
-          <table id="adminProductsTable">
+          <table id="adminProductsTable" class="w-full">
             <thead><tr><th>Product Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
             <tbody><tr><td colspan="5" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
@@ -329,7 +329,7 @@
       </div>
       <div class="glass-card p-4">
         <div class="overflow-x-auto">
-          <table id="adminServicesTable">
+          <table id="adminServicesTable" class="w-full">
             <thead><tr><th>Service Name</th><th>Category</th><th>Price</th><th>Time</th><th>Action</th></tr></thead>
             <tbody><tr><td colspan="5" class="text-center py-8 text-slate-500">Loading...</td></tr></tbody>
           </table>
@@ -804,12 +804,11 @@
         
         const usrHtml = users.map(u => `
           <tr>
-            <td class="font-semibold text-white">${u.name}</td>
-            <td class="text-slate-400">${u.email}</td>
-            <td>${u.phone || '-'}</td>
-            <td>${u.role === 'admin' ? '<span class="status-badge bg-purple-500/10 text-purple-400 border border-purple-500/20">Admin</span>' : '<span class="status-badge bg-slate-500/10 text-slate-400">User</span>'}</td>
-            <td>${u.role !== 'admin' ? `
-              <div class="flex gap-2">
+            <td class="font-semibold text-white text-left">${u.name}</td>
+            <td class="text-left">${u.phone || '-'}</td>
+            <td class="text-center">${u.role === 'admin' ? '<span class="status-badge bg-purple-500/10 text-purple-400 border border-purple-500/20">Admin</span>' : '<span class="status-badge bg-slate-500/10 text-slate-400">User</span>'}</td>
+            <td class="text-center">${u.role !== 'admin' ? `
+              <div class="flex justify-center gap-2">
                 <button class="btn-danger" onclick="deleteUser('${u._id}')">Delete</button>
                 <button class="btn-gold !py-1 !text-[10px]" onclick="promoteUser('${u._id}')">Promote</button>
               </div>` : ''}</td>
