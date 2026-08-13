@@ -150,6 +150,9 @@
           localStorage.setItem('token', data.token);
           if (data.user) { localStorage.setItem('user', JSON.stringify(data.user)); }
           
+          // Link guest orders and bookings to this account
+          await linkGuestData(data.token);
+          
           showToast('Login successful! Redirecting...', 'success');
           
           const params = new URLSearchParams(window.location.search);

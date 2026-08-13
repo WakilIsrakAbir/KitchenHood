@@ -198,6 +198,9 @@
         const data = await res.json();
         
         if (res.ok) {
+          // Link guest orders and bookings to this account
+          await linkGuestData(data.token);
+
           showToast('Account created successfully! Redirecting to login...', 'success');
           setTimeout(() => { window.location.href = '/login.html'; }, 1500);
         } else {
