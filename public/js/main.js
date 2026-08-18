@@ -114,198 +114,105 @@ function getCategoryLabel(category) {
 
 document.addEventListener('DOMContentLoaded', () => {
   handleHamburger();
-  initChatWidget();
+  initWhatsAppWidget();
 });
 
-function initChatWidget() {
+function initWhatsAppWidget() {
   if (window.location.pathname.startsWith('/admin')) return;
 
-  
-  let user = null;
-  try { user = JSON.parse(localStorage.getItem('user')); } catch(e){}
-  
-  if (user && user.role === 'admin') {
-    return; // Admin uses dashboard chat
-  }
-
-  const script = document.createElement('script');
-  script.src = '/socket.io/socket.io.js';
-  script.onload = () => {
-    let chatSocket = io(window.location.origin);
-    
-    let convId;
-    if (user && user._id) {
-      convId = user._id;
-    } else {
-      convId = localStorage.getItem('guestConvId');
-      if (!convId) {
-        convId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('guestConvId', convId);
-      }
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .whatsapp-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
     }
-    
-    chatSocket.emit('join-room', convId);
+    .whatsapp-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #25D366;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    .whatsapp-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+      background: #22bf5b;
+    }
+    .whatsapp-btn svg {
+      width: 34px;
+      height: 34px;
+      fill: currentColor;
+    }
+    .whatsapp-pulse {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #25D366;
+      opacity: 0.7;
+      z-index: -1;
+      animation: waPulse 2s infinite ease-out;
+    }
+    .whatsapp-label {
+      background: #0A1628;
+      color: #F1F5F9;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      display: none;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .whatsapp-widget:hover .whatsapp-label {
+      display: block;
+      animation: fadeIn 0.2s;
+    }
+    @keyframes waPulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    @media (max-width: 640px) {
+      .whatsapp-widget { bottom: 1.25rem; right: 1.25rem; }
+      .whatsapp-btn { width: 52px; height: 52px; }
+      .whatsapp-btn svg { width: 28px; height: 28px; }
+    }
+  `;
+  document.head.appendChild(style);
 
-    
-    const style = document.createElement('style');
-    style.innerHTML = `
-      .chat-widget{position:fixed;bottom:2rem;right:2rem;z-index:50}
-      .chat-btn{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#D4A853,#B8922F);color:#0A1628;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(212,168,83,0.3);cursor:pointer;transition:transform 0.3s}
-      .chat-btn svg{width:32px;height:32px}
-      .chat-btn:hover{transform:scale(1.05)}
-      .chat-box{position:absolute;bottom:80px;right:0;width:400px;height:520px;max-width:calc(100vw - 4rem);max-height:calc(100vh - 8rem);background:#111D35;border:1px solid rgba(255,255,255,0.08);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.6);display:none;flex-direction:column;overflow:hidden;z-index:51}
-      .chat-box.active{display:flex;animation:fadeIn 0.2s}
-      .chat-header{padding:20px 24px;background:#0A1628;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center}
-      .chat-messages{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
-      .msg{max-width:85%;padding:12px 18px;border-radius:12px;font-size:1rem;line-height:1.5}
-      .msg-user{background:rgba(212,168,83,0.1);border:1px solid rgba(212,168,83,0.2);color:#F1F5F9;align-self:flex-end;border-bottom-right-radius:2px}
-      .msg-admin{background:#0A1628;border:1px solid rgba(255,255,255,0.08);color:#F1F5F9;align-self:flex-start;border-bottom-left-radius:2px}
-      .chat-input{padding:16px;border-top:1px solid rgba(255,255,255,0.08);display:flex;gap:12px;background:#0A1628}
-      .chat-input input{flex:1;background:#111D35;border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:12px 20px;color:white;font-size:1rem;outline:none}
-      .chat-input button{width:48px;height:48px;border-radius:50%;background:#D4A853;color:#0A1628;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
-      .chat-input button svg{width:24px;height:24px}
-      @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-    `;
-    document.head.appendChild(style);
-
-    
-    const widget = document.createElement('div');
-    widget.className = 'chat-widget';
-    widget.innerHTML = `
-      <div class="chat-btn" id="toggleChatBtn">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-      </div>
-      <div class="chat-box" id="globalChatBox">
-        <div class="chat-header">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-[#0A1628] font-bold text-xs">CS</div>
-            <div><h4 class="font-bold text-sm text-white leading-none m-0">Live Support</h4><span class="text-[10px] text-yellow-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span> Online</span></div>
-          </div>
-          <button id="closeChatBtn" class="text-slate-400 hover:text-white bg-transparent border-none cursor-pointer text-lg leading-none">&times;</button>
-        </div>
-        <div class="chat-messages" id="globalChatMessages">
-          <div class="msg msg-admin text-xs text-center !bg-transparent !border-none !text-slate-500 mx-auto w-full max-w-full">Chat secured and encrypted</div>
-          <div class="msg msg-admin">Hello! How can we help you with your kitchen hood today?</div>
-        </div>
-        <form id="globalChatForm" class="chat-input m-0">
-          <input type="text" id="globalChatInput" placeholder="Type a message..." required>
-          <button type="submit"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
-        </form>
-      </div>
-    `;
-    document.body.appendChild(widget);
-
-    const chatBox = document.getElementById('globalChatBox');
-    const msgContainer = document.getElementById('globalChatMessages');
-    const input = document.getElementById('globalChatInput');
-
-    const showUnreadBadge = () => {
-      let badge = document.getElementById('userMsgBadge');
-      if(!badge) {
-        badge = document.createElement('span');
-        badge.id = 'userMsgBadge';
-        badge.className = 'absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full';
-        badge.textContent = 'New';
-        document.getElementById('toggleChatBtn').appendChild(badge);
-      }
-      badge.classList.remove('hidden');
-      
-      const navBadge = document.getElementById('navUserMsgBadge');
-      if(navBadge) navBadge.classList.remove('hidden');
-    };
-
-    const hideUnreadBadge = () => {
-      const badge = document.getElementById('userMsgBadge');
-      if(badge) badge.classList.add('hidden');
-      
-      const navBadge = document.getElementById('navUserMsgBadge');
-      if(navBadge) navBadge.classList.add('hidden');
-    };
-
-    const markChatAsRead = () => {
-      const t = typeof getToken === 'function' ? getToken() : '';
-      if(t) {
-        fetch('/api/chat/read/' + convId, { method: 'PUT', headers: { 'Authorization': 'Bearer ' + t } });
-      }
-      hideUnreadBadge();
-    };
-
-    const toggleChat = () => {
-      chatBox.classList.toggle('active');
-      if(chatBox.classList.contains('active')) {
-        markChatAsRead();
-        setTimeout(() => {
-          msgContainer.scrollTop = msgContainer.scrollHeight;
-        }, 10);
-      }
-    };
-
-    document.getElementById('toggleChatBtn').addEventListener('click', toggleChat);
-    document.getElementById('closeChatBtn').addEventListener('click', toggleChat);
-
-    const appendMsg = (msg, scrollToBottom = true) => {
-      const div = document.createElement('div');
-      const isUser = msg.senderRole === 'user';
-      div.className = `msg ${isUser ? 'msg-user' : 'msg-admin'}`;
-      div.textContent = msg.message || msg.content || '';
-      msgContainer.appendChild(div);
-      if(scrollToBottom) {
-        setTimeout(() => {
-          msgContainer.scrollTop = msgContainer.scrollHeight;
-        }, 10);
-      }
-    };
-
-    chatSocket.on('new-message', (msg) => {
-      if (msg.conversationId === convId) {
-        appendMsg(msg);
-        if(!chatBox.classList.contains('active') && msg.senderRole === 'admin') {
-          showUnreadBadge();
-        } else if(chatBox.classList.contains('active') && msg.senderRole === 'admin') {
-          markChatAsRead();
-        }
-      }
-    });
-
-    
-    fetch('/api/chat/' + convId, { headers: { 'Authorization': 'Bearer ' + (typeof getToken === 'function' ? getToken() : '') } })
-      .then(r => r.json())
-      .then(history => {
-        if(Array.isArray(history) && history.length > 0) {
-          msgContainer.innerHTML = ''; 
-          history.forEach(msg => appendMsg(msg, false));
-          msgContainer.scrollTop = msgContainer.scrollHeight;
-          
-          const unreadCount = history.filter(m => !m.isRead && m.senderRole === 'admin').length;
-          if(unreadCount > 0 && !chatBox.classList.contains('active')) {
-            showUnreadBadge();
-          } else if(chatBox.classList.contains('active') && unreadCount > 0) {
-            markChatAsRead();
-          }
-        }
-      })
-      .catch(() => {});
-
-    document.getElementById('globalChatForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
-
-      const senderName = (user && user.name) ? user.name : 'Guest User';
-      const senderId = (user && user._id) ? user._id : null;
-
-      chatSocket.emit('send-message', {
-        senderId: senderId,
-        senderName: senderName,
-        senderRole: 'user',
-        message: text,
-        conversationId: convId
-      });
-
-      input.value = '';
-    });
-  };
-  document.head.appendChild(script);
+  const widget = document.createElement('a');
+  widget.className = 'whatsapp-widget';
+  widget.href = 'https://wa.me/8801859689106';
+  widget.target = '_blank';
+  widget.rel = 'noopener noreferrer';
+  widget.setAttribute('aria-label', 'Chat with us on WhatsApp');
+  widget.innerHTML = `
+    <span class="whatsapp-label">WhatsApp Support</span>
+    <div class="whatsapp-btn">
+      <div class="whatsapp-pulse"></div>
+      <svg viewBox="0 0 24 24">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+      </svg>
+    </div>
+  `;
+  document.body.appendChild(widget);
 }
 
 function googleTranslateElementInit() {

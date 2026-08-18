@@ -2,18 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
-const http = require('http');
-const { Server } = require('socket.io');
 const connectDB = require('./config/db');
-const { sendMessageNotification } = require('./utils/notificationService');
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: '*', methods: ['GET', 'POST'] }
-});
 
 connectDB();
 
@@ -36,7 +29,6 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/contact', require('./routes/contact'));
-app.use('/api/chat', require('./routes/chat'));
 
 const { protect: protectMiddleware, adminOnly: adminMiddleware } = require('./middleware/auth');
 
@@ -198,71 +190,9 @@ app.get('/api/seed', async (req, res) => {
   }
 });
 
-io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
-
-  
-  socket.on('join-room', (conversationId) => {
-    socket.join(conversationId);
-    console.log(`Socket ${socket.id} joined room: ${conversationId}`);
-  });
-
-  
-  socket.on('join-chat', (conversationId) => {
-    socket.join(conversationId);
-  });
-
-  
-  socket.on('send-message', async (data) => {
-    try {
-      const Message = require('./models/Message');
-      const msgDoc = await Message.create({
-        sender: data.senderId || null,
-        senderName: data.senderName || 'User',
-        senderRole: data.senderRole || 'user',
-        message: data.message,
-        conversationId: data.conversationId
-      });
-      
-      io.to(data.conversationId).emit('new-message', {
-        _id: msgDoc._id,
-        senderName: msgDoc.senderName,
-        senderRole: msgDoc.senderRole,
-        message: msgDoc.message,
-        conversationId: msgDoc.conversationId,
-        createdAt: msgDoc.createdAt
-      });
-      
-      io.emit('conversation-update', { conversationId: data.conversationId, senderName: data.senderName });
-
-      // Send email notification if it's a user message
-      if (msgDoc.senderRole !== 'admin') {
-        sendMessageNotification({
-          name: msgDoc.senderName || 'User',
-          email: null, // email not available in socket data usually, sends to Admin
-          phone: 'N/A',
-          message: msgDoc.message
-        }).catch(err => console.error('Email error from socket:', err));
-      }
-    } catch (error) {
-      console.error('Chat error:', error.message);
-    }
-  });
-
-  socket.on('typing', (data) => {
-    socket.to(data.conversationId).emit('user-typing', data);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
-  });
-});
-
-
 app.get(['/services.html', '/products.html', '/contact.html', '/about.html', '/login.html', '/register.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'public', req.path));
 });
-
 
 app.get('/admin/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html'));
@@ -280,6 +210,14 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+} else {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
